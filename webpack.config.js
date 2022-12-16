@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const EslingPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "./src/index.js"),
+  entry: path.resolve(__dirname, "./src/index.ts"),
   module: {
     rules: [
       { test: /\.svg$/, use: "svg-inline-loader" },

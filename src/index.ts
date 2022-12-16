@@ -1,6 +1,6 @@
-import image from './images/lazy.png';
+import image from './assets/lazy.png';
 
-const createImage = (src) => new Promise((res, rej) => {
+const createImage = (src: string) => new Promise((res, rej) => {
   const img = new Image();
   img.onload = () => res(img);
   img.onerror = rej;
@@ -8,9 +8,9 @@ const createImage = (src) => new Promise((res, rej) => {
 });
 
 async function render() {
-  const subHeader = document.createElement('h2');
+  const subHeader: HTMLElement = document.createElement('h2') as HTMLElement;
   subHeader.innerHTML = 'This elements was created by js';
-  const myImage = await createImage(image);
+  const myImage: HTMLImageElement = await createImage(image) as HTMLImageElement;
   document.body.appendChild(subHeader);
   document.body.appendChild(myImage);
 }
