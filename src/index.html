@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My JS App</title>
+    <title>Online-Store-team</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<header>
+    <nav id="main-nav" class="sidebar">
+        <a href="/" onclick="route()">Online Store</a>
+        <a href="/about" onclick="route()">Catalog</a>
+        <a href="/lorem" onclick="route()">&#128722;</a>
+    </nav>
+</header>
+
 <body>
+    <div id="root">
+        <div id="main-page"></div>
+    </div>
 </body>
+<footer class="footer">
+    <div class="footer__name-student">KriStiNa Kasyanovskaya</div>
+    <div class="footer__rs-logo"><img src="https://rs.school/images/rs_school_js.svg" alt="rs-logo" class="rs-logo__img"></div>
+    <div class="footer__name-student">Mukhammadamin</div>
+</footer>
+
 </html>
