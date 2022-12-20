@@ -8,10 +8,12 @@
     <title>Online-Store-team</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<header>
+<header class="header">
     <nav id="main-nav" class="sidebar">
-        <a href="/" onclick="route()">Online Store</a>
-        <a href="/about" onclick="route()">Catalog</a>
+        <div class="sidebar__links">
+            <a class="active" href="/" onclick="route()">Online Store</a>
+            <a href="/about" onclick="route()">Catalog</a>
+        </div>
         <a href="/lorem" onclick="route()">&#128722;</a>
     </nav>
 </header>
@@ -23,7 +25,7 @@
 </body>
 <footer class="footer">
     <div class="footer__name-student">KriStiNa Kasyanovskaya</div>
-    <div class="footer__rs-logo"><img src="https://rs.school/images/rs_school_js.svg" alt="rs-logo" class="rs-logo__img"></div>
+    <a href="https://rs.school/" class="footer__rs-logo"><img src="https://rs.school/images/rs_school_js.svg" alt="rs-logo" class="rs-logo__img"></a>
     <div class="footer__name-student">Mukhammadamin</div>
 </footer>
 
