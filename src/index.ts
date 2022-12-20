@@ -1,3 +1,4 @@
+import { Card } from "./components/Card/Card";
 import "./style.css";
 const route = (event: Event) => {
   event = event || window.event;
@@ -32,3 +33,5 @@ window.onpopstate = handleLocation;
 window.route = route;
 
 handleLocation();
+
+customElements.define('my-card', Card);
