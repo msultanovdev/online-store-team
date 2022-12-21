@@ -11,10 +11,12 @@
 <header class="header">
     <nav id="main-nav" class="sidebar">
         <div class="sidebar__links">
-            <a class="active" href="/" onclick="route()">Online Store</a>
-            <a href="/about" onclick="route()">Catalog</a>
+            <a class="sidebar__links-logo" href="/" onclick="route()">Online Store</a>
+            <a href="/about" onclick="route()" data-content="Catalog">Catalog</a>
+            <a href="!#" data-content="About us">About us</a>
+            <a href="!#" data-content="Delivery">Delivery</a>
         </div>
-        <a href="/lorem" onclick="route()">&#128722;</a>
+        <a href="/lorem" onclick="route()" class="sidebar__links-basket">&#128722;</a>
     </nav>
 </header>
 
@@ -24,9 +26,9 @@
     </div>
 </body>
 <footer class="footer">
-    <div class="footer__name-student">KriStiNa Kasyanovskaya</div>
+    <div class="footer__name-student" data-content="KriStiNa Kasyanovskaya">KriStiNa Kasyanovskaya</div>
     <a href="https://rs.school/" class="footer__rs-logo"><img src="https://rs.school/images/rs_school_js.svg" alt="rs-logo" class="rs-logo__img"></a>
-    <div class="footer__name-student">Mukhammadamin</div>
+    <div class="footer__name-student" data-content="Mukhammadamin">Mukhammadamin</div>
 </footer>
 
 </html>
