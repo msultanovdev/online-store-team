@@ -1,5 +1,6 @@
 import { Card } from "./components/Card/Card";
 import "./style.css";
+import db from './assets/db.json';
 const route = (event: Event) => {
   event = event || window.event;
   event.preventDefault();
@@ -27,6 +28,7 @@ const handleLocation = async () => {
   const html = await fetch(route).then((data) => data.text());
   const mainPage = document.getElementById("main-page") as HTMLElement;
   mainPage.innerHTML = html;
+  renderCards();
 };
 
 window.onpopstate = handleLocation;
@@ -35,3 +37,22 @@ window.route = route;
 handleLocation();
 
 customElements.define('my-card', Card);
+
+const renderCards = async () => {
+  const mainPageContent: any = document.querySelector('.main-page__content-menu')!;
+
+  const cards = db.products.map(item => {
+    return `<my-card 
+        cardTitle="${item.title}"
+        cardDiscount="${item.discountPercentage}%"
+        cardPrice="${item.price}$"
+        cardStock="${item.stock}"
+        cardCategory="${item.category}"
+        cardBrand="${item.brand}"
+      ></my-card>`;
+  });
+  
+  mainPageContent.innerHTML = cards;
+  
+  console.log(mainPageContent)
+} 
