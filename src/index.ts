@@ -39,7 +39,7 @@ handleLocation();
 customElements.define('my-card', Card);
 
 const renderCards = async () => {
-  const mainPageContent: any = document.querySelector('.main-page__content-menu')!;
+  const mainPageContent: any = document.querySelector('.cards__content')!;
 
   const cards = db.products.map(item => {
     return `<my-card 
