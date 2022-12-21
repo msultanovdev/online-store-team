@@ -1,72 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/*
 body {
   padding-top: 60px;
-  background: url('./assets/bg.jpg');
+  background: url('./assets/box.jpg');
   background-position: center;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: local;
 }
-a {
-  color: black;
+*/
+svg {
+  max-height: 90vh;
+  max-width: 100%;
+}
+
+a,
+.footer__name-student {
+  color: white;
   text-decoration: none;
+  position: relative;
 }
+
+a:hover:before,
+.footer__name-student:hover:before {
+  clip: rect(0, 190px, 190px, 0);
+}
+
+a:before,
+.footer__name-student:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: attr(data-content);
+  display: inline-block;
+  color: rgb(245, 163, 163);
+  width: 100%;
+  clip: rect(0, 0, 190px, 0);
+  -webkit-transition: clip cubic-bezier(0.25, 0.46, 0.45, 0.94) 500ms;
+  transition: clip cubic-bezier(0.25, 0.46, 0.45, 0.94) 500ms;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  background-color: darkslategrey;
+  /*
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  height: 60px;
-  background-color: rgba(255, 255, 255, 1);
+  */
+  height: 80px;
+  border-radius: 10px;
+
 }
+
+.sidebar__links-logo {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1.2em;
+
+}
+
 .sidebar {
   font-size: 20px;
   width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-family: 1em;
 }
+
 .sidebar a {
   text-transform: uppercase;
   font-weight: 900;
   transition: all 0.3s;
 }
-.sidebar a:hover {
-  color: #e61919;
-}
-.sidebar a.active {
-  color: #e61919;
-  border-bottom: 1px solid #e61919;
-}
+
 .sidebar__links a {
   margin-right: 15px;
 }
+
+
 .footer__name-student {
   text-transform: uppercase;
   cursor: pointer;
+  font-family: 'Raleway', sans-serif;
 }
+
 .footer__rs-logo {
   width: 150px;
   margin: 10px 15px;
 }
+
 .footer {
-  background-color: green;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
+  background-color: darkslategrey;
 }
+
 .rs-logo__img {
   width: 100%;
   filter: invert(1);
 }
+
 .main-page {
   display: flex;
   justify-content: space-between;
@@ -81,14 +131,166 @@ a {
   height: 300px;
   border: 1px solid #e61919;
 }
+
 .main-page__fillter-title {
   color: white;
   font-size: 20px;
   text-align: center;
   text-transform: uppercase;
+  font-family: 'Raleway', sans-serif;
 }
+
 .main-page__content {
   width: 78%;
   height: 100vh;
   background-color: #e61919;
+}
+
+/* catalog*/
+.catalog__content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 0px;
+  min-height: 100vh;
+  margin-top: 50px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.catalog-container {
+  margin: 0 auto;
+}
+
+.header-logo {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.header-prise {
+  font-size: 24px;
+}
+
+.header-bucket {
+  display: flex;
+
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.main__background-image {
+  border-radius: 15px;
+  background-size: cover;
+  width: auto;
+  height: 450px;
+}
+
+.img-big {
+  width: 25px;
+  height: 25px;
+}
+
+.img-small {
+  width: 25px;
+  height: 25px;
+}
+
+
+/* основная часть*/
+
+.main__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.category {
+  width: 250px;
+  height: 150px;
+  overflow: auto;
+  padding: 15px;
+}
+
+.brands__list {
+  width: 250px;
+  height: 150px;
+  overflow: auto;
+  padding: 15px;
+}
+
+.cards__block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__block-header {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.view__block {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.cards-container {
+  width: 100%;
+}
+
+.reset__block-button {
+  font-family: 'Raleway', sans-serif;
+  padding: 0.5rem 1rem;
+  border-radius: 4rem;
+  font-size: 1rem;
+  border: transparent;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 5px 30px #111;
+  cursor: pointer;
+}
+
+.reset__block-button:before {
+  content: "";
+  width: 400px;
+  height: 400px;
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: -100px;
+  left: -175px;
+  background: url("https://i.ibb.co/Fsm2qkM/color-bg-experiement.jpg");
+  animation: roll 35s linear infinite;
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.filters__block-title {
+  font-size: 1.5em;
+}
+
+.sort__bar-name,
+.filters__block-title,
+.found__title,
+.sort__bar-name {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1.5em;
 }
