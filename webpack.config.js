@@ -11,6 +11,7 @@ const srcPath = path.resolve(__dirname, 'src');
 
 const devServer = (isDev) => !isDev ? {} : {
   devServer: {
+    historyApiFallback: true,
     open: true,
     port: 'auto',
     static: {
