@@ -294,3 +294,10 @@ a:before,
   font-family: 'Gloria Hallelujah', cursive;
   font-size: 1.5em;
 }
+
+.cards__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

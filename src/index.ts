@@ -43,6 +43,7 @@ const renderCards = async () => {
 
   const cards = db.products.map(item => {
     return `<my-card 
+        cardThumbnail="${item.thumbnail}"
         cardTitle="${item.title}"
         cardDiscount="${item.discountPercentage}%"
         cardPrice="${item.price}$"
