@@ -39,7 +39,7 @@ handleLocation();
 customElements.define('my-card', Card);
 
 const renderCards = async () => {
-  const mainPageContent: any = document.querySelector('.cards__content')!;
+  const mainPageContent: HTMLElement = document.querySelector('.cards__content') as HTMLElement;
 
   const cards = db.products.map(item => {
     return `<my-card 
@@ -52,7 +52,7 @@ const renderCards = async () => {
       ></my-card>`;
   });
   
-  mainPageContent.innerHTML = cards;
+  mainPageContent.innerHTML = cards.toString();
   
   console.log(mainPageContent)
 } 
