@@ -1,3 +1,4 @@
+export {};
 declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.gif';
@@ -9,4 +10,6 @@ declare module '*.wav';
 declare module '*.ogg';
 declare module '*.mp4';
 declare module '*.png';
-
+declare global {
+    interface Window { route: (e: Event) => void; }
+}
