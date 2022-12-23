@@ -1,6 +1,6 @@
 import { Card } from "./components/Card/Card";
 import "./style.css";
-import db from './assets/db.json';
+import db from "./assets/db.json";
 const route = (event: Event) => {
   event = event || window.event;
   event.preventDefault();
@@ -9,11 +9,11 @@ const route = (event: Event) => {
 };
 
 type routesType = {
-  "404": string,
-  "/": string,
-  "/about": string,
-  "/lorem": string,
-}
+  "404": string;
+  "/": string;
+  "/about": string;
+  "/lorem": string;
+};
 
 const routes: routesType = {
   "404": "/pages/404.html",
@@ -36,12 +36,14 @@ window.route = route;
 
 handleLocation();
 
-customElements.define('my-card', Card);
+customElements.define("my-card", Card);
 
 const renderCards = async () => {
-  const mainPageContent: HTMLElement = document.querySelector('.cards__content') as HTMLElement;
+  const mainPageContent: HTMLElement = document.querySelector(
+    ".cards__content"
+  ) as HTMLElement;
 
-  const cards = db.products.map(item => {
+  const cards = db.products.map((item) => {
     return `<my-card 
         cardThumbnail="${item.thumbnail}"
         cardTitle="${item.title}"
@@ -52,8 +54,8 @@ const renderCards = async () => {
         cardBrand="${item.brand}"
       ></my-card>`;
   });
-  
+
   mainPageContent.innerHTML = cards.toString();
-  
-  console.log(mainPageContent)
-} 
+
+  console.log(mainPageContent);
+};
