@@ -1,17 +1,18 @@
 import React from "react";
 import './Header.css';
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return(
         <header className="header">
             <nav id="main-nav" className="sidebar">
                 <div className="sidebar__links">
-                    <a className="sidebar__links-logo" href="/">Online Store</a>
-                    <a href="/about" data-content="Catalog">Catalog</a>
-                    <a href="!#" data-content="About us">About us</a>
-                    <a href="!#" data-content="Delivery">Delivery</a>
+                    <Link to="/" className="sidebar__links-logo">Online Store</Link>
+                    <Link to="/catalog">Catalog</Link>
+                    <Link to="/catalog">About us</Link>
+                    <Link to="/catalog">Delivery</Link>
                 </div>
-                <a href="/lorem" className="sidebar__links-basket">&#128722;</a>
+                <Link to="/basket" className="sidebar__links-basket">&#128722;</Link>
             </nav>
         </header>
     );
