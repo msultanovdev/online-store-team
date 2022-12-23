@@ -1,7 +1,12 @@
 import React from "react";
+import './Main.css';
 
 const Main = () => {
-  return;
-};
+    return(
+        <div>
+            Main
+        </div>
+    );
+}
 
 export default Main;
