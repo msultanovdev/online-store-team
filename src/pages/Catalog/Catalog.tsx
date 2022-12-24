@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
+import { Link } from "react-router-dom";
 
 const Catalog = () => {
   const [data, setData] = useState(db.products);

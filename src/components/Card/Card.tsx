@@ -24,7 +24,7 @@ const Card = (
         stock}: dataProps
     ) => {
     return(
-        <div className="card">
+        <div className="card" style={{color: 'black'}}>
             <h1 className="card-title">{title}</h1>
             <div className="card__content">
                 <div className="card__content-thumbnail">
