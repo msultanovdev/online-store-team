@@ -217,18 +217,21 @@ const Catalog = () => {
                           .includes(searchValue.toLowerCase())
                       )
                       .map((item) => (
-                        <Card
-                          title={item.title}
-                          thumbnail={item.thumbnail}
-                          category={item.category}
-                          brand={item.brand}
-                          price={item.price}
-                          discountPercentage={item.discountPercentage}
-                          rating={item.rating}
-                          stock={item.stock}
-                          description={""}
-                        />
-                      ))}
+                        <Link key={item.id} to={'/catalog/' + item.id}>
+                            <Card
+                            title={item.title}
+                            thumbnail={item.thumbnail}
+                            category={item.category}
+                            brand={item.brand}
+                            price={item.price}
+                            discountPercentage={item.discountPercentage}
+                            rating={item.rating}
+                            stock={item.stock}
+                            description={""}
+                            />
+                        </Link>
+                      )
+                      )}
                   </div>
                 </div>
               </div>
