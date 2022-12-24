@@ -1,0 +1,23 @@
+.footer__name-student {
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+}
+
+.footer__rs-logo {
+    width: 150px;
+    margin: 10px 15px;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(51, 54, 54);
+}
+
+.rs-logo__img {
+    width: 100%;
+    filter: invert(1);
+}
