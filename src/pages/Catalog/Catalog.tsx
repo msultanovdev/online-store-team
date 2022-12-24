@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import './Catalog.css';
 import db from '../../assets/db.json';
 import Card from "../../components/Card/Card";
+import { Link } from "react-router-dom";
 
 const Catalog = () => {
     const [data, setData] = useState(db.products);
-    console.log(data)
 
     return(
         <div className="catalog">
@@ -182,15 +182,19 @@ const Catalog = () => {
                 <div className="cards__container">
                     <div className="cards__container-card">
                         <div className="cards__content">
-                             {data.map(item => <Card
-                                 title={item.title}
-                                 thumbnail={item.thumbnail}
-                                 category={item.category}
-                                 brand={item.brand}
-                                 price={item.price}
-                                 discountPercentage={item.discountPercentage}
-                                 rating={item.rating}
-                                 stock={item.stock} description={""}/>)}
+                             {data.map(item => <Link key={item.id} to={'/catalog/' + item.id}>
+                                    <Card
+                                    title={item.title}
+                                    thumbnail={item.thumbnail}
+                                    category={item.category}
+                                    brand={item.brand}
+                                    price={item.price}
+                                    discountPercentage={item.discountPercentage}
+                                    rating={item.rating}
+                                    stock={item.stock} description={""}/>
+                                </Link>
+                                 
+                                 )}
                         </div>
                     </div>
                 </div>
