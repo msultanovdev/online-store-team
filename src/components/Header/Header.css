@@ -1,44 +1,36 @@
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: darkslategrey;
-    /*
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    */
-    height: 80px;
-    border-radius: 10px;
-  
-  }
-  
-  .sidebar__links-logo {
-    font-family: 'Gloria Hallelujah', cursive;
-    font-size: 1.2em;
-  
-  }
-  
-  .sidebar {
-    font-size: 20px;
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-family: 'Raleway', sans-serif;
-    font-family: 1em;
-  }
-  
-  .sidebar a {
-    text-transform: uppercase;
-    font-weight: 900;
-    transition: all 0.3s;
-  }
-  
-  .sidebar__links a {
-    margin-right: 15px;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: rgb(51, 54, 54);
+  height: 80px;
+
+}
+
+.sidebar__links-logo {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1.2em;
+
+}
+
+.sidebar {
+  font-size: 20px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-family: 1em;
+}
+
+.sidebar a {
+  text-transform: uppercase;
+  font-weight: 900;
+  transition: all 0.3s;
+}
+
+.sidebar__links a {
+  margin-right: 15px;
+}

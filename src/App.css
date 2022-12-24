@@ -17,7 +17,7 @@ a:before,
   top: 0;
   content: attr(data-content);
   display: inline-block;
-  color: rgb(245, 163, 163);
+  color: orange;
   width: 100%;
   clip: rect(0, 0, 190px, 0);
   -webkit-transition: clip cubic-bezier(0.25, 0.46, 0.45, 0.94) 500ms;
