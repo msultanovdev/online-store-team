@@ -2,13 +2,38 @@ import React, { useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
-import { Link } from "react-router-dom";
-import Categories from "../../components/Category-filter/Category-filter";
+import { useEffect } from "react";
 import Brand from "../../components/Brand-filter/Brand-filter";
+import Categories from "../../components/Category-filter/Category-filter";
+
+type dataProps = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    brand: string;
+    category: string;
+    thumbnail: string;
+    images: string[];
+}
 
 const Catalog = () => {
+
+    useEffect(() => {
+        localStorage.setItem('basketProducts', `[]`);
+    }, []);
+
+    const basketProducts = JSON.parse(localStorage.getItem('basketProducts') || `[]`);
+
+    const addToCart = (object: dataProps) => {
+        basketProducts.push(object);
+        localStorage.setItem('basketProducts', JSON.stringify(basketProducts));
+    }
+
   const [data, setData] = useState(db.products);
-  console.log(data);
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -92,31 +117,33 @@ const Catalog = () => {
                         </div> */}
                   </div>
                 </div>
-                <div className="cards__container">
-                  <div className="cards__container-card">
-                    <div className="cards__content">
-                      {data
-                        .filter((data) =>
-                          data.category
-                            .toLowerCase()
-                            .includes(searchValue.toLowerCase())
-                        )
-                        .map((item) => (
-                          <Link key={item.id} to={"/catalog/" + item.id}>
+              </div>
+              <div className="cards__container">
+                <div className="cards__container-card">
+                  <div className="cards__content">
+                    {data
+                      .filter((data) =>
+                        data.category
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      )
+                      .map((item: dataProps) => (
                             <Card
-                              title={item.title}
-                              thumbnail={item.thumbnail}
-                              category={item.category}
-                              brand={item.brand}
-                              price={item.price}
-                              discountPercentage={item.discountPercentage}
-                              rating={item.rating}
-                              stock={item.stock}
-                              description={""}
+                            addToCart={() => addToCart(item)}
+                            key={item.id}
+                            id={item.id}
+                            title={item.title}
+                            thumbnail={item.thumbnail}
+                            category={item.category}
+                            brand={item.brand}
+                            price={item.price}
+                            discountPercentage={item.discountPercentage}
+                            rating={item.rating}
+                            stock={item.stock}
+                            description={""}
                             />
-                          </Link>
-                        ))}
-                    </div>
+                      )
+                      )}
                   </div>
                 </div>
               </div>

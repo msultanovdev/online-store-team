@@ -19,7 +19,7 @@ type itemType = {
 
 const Product = () => {
     const {id} = useParams();
-    const data: any = db.products.filter(item => item.id === Number(id))[0];
+    const data: itemType = db.products.filter(item => item.id === Number(id))[0];
     console.log(data);
 
     const [image, setImage] = useState(data.thumbnail);
