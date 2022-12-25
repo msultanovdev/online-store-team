@@ -3,6 +3,7 @@ import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
 import { Link } from "react-router-dom";
+import Categories from "../../components/Category-filter/Category-filter";
 
 const Catalog = () => {
   const [data, setData] = useState(db.products);
@@ -23,68 +24,7 @@ const Catalog = () => {
                 <button className="reset__block-button">Reset Filters</button>
               </div>
               <div className="filters__block-title">Category</div>
-              <div className="category">
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="laptops" />
-                  <label>laptops</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-                <div className="category__checkbox">
-                  <input type="checkbox" id="smartphones" />
-                  <label>smartphones</label>
-                  <span>(5/5)</span>
-                </div>
-              </div>
+              <Categories />
               <div className="brands">
                 <div className="filters__block-title">Brand</div>
                 <div className="brands__list">
@@ -217,8 +157,8 @@ const Catalog = () => {
                           .includes(searchValue.toLowerCase())
                       )
                       .map((item) => (
-                        <Link key={item.id} to={'/catalog/' + item.id}>
-                            <Card
+                        <Link key={item.id} to={"/catalog/" + item.id}>
+                          <Card
                             title={item.title}
                             thumbnail={item.thumbnail}
                             category={item.category}
@@ -228,10 +168,9 @@ const Catalog = () => {
                             rating={item.rating}
                             stock={item.stock}
                             description={""}
-                            />
+                          />
                         </Link>
-                      )
-                      )}
+                      ))}
                   </div>
                 </div>
               </div>
