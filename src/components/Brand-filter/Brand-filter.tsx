@@ -67,8 +67,8 @@ function Brand() {
   return (
     <div className="brands__list-item">
       {brandCategory.map((value, i) => (
-        <div>
-          <input key={i} type="checkbox" />
+        <div key={i}>
+          <input type="checkbox" />
           <label>{value}</label>
           <span>(0/1)</span>
         </div>
