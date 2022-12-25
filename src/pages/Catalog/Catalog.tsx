@@ -2,11 +2,36 @@ import React, { useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+
+type dataProps = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    brand: string;
+    category: string;
+    thumbnail: string;
+    images: string[];
+}
 
 const Catalog = () => {
+
+    useEffect(() => {
+        localStorage.setItem('basketProducts', `[]`);
+    }, []);
+
+    const basketProducts = JSON.parse(localStorage.getItem('basketProducts') || `[]`);
+
+    const addToCart = (object: dataProps) => {
+        basketProducts.push(object);
+        localStorage.setItem('basketProducts', JSON.stringify(basketProducts));
+    }
+
   const [data, setData] = useState(db.products);
-  console.log(data);
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -216,9 +241,11 @@ const Catalog = () => {
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
-                      .map((item) => (
-                        <Link key={item.id} to={'/catalog/' + item.id}>
+                      .map((item: dataProps) => (
                             <Card
+                            addToCart={() => addToCart(item)}
+                            key={item.id}
+                            id={item.id}
                             title={item.title}
                             thumbnail={item.thumbnail}
                             category={item.category}
@@ -229,7 +256,6 @@ const Catalog = () => {
                             stock={item.stock}
                             description={""}
                             />
-                        </Link>
                       )
                       )}
                   </div>

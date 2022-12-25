@@ -1,7 +1,10 @@
 import React from "react";
 import './Card.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type dataProps = {
+    id: number;
     title: string;
     description: string;
     price: number;
@@ -11,18 +14,24 @@ type dataProps = {
     brand: string;
     category: string;
     thumbnail: string;
+    addToCart: () => void;
 }
 
 const Card = (
-        {title, 
+        {
+        id,
+        title, 
         thumbnail,
         category, 
         brand,
         price,
         discountPercentage,
         rating,
-        stock}: dataProps
+        stock,
+        addToCart
+    }: dataProps
     ) => {
+
     return(
         <div className="card">
             <h3 className="card-title">{title}</h3>
@@ -39,8 +48,8 @@ const Card = (
                     <div className="card__content-info-label">Stock: <span>{stock}</span></div>
                 </div>
                 <div className="card__content-buttons">
-                    <button className="card-btn card-btn-add">Add to cart</button>
-                    <button className="card-btn card-btn-details">Details</button>
+                    <button className="card-btn card-btn-add" onClick={addToCart}>Add to cart</button>
+                    <Link className="card-btn card-btn-details" to={'/catalog/' + id}>Details</Link>
                 </div>
             </div>
         </div>
