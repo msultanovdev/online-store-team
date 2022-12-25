@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import db from "../../assets/db.json";
 
+
 function Categories() {
   const searchCategory = [
     "smartphones",
