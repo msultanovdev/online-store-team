@@ -25,6 +25,7 @@
 }
 
 .card-title {
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,7 +77,7 @@
 }
 
 .card-btn-details {
-    border: 2px solid lightgray;
+    border: 1px solid lightgray;
     background-color: transparent;
 }
 .card-btn-details:hover {
