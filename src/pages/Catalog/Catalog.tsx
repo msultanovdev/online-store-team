@@ -9,31 +9,32 @@ import { Link } from "react-router-dom";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
 
 const Catalog = () => {
+  type dataProps = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    brand: string;
+    category: string;
+    thumbnail: string;
+    images: string[];
+  };
 
-    type dataProps = {
-        id: number;
-        title: string;
-        description: string;
-        price: number;
-        discountPercentage: number;
-        rating: number;
-        stock: number;
-        brand: string;
-        category: string;
-        thumbnail: string;
-        images: string[];
-    }
+  // useEffect(() => {
+  //     localStorage.setItem('basketProducts', `[]`);
+  // }, []);
 
-    // useEffect(() => {
-    //     localStorage.setItem('basketProducts', `[]`);
-    // }, []);
+  const basketProducts = JSON.parse(
+    localStorage.getItem("basketProducts") || `[]`
+  );
 
-    const basketProducts = JSON.parse(localStorage.getItem('basketProducts') || `[]`);
-
-    const addToCart = (object: dataProps) => {
-        basketProducts.push(object);
-        localStorage.setItem('basketProducts', JSON.stringify(basketProducts));
-    }
+  const addToCart = (object: dataProps) => {
+    basketProducts.push(object);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+  };
 
   const [data, setData] = useState(db.products);
   const [searchValue, setSearchValue] = React.useState("");
@@ -98,32 +99,32 @@ const Catalog = () => {
                             <img src="../assets/free-icon-grid-lines-8234032.png" alt="ico-sort" className="img-small" />
                         </div> */}
                 </div>
-                <div className="cards__container">
-                  <div className="cards__container-card">
-                    <div className="cards__content">
-                      {data
-                        .filter((data) =>
-                          data.category
-                            .toLowerCase()
-                            .includes(searchValue.toLowerCase())
-                        )
-                        .map((item) => (
-                            <Card
-                              id={item.id}
-                              key={item.id}
-                              addToCart={() => addToCart(item)}
-                              title={item.title}
-                              thumbnail={item.thumbnail}
-                              category={item.category}
-                              brand={item.brand}
-                              price={item.price}
-                              discountPercentage={item.discountPercentage}
-                              rating={item.rating}
-                              stock={item.stock}
-                              description={""}
-                            />
-                        ))}
-                    </div>
+              </div>
+              <div className="cards__container">
+                <div className="cards__container-card">
+                  <div className="cards__content">
+                    {data
+                      .filter((data) =>
+                        data.category
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      )
+                      .map((item) => (
+                        <Card
+                          id={item.id}
+                          key={item.id}
+                          addToCart={() => addToCart(item)}
+                          title={item.title}
+                          thumbnail={item.thumbnail}
+                          category={item.category}
+                          brand={item.brand}
+                          price={item.price}
+                          discountPercentage={item.discountPercentage}
+                          rating={item.rating}
+                          stock={item.stock}
+                          description={""}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
