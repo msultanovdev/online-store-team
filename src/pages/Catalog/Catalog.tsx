@@ -108,9 +108,10 @@ const Catalog = () => {
                             .includes(searchValue.toLowerCase())
                         )
                         .map((item) => (
-                          <Link key={item.id} to={"/catalog/" + item.id}>
                             <Card
-                            
+                              id={item.id}
+                              key={item.id}
+                              addToCart={() => addToCart(item)}
                               title={item.title}
                               thumbnail={item.thumbnail}
                               category={item.category}
@@ -121,7 +122,6 @@ const Catalog = () => {
                               stock={item.stock}
                               description={""}
                             />
-                          </Link>
                         ))}
                     </div>
                   </div>
