@@ -39,7 +39,7 @@ const Basket = () => {
                   stock={item.stock}
                 />
               </Link>
-            ) : "Basket is empty"
+            ) : <h3 style={{fontSize: '32px', textAlign: 'center', color: 'white', fontWeight: 900, letterSpacing: '4'}}>Basket is empty</h3>
           }
         </div>
         <div className="basket__summary">
