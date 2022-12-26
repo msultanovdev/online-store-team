@@ -1,51 +1,18 @@
 /*basket*/
-.basket__container {
+.basket {
+    background: url('../../assets/basket-page-bg.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     min-height: 85vh;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
     padding: 2%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
 }
-
-.basket__container-title,
-.product__logo,
-.summary__container-logo {
-    font-family: 'Gloria Hallelujah', cursive;
-    font-size: 1.5em;
+.basket__products {
+    width: 65%;
 }
-
-.basket__container-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.product__container-header {
-    display: flex;
-    background-color: rgb(110, 153, 153);
-    padding: 0.3rem;
-    border-bottom: 1px solid rgb(0, 0, 0);
-    border-radius: 10px;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-}
-
-.product__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 5rem;
-}
-
-.summary__container {
-    display: flex;
-    background-color: rgb(110, 153, 153);
-    padding: 0.3rem;
-    border-bottom: 1px solid rgb(0, 0, 0);
-    border-radius: 10px;
-    align-items: center;
-    justify-content: space-between;
+.basket__summary {
+    width: 30%;
 }
