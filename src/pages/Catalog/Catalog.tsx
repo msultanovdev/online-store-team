@@ -24,9 +24,9 @@ const Catalog = () => {
         images: string[];
     }
 
-    useEffect(() => {
-        localStorage.setItem('basketProducts', `[]`);
-    }, []);
+    // useEffect(() => {
+    //     localStorage.setItem('basketProducts', `[]`);
+    // }, []);
 
     const basketProducts = JSON.parse(localStorage.getItem('basketProducts') || `[]`);
 
