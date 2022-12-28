@@ -58,14 +58,22 @@ const Basket = () => {
     
     const [productsPerPage, setProductsPerPage] = useState(3);
 
-    const lastProductIndex = currentPage * productsPerPage;
-    const firstProductIndex = lastProductIndex - productsPerPage;
+    const [perPageInput, setPerPageInput] = useState(3);
+
+    const lastProductIndex = currentPage * perPageInput;
+    const firstProductIndex = lastProductIndex - perPageInput;
     const currentProducts = uniqueProductsTwo.length ? uniqueProductsTwo.slice(firstProductIndex, lastProductIndex) : [] ;
 
     return (
       <div className="basket">
         <div className="basket__products">
-          <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={productsPerPage} currentPage={currentPage} />
+          <div className="basket__products-pagination">
+            <div className="basket__products-pagination-items">
+              <p>Items</p>
+              <input className="page-input" type="number" min={1} onChange={(e: React.FormEvent<HTMLInputElement>) => setPerPageInput(Number(Number(e.currentTarget.value) > 1 ? e.currentTarget.value : perPageInput))} />
+            </div>
+            <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={perPageInput} currentPage={currentPage} />
+          </div>
           { products.length ?
             currentProducts.map((item: dataProps)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
