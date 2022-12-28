@@ -7,7 +7,6 @@ import Categories from "../../components/Category-filter/Category-filter";
 import Brand from "../../components/Brand-filter/Brand-filter";
 import { Link } from "react-router-dom";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
-
 const Catalog = () => {
   type dataProps = {
     id: number;

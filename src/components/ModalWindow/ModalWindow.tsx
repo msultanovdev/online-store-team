@@ -1,4 +1,6 @@
+import { validateHeaderValue } from "http";
 import React, { useEffect, useState } from "react";
+import "./ModalWindow.css";
 
 const ModalWindow = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +16,7 @@ const ModalWindow = () => {
     "The delivery cannot be empty"
   );
   const [nameError, setNameError] = useState("You must write first/last name");
-  const [phoneError, setPhoneError] = useState("You must use +");
+  const [phoneError, setPhoneError] = useState("");
   const [formValid, setFormvalid] = useState(false);
   useEffect(() => {
     if (emailError || deliveryError || nameError || phoneError) {
@@ -29,7 +31,7 @@ const ModalWindow = () => {
       case "email":
         setEmailDirty(true);
         break;
-      case "password":
+      case "delivery":
         setDeliveryDirty(true);
         break;
       case "name":
@@ -53,82 +55,126 @@ const ModalWindow = () => {
   };
   const deliveryHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDelivery(e.target.value);
-    var regDel = /^[a-zA-Z]+ [a-zA-Z]+ [a-zA-Z]$/;
-    if (!regDel.test(name)) {
+    const delivery: string = e.target.value;
+    const resultDelivery = delivery.split(" ");
+    console.log(resultDelivery);
+    const firstDeliveryName: string = resultDelivery[0];
+    console.log(firstDeliveryName);
+    const secondDeliveryName: string = resultDelivery[1];
+    const LastDeliveryName: string = resultDelivery[2];
+    console.log(LastDeliveryName);
+    if (firstDeliveryName?.length < 3) {
       setDeliveryError("Words must be at least 3 characters");
     } else {
       setDeliveryError("");
     }
+
+    if (secondDeliveryName?.length < 3) {
+      setDeliveryError("Words must be at least 3 characters");
+    } else {
+      setDeliveryError("");
+    }
+    if (LastDeliveryName?.length < 3) {
+      setDeliveryError("Words must be at least 3 characters");
+    } else {
+      setDeliveryError("");
+    }
+    /*
+    if (resultDelivery?.length < 3) {
+      setDeliveryError("minimum 3 words");
+    } else {
+      setDeliveryError("");
+    }
+    */
   };
+
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    const name: string = e.target.value;
+    const nameResult = name.split("");
+
+    /*var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     if (!regName.test(name)) {
       setNameError("Please enter your full name (first & last name).");
     } else {
       setNameError("");
-    }
+    }*/
   };
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
-    var regPhone =
-      /^\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}$/;
+    var regPhone = /\+7\(\d{3}\)\d{3}-\d{2}-\d{2}/g;
     if (!regPhone.test(name)) {
-      setPhoneError("Please start wirh +");
+      setPhoneError("Please start with +");
     } else {
       setPhoneError("");
     }
   };
   return (
     <div className="modal__window">
-      <form>
-        <div className="modal__window-title">Personal Details</div>
-        {nameDirty && nameError && <div className="error">{nameError}</div>}
-        <input
-          onChange={(e) => nameHandler(e)}
-          onBlur={(e) => blurEffect(e)}
-          value={name}
-          min="3"
-          type="text"
-          name="name"
-          className="modal__window-name"
-          placeholder="Enter your first/last name...."
-          pattern="^([^,]+(,|$)){2}$"
-        />
-        <input
-          onChange={(e) => phoneHandler(e)}
-          onBlur={(e) => blurEffect(e)}
-          type="tel"
-          name="phone_number"
-          list="tel-list"
-          placeholder="+7 (900) 123-45-67"
-        ></input>
-        {emailDirty && emailError && <div className="error">{emailError}</div>}
-        <input
-          onChange={(e) => emailHandler(e)}
-          onBlur={(e) => blurEffect(e)}
-          value={email}
-          name="email"
-          type="text"
-          className="email"
-          placeholder="Enter your email...."
-        />
-        {deliveryDirty && deliveryError && (
-          <div className="error">{deliveryError}</div>
-        )}
-        <input
-          onChange={(e) => deliveryHandler(e)}
-          onBlur={(e) => blurEffect(e)}
-          value={delivery}
-          name="delivery"
-          type="text"
-          className="delivery"
-          placeholder="Enter your adress...."
-        />
-        <button disabled={!formValid} type="submit" className="submit__button">
-          Confirm
-        </button>
-      </form>
+      <div className="modal__form">
+        <form>
+          <div className="form__form-content">
+            <div className="modal__window-title">Personal Details</div>
+            <div className="modal__window-input">
+              {nameDirty && nameError && (
+                <div className="error">{nameError}</div>
+              )}
+              <input
+                onChange={(e) => nameHandler(e)}
+                onBlur={(e) => blurEffect(e)}
+                value={name}
+                type="text"
+                name="name"
+                className="modal__window-name"
+                placeholder="Enter your first/last name...."
+              />
+              {phoneDirty && phoneError && (
+                <div className="error">{phoneError}</div>
+              )}
+              <input
+                value={phone}
+                onChange={(e) => phoneHandler(e)}
+                onBlur={(e) => blurEffect(e)}
+                type="tel"
+                name="phone_number"
+                list="tel-list"
+                placeholder="+7 (900) 123-45-67"
+              ></input>
+              {emailDirty && emailError && (
+                <div className="error">{emailError}</div>
+              )}
+              <input
+                onChange={(e) => emailHandler(e)}
+                onBlur={(e) => blurEffect(e)}
+                value={email}
+                name="email"
+                type="text"
+                className="email"
+                placeholder="Enter your email...."
+              />
+              {deliveryDirty && deliveryError && (
+                <div className="error">{deliveryError}</div>
+              )}
+              <input
+                onChange={(e) => deliveryHandler(e)}
+                onBlur={(e) => blurEffect(e)}
+                value={delivery}
+                name="delivery"
+                type="text"
+                className="delivery"
+                placeholder="Enter your adress...."
+              />
+              <button
+                disabled={!formValid}
+                type="submit"
+                className="submit__button"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
