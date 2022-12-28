@@ -55,6 +55,9 @@ const Product = () => {
   return (
     <div className="product">
       <h3 className="product-title">{data.title}</h3>
+      <div className="product-navigation-text">
+        <p>Store {'->'} Product {'->'} {data.brand} {'->'} {data.title} </p>
+      </div>
       <div className="product__content">
         <div className="product__content-images">
           <div className="product__content-thumbnail">
