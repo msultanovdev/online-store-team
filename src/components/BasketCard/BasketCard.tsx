@@ -1,5 +1,22 @@
-import React from "react";
+import React, { ReactEventHandler } from "react";
 import './BasketCard.css';
+
+type dataProps = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    brand: string;
+    category: string;
+    thumbnail: string;
+  }
+
+interface countType {
+    [key: string]: number
+}
 
 type basketCardTypes = {
     title: string,
@@ -8,10 +25,27 @@ type basketCardTypes = {
     rating: number,
     discountPercentage: number,
     stock: number,
-    price: number
+    price: number,
+    item: dataProps,
+    counts: countType
 }
 
-const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price}: basketCardTypes) => {
+const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts}: basketCardTypes) => {
+   let basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
+
+   const addToBasket = (e: React.MouseEvent<HTMLAnchorElement>, item: dataProps) => {
+    e.preventDefault();
+    basketProducts.push(item);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+   }
+
+   const removeFromBasket = (e: React.MouseEvent<HTMLAnchorElement>, object: dataProps) => {
+    e.preventDefault();
+    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
+    basketProducts.splice(indexOfObj, 1);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+   }
+
     return(
         <div className="basket-card">
             <div className="basket-card__thumbnail">
@@ -38,9 +72,9 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
                     <p>Stock: {stock}</p>
                 </div>
                 <div className="basket-card__block-buttons">
-                    <a className="basket-btn">+</a>
-                    <p className="basket-card__block-count">10</p>
-                    <a className="basket-btn">-</a>
+                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => addToBasket(e, item)} className="basket-btn">+</a>
+                    <p className="basket-card__block-count">{counts[item.id]}</p>
+                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => removeFromBasket(e, item)} className="basket-btn">-</a>
                 </div>
                 <div className="basket-card__block-price">
                     <p>Price: {price}$</p>
