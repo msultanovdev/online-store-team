@@ -19,15 +19,15 @@ type dataProps = {
 
 const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
-    console.log(basketProducts)
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-    // const uniqueProdutcs: dataProps[] = [...new Set(products)];
+    let uniqueProdutcs: dataProps[] = [];
+    if(products.length) uniqueProdutcs = [...new Set(products)];
 
     return (
       <div className="basket">
         <div className="basket__products">
           { products.length ?
-            products.map((item: dataProps)  => 
+            uniqueProdutcs.map((item: dataProps)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
                 <BasketCard 
                   title={item.title} 
