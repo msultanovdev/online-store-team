@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
@@ -23,6 +23,17 @@ const Basket = () => {
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
     let uniqueProducts: dataProps[] = [];
     if(products.length) uniqueProducts = [...new Set(products)];
+
+    localStorage.setItem('total', JSON.stringify({
+      count: products?.length,
+      price: products?.length && products.reduce((prev, curr) => prev + curr.price, 0)
+    }));
+
+    let total = JSON.parse(localStorage.getItem('total')!);
+
+    useEffect(() => {
+      total = JSON.parse(localStorage.getItem('total')!);
+    }, [products]);
 
     const [currentPage, setCurrentPage] = useState(1);
     
@@ -53,7 +64,7 @@ const Basket = () => {
           }
         </div>
         <div className="basket__summary">
-          <Summary total={100} amountProducts={200} />
+          <Summary total={total.price} amountProducts={total.count} />
         </div>
       </div>
     );
