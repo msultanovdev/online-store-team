@@ -16,17 +16,17 @@ type dataProps = {
 }
 
 const Header = () => {
-  let basketProducts = localStorage.getItem('basketProducts');
-  let products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-  let total = JSON.parse(localStorage.getItem('total')!);
+  // let basketProducts = localStorage.getItem('basketProducts');
+  // let products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
+  // let total = JSON.parse(localStorage.getItem('total')!);
 
-  useEffect(() => {
-    total = JSON.parse(localStorage.getItem('total')!);
-    setPrice(total.price);
-  }, [products]);
+  // useEffect(() => {
+  //   total = JSON.parse(localStorage.getItem('total')!);
+  //   setPrice(total.price);
+  // }, [products]);
 
-  const [price, setPrice] = useState(total.price);
-  const [amount, setAmount] = useState(total.count);
+  // const [price, setPrice] = useState(total.price);
+  // const [amount, setAmount] = useState(total.count);
 
   return (
     <header className="header">
@@ -38,7 +38,7 @@ const Header = () => {
           {/* <Link to="/catalog">Catalog</Link> */}
         </div>
         <div className="header__price">
-          <p>Cart Total: {price}$</p>
+          <p>Cart Total: 0$</p>
         </div>
         <Link to="/basket" className="sidebar__links-basket">
           &#128722;
