@@ -25,15 +25,27 @@ const Catalog = () => {
   // useEffect(() => {
   //     localStorage.setItem('basketProducts', `[]`);
   // }, []);
-
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
 
+  const isAdded = (item: dataProps) => {
+    if(basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
+      return true;
+    } return false;
+  }
+
   const addToCart = (object: dataProps) => {
+    isAdded(object);
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
+
+  const removeFromCart = (object: dataProps) => {
+    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
+    basketProducts.splice(indexOfObj, 1);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+  }
 
   const [data, setData] = useState(db.products);
   const [searchValue, setSearchValue] = React.useState("");
@@ -110,9 +122,11 @@ const Catalog = () => {
                       )
                       .map((item) => (
                         <Card
+                          isAdded={() => isAdded(item)}
                           id={item.id}
                           key={item.id}
                           addToCart={() => addToCart(item)}
+                          removeFromCart={() => removeFromCart(item)}
                           title={item.title}
                           thumbnail={item.thumbnail}
                           category={item.category}

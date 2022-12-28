@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './Card.css';
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -15,6 +15,8 @@ type dataProps = {
     category: string;
     thumbnail: string;
     addToCart: () => void;
+    removeFromCart: () => void;
+    isAdded: () => boolean;
 }
 
 const Card = (
@@ -28,9 +30,13 @@ const Card = (
         discountPercentage,
         rating,
         stock,
-        addToCart
+        addToCart,
+        removeFromCart,
+        isAdded
     }: dataProps
     ) => {
+
+    const [buttonState, setButtonState] = useState(isAdded());
 
     return(
         <div className="card">
@@ -48,7 +54,11 @@ const Card = (
                     <div className="card__content-info-label">Stock: <span>{stock}</span></div>
                 </div>
                 <div className="card__content-buttons">
-                    <button className="card-btn card-btn-add" onClick={addToCart}>Add to cart</button>
+                    { !buttonState ?
+                        <button className="card-btn card-btn-add" onClick={() => {addToCart(); setButtonState(!buttonState)}}>Add to cart</button>    
+                        :                    
+                        <button className="card-btn card-btn-remove" onClick={() => {removeFromCart(); setButtonState(!buttonState)}}>Remove From Cart</button>    
+                    }
                     <Link className="card-btn card-btn-details" to={'/catalog/' + id}>Details</Link>
                 </div>
             </div>

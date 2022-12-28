@@ -73,7 +73,15 @@
 .card-btn-add:hover {
     border-color: rgb(98, 161, 3);
     background-color: rgb(98, 161, 3);
-
+}
+.card-btn-remove {
+    border: 2px solid rgb(175, 3, 3);
+    background-color: transparent;
+    width: 70%;
+}
+.card-btn-remove:hover {
+    border-color: rgb(175, 3, 3);
+    background-color: rgb(175, 3, 3);
 }
 
 .card-btn-details {

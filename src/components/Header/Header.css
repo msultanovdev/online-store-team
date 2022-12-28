@@ -34,3 +34,7 @@
 .sidebar__links a {
   margin-right: 15px;
 }
+
+.header__price {
+  color: white;
+}
