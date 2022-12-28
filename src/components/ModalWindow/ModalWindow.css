@@ -1,3 +1,17 @@
 .error {
     color: red;
 }
+
+input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.modal__form {
+    width: 450px;
+    height: 450px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+
+}
