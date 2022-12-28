@@ -70,7 +70,7 @@ const Basket = () => {
           <div className="basket__products-pagination">
             <div className="basket__products-pagination-items">
               <p>Items</p>
-              <input className="page-input" type="number" min={1} onChange={(e: React.FormEvent<HTMLInputElement>) => setPerPageInput(Number(Number(e.currentTarget.value) > 1 ? e.currentTarget.value : perPageInput))} />
+              <input className="page-input" type="number" min={1} onChange={(e: React.FormEvent<HTMLInputElement>) => setPerPageInput(Number(Number(e.currentTarget.value) >= 1 ? e.currentTarget.value : perPageInput))} />
             </div>
             <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={perPageInput} currentPage={currentPage} />
           </div>
