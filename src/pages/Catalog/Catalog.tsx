@@ -43,8 +43,9 @@ const Catalog = () => {
   };
 
   const removeFromCart = (object: dataProps) => {
+    let counts = JSON.parse(localStorage.getItem('counts')!);
     const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
-    basketProducts.splice(indexOfObj, 1);
+    basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   }
 

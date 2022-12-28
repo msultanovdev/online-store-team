@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
+
+interface countType {
+  [key: string]: number
+}
 
 type dataProps = {
   id: number;
@@ -21,25 +25,61 @@ type dataProps = {
 const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-    let uniqueProducts: dataProps[] = [];
-    if(products.length) uniqueProducts = [...new Set(products)];
+    let uniqueProductsTwo: dataProps[] = [];
+
+    localStorage.setItem('uniqueProducts', JSON.stringify(uniqueProductsTwo));
+    
+    const res = products.reduce((o, i) => {
+      if (!uniqueProductsTwo.find(v => v.id == i.id)) {
+        uniqueProductsTwo.push(i);
+      }
+      return o;
+    }, []);
+
+    localStorage.setItem('total', JSON.stringify({
+      count: products?.length,
+      price: products?.length && products.reduce((prev, curr) => prev + curr.price, 0)
+    }));
+
+    let counts: countType = {}
+    products.forEach(function(a){
+      counts[a.id] = counts[a.id] + 1 || 1;
+    });
+
+    localStorage.setItem('counts', JSON.stringify(counts));
+
+    let total = JSON.parse(localStorage.getItem('total')!);
+
+    useEffect(() => {
+      total = JSON.parse(localStorage.getItem('total')!);
+    }, [products]);
 
     const [currentPage, setCurrentPage] = useState(1);
     
     const [productsPerPage, setProductsPerPage] = useState(3);
 
-    const lastProductIndex = currentPage * productsPerPage;
-    const firstProductIndex = lastProductIndex - productsPerPage;
-    const currentProducts = uniqueProducts.length ? uniqueProducts.slice(firstProductIndex, lastProductIndex) : [] ;
+    const [perPageInput, setPerPageInput] = useState(3);
+
+    const lastProductIndex = currentPage * perPageInput;
+    const firstProductIndex = lastProductIndex - perPageInput;
+    const currentProducts = uniqueProductsTwo.length ? uniqueProductsTwo.slice(firstProductIndex, lastProductIndex) : [] ;
 
     return (
       <div className="basket">
         <div className="basket__products">
-          <BasketPagination totalProducts={uniqueProducts.length} setCurrentPage={setCurrentPage} productsPerPage={productsPerPage} currentPage={currentPage} />
+          <div className="basket__products-pagination">
+            <div className="basket__products-pagination-items">
+              <p>Items</p>
+              <input className="page-input" type="number" min={1} onChange={(e: React.FormEvent<HTMLInputElement>) => setPerPageInput(Number(Number(e.currentTarget.value) >= 1 ? e.currentTarget.value : perPageInput))} />
+            </div>
+            <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={perPageInput} currentPage={currentPage} />
+          </div>
           { products.length ?
             currentProducts.map((item: dataProps)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
-                <BasketCard 
+                <BasketCard
+                  counts={counts}
+                  item={item}
                   title={item.title} 
                   thumbnail={item.thumbnail} 
                   description={item.description} 
@@ -53,7 +93,7 @@ const Basket = () => {
           }
         </div>
         <div className="basket__summary">
-          <Summary total={100} amountProducts={200} />
+          <Summary total={total.price} amountProducts={total.count} />
         </div>
       </div>
     );
