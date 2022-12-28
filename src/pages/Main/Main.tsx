@@ -16,7 +16,6 @@ const Main = () => {
             </span>
           </p>
         </div>
-        <ModalWindow />
       </div>
     </div>
   );

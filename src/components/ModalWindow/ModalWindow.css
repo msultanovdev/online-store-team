@@ -10,8 +10,10 @@ input {
 }
 
 .modal__form {
+    margin: 0 auto;
+    margin-top: 10%;
     width: 450px;
-    height: 450px;
     font-family: "Comic Sans MS", cursive, sans-serif;
-
+    background-color: black;
+    padding: 50px 50px 50px 50px;
 }
