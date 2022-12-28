@@ -70,9 +70,13 @@
     background: transparent;
     cursor: pointer;
     padding: 2px;
-    font-size: 22px;
+    font-size: 28px;
     transition: all 0.4s;
 }
 .basket-btn:hover {
     color: aqua;
+}
+.basket-card__block-count {
+    font-size: 20px;
+    font-weight: 900;
 }

@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
 
+interface countType {
+  [key: string]: number
+}
+
 type dataProps = {
   id: number;
   title: string;
@@ -22,12 +26,24 @@ const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
     let uniqueProducts: dataProps[] = [];
-    if(products.length) uniqueProducts = [...new Set(products)];
+    let uniqueProductsTwo: dataProps[] = [];
+    
+    const res = products.reduce((o, i) => {
+      if (!uniqueProductsTwo.find(v => v.id == i.id)) {
+        uniqueProductsTwo.push(i);
+      }
+      return o;
+    }, []);
 
     localStorage.setItem('total', JSON.stringify({
       count: products?.length,
       price: products?.length && products.reduce((prev, curr) => prev + curr.price, 0)
     }));
+
+    let counts: countType = {}
+    products.forEach(function(a){
+      counts[a.id] = counts[a.id] + 1 || 1;
+    });
 
     let total = JSON.parse(localStorage.getItem('total')!);
 
@@ -41,16 +57,18 @@ const Basket = () => {
 
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;
-    const currentProducts = uniqueProducts.length ? uniqueProducts.slice(firstProductIndex, lastProductIndex) : [] ;
+    const currentProducts = uniqueProductsTwo.length ? uniqueProductsTwo.slice(firstProductIndex, lastProductIndex) : [] ;
 
     return (
       <div className="basket">
         <div className="basket__products">
-          <BasketPagination totalProducts={uniqueProducts.length} setCurrentPage={setCurrentPage} productsPerPage={productsPerPage} currentPage={currentPage} />
+          <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={productsPerPage} currentPage={currentPage} />
           { products.length ?
             currentProducts.map((item: dataProps)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
-                <BasketCard 
+                <BasketCard
+                  counts={counts}
+                  item={item}
                   title={item.title} 
                   thumbnail={item.thumbnail} 
                   description={item.description} 
