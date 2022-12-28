@@ -25,8 +25,9 @@ type dataProps = {
 const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-    let uniqueProducts: dataProps[] = [];
     let uniqueProductsTwo: dataProps[] = [];
+
+    localStorage.setItem('uniqueProducts', JSON.stringify(uniqueProductsTwo));
     
     const res = products.reduce((o, i) => {
       if (!uniqueProductsTwo.find(v => v.id == i.id)) {
@@ -44,6 +45,8 @@ const Basket = () => {
     products.forEach(function(a){
       counts[a.id] = counts[a.id] + 1 || 1;
     });
+
+    localStorage.setItem('counts', JSON.stringify(counts));
 
     let total = JSON.parse(localStorage.getItem('total')!);
 
