@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
+import BasketPagination from "../../components/BasketPagination/BasketPagination";
 
 type dataProps = {
   id: number;
@@ -20,14 +21,23 @@ type dataProps = {
 const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-    let uniqueProdutcs: dataProps[] = [];
-    if(products.length) uniqueProdutcs = [...new Set(products)];
+    let uniqueProducts: dataProps[] = [];
+    if(products.length) uniqueProducts = [...new Set(products)];
+
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    const [productsPerPage, setProductsPerPage] = useState(3);
+
+    const lastProductIndex = currentPage * productsPerPage;
+    const firstProductIndex = lastProductIndex - productsPerPage;
+    const currentProducts = uniqueProducts.length ? uniqueProducts.slice(firstProductIndex, lastProductIndex) : [] ;
 
     return (
       <div className="basket">
         <div className="basket__products">
+          <BasketPagination totalProducts={uniqueProducts.length} setCurrentPage={setCurrentPage} productsPerPage={productsPerPage} currentPage={currentPage} />
           { products.length ?
-            uniqueProdutcs.map((item: dataProps)  => 
+            currentProducts.map((item: dataProps)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
                 <BasketCard 
                   title={item.title} 
