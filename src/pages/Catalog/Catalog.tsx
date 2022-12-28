@@ -26,15 +26,29 @@ const Catalog = () => {
   // useEffect(() => {
   //     localStorage.setItem('basketProducts', `[]`);
   // }, []);
-
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
 
+console.log(basketProducts)
+  const isAdded = (item: dataProps) => {
+    if(basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
+      return true;
+    } return false;
+  }
+  console.log(isAdded({"id":1,"title":"iPhone 9","description":"An apple mobile which is nothing like apple","price":549,"discountPercentage":12.96,"rating":4.69,"stock":94,"brand":"Apple","category":"smartphones","thumbnail":"https://i.dummyjson.com/data/products/1/thumbnail.jpg","images":["https://i.dummyjson.com/data/products/1/1.jpg","https://i.dummyjson.com/data/products/1/2.jpg","https://i.dummyjson.com/data/products/1/3.jpg","https://i.dummyjson.com/data/products/1/4.jpg","https://i.dummyjson.com/data/products/1/thumbnail.jpg"]}))
+
   const addToCart = (object: dataProps) => {
+    isAdded(object);
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
+
+  const removeFromCart = (object: dataProps) => {
+    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
+    basketProducts.splice(indexOfObj, 1);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+  }
 
   const [data, setData] = useState(db.products);
   const [searchValue, setSearchValue] = React.useState("");
@@ -111,9 +125,11 @@ const Catalog = () => {
                       )
                       .map((item) => (
                         <Card
+                          isAdded={() => isAdded(item)}
                           id={item.id}
                           key={item.id}
                           addToCart={() => addToCart(item)}
+                          removeFromCart={() => removeFromCart(item)}
                           title={item.title}
                           thumbnail={item.thumbnail}
                           category={item.category}
