@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import { TotalContext } from "./totalContext";
-import { totalType } from "./types";
+import { ICountType, totalType } from "./types";
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
         price: 0
       }));
       localStorage.setItem('basketProducts', JSON.stringify([]));
+      const products = JSON.parse(localStorage.getItem('basketProducts')!);
     }
   }, [])
 
