@@ -79,7 +79,7 @@ const Product = () => {
           <div className="product__content-thumbnail">
             <img
               src={image}
-              alt={data.title + "image"}
+              alt="item"
               className="product__content-thumbnail-img"
             />
           </div>
@@ -90,7 +90,7 @@ const Product = () => {
                 key={item}
                 onClick={() => changeMainImage(item)}
               >
-                <img src={item} alt="product-image" />
+                <img src={item} alt="item" />
               </div>
             ))}
           </div>

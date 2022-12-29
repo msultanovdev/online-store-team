@@ -1,20 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { TotalContext } from "../../totalContext";
-
-type dataProps = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-}
 
 const Header = () => {
   const {totalPrice} = useContext(TotalContext);
