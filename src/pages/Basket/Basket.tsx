@@ -23,7 +23,7 @@ type dataProps = {
 const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-    let uniqueProductsTwo: dataProps[] = [];
+    const uniqueProductsTwo: dataProps[] = [];
 
     const {totalPrice} = useContext(TotalContext);
 
@@ -41,14 +41,14 @@ const Basket = () => {
       price: products?.length && products.reduce((prev, curr) => prev + curr.price, 0)
     }));
 
-    let counts: ICountType = {}
+    const counts: ICountType = {}
     products.forEach(function(a){
       counts[a.id] = counts[a.id] + 1 || 1;
     });
 
     localStorage.setItem('counts', JSON.stringify(counts));
 
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
 
     const [currentPage, setCurrentPage] = useState(1);
     

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import { TotalContext } from "./totalContext";
-import { ICountType, totalType } from "./types";
+import { totalType } from "./types";
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
     }
   }, [])
 
-  let total: totalType = JSON.parse(localStorage.getItem('total')!) !== null ? JSON.parse(localStorage.getItem('total')!) : 0;
+  const total: totalType = JSON.parse(localStorage.getItem('total')!) !== null ? JSON.parse(localStorage.getItem('total')!) : 0;
   const [totalPrice, setTotalPrice] = useState(total.price);
 
   return (

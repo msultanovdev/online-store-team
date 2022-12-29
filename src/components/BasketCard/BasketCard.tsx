@@ -32,13 +32,13 @@ type basketCardTypes = {
 }
 
 const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts}: basketCardTypes) => {
-   let basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
+   const basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
 
    const {totalPrice, setTotalPrice} = useContext(TotalContext);
 
    const addToBasket = (e: React.MouseEvent<HTMLButtonElement>, item: dataProps) => {
     e.preventDefault();
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
       count: total.count + 1,
       price: total.price + item.price
@@ -50,7 +50,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
    const removeFromBasket = (e: React.MouseEvent<HTMLButtonElement>, object: dataProps) => {
     e.preventDefault();
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
       price: total.price - item.price
