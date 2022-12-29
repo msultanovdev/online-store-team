@@ -31,10 +31,11 @@ const Catalog = () => {
   );
 
   const isAdded = (item: dataProps) => {
-    if(basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
+    if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
       return true;
-    } return false;
-  }
+    }
+    return false;
+  };
 
   const addToCart = (object: dataProps) => {
     let total = JSON.parse(localStorage.getItem('total')!);
@@ -61,7 +62,7 @@ const Catalog = () => {
     const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-  }
+  };
 
   const [data, setData] = useState(db.products);
   const [searchValue, setSearchValue] = React.useState("");

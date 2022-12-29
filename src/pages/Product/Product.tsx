@@ -49,16 +49,19 @@ const Product = () => {
     const indexOfObj = basketProducts.findIndex((item: itemType) => item.id === object.id);
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-  }
+  };
 
   const isAdded = (item: itemType) => {
-    if(basketProducts.filter((obj: itemType) => obj.id === item.id).length) {
+    if (basketProducts.filter((obj: itemType) => obj.id === item.id).length) {
       return true;
-    } return false;
-  }
+    }
+    return false;
+  };
 
-  const {id} = useParams();
-  const data: itemType = db.products.filter(item => item.id === Number(id))[0];
+  const { id } = useParams();
+  const data: itemType = db.products.filter(
+    (item) => item.id === Number(id)
+  )[0];
 
   const [image, setImage] = useState(data.thumbnail);
 
@@ -72,7 +75,9 @@ const Product = () => {
     <div className="product">
       <h3 className="product-title">{data.title}</h3>
       <div className="product-navigation-text">
-        <p>Store {'->'} Product {'->'} {data.brand} {'->'} {data.title} </p>
+        <p>
+          Store {"->"} Product {"->"} {data.brand} {"->"} {data.title}{" "}
+        </p>
       </div>
       <div className="product__content">
         <div className="product__content-images">
@@ -119,8 +124,29 @@ const Product = () => {
           </div>
           <div className="product__content-info-buttons">
             <p className="product-price">{data.price}$</p>
-            {!buttonState ? <button onClick={() => {addToCart(data); setButtonState(!buttonState)}} className="btn">Add to Cart</button> : <button className="btn" onClick={() => {removeFromCart(data); setButtonState(!buttonState)}}>Remove From Cart</button>}
+            {!buttonState ? (
+              <button
+                onClick={() => {
+                  addToCart(data);
+                  setButtonState(!buttonState);
+                }}
+                className="btn"
+              >
+                Add to Cart
+              </button>
+            ) : (
+              <button
+                className="btn"
+                onClick={() => {
+                  removeFromCart(data);
+                  setButtonState(!buttonState);
+                }}
+              >
+                Remove From Cart
+              </button>
+            )}
             <button className="btn">Buy Now</button>
+            
           </div>
         </div>
       </div>
