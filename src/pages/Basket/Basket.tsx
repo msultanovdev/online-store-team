@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
+import { TotalContext } from "../../totalContext";
 
 interface countType {
   [key: string]: number
@@ -26,6 +27,8 @@ const Basket = () => {
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
     let uniqueProductsTwo: dataProps[] = [];
+
+    const {totalPrice} = useContext(TotalContext);
 
     localStorage.setItem('uniqueProducts', JSON.stringify(uniqueProductsTwo));
     
@@ -93,7 +96,7 @@ const Basket = () => {
           }
         </div>
         <div className="basket__summary">
-          <Summary total={total.price} amountProducts={total.count} />
+          <Summary total={totalPrice} amountProducts={total.count} />
         </div>
       </div>
     );
