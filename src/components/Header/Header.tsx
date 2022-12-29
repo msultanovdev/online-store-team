@@ -18,7 +18,7 @@ const Header = () => {
         <div className="header__price">
           <p>Cart Total: {totalPrice}$</p>
         </div>
-        <Link to="/basket" className="sidebar__links-basket">
+        <Link to="/basket?limit=3" className="sidebar__links-basket">
           &#128722;
         </Link>
       </nav>
