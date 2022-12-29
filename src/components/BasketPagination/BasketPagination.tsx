@@ -15,7 +15,7 @@ const BasketPagination = ({
     setCurrentPage,
     currentPage
 }: basketType) => {
-    let pages = [];
+    const pages = [];
 
     for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
         pages.push(i);

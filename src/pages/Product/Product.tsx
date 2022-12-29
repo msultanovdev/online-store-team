@@ -27,7 +27,7 @@ const Product = () => {
 
   const addToCart = (object: itemType) => {
     isAdded(object);
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     setTotalPrice(total.price + object.price);
     localStorage.setItem('total', JSON.stringify({
       count: total.count + 1,
@@ -39,8 +39,8 @@ const Product = () => {
   };
 
   const removeFromCart = (object: itemType) => {
-    let counts = JSON.parse(localStorage.getItem('counts')!);
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const counts = JSON.parse(localStorage.getItem('counts')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     setTotalPrice(total.price - object.price * counts[`${object.id}`]);
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
