@@ -38,6 +38,11 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
    const addToBasket = (e: React.MouseEvent<HTMLAnchorElement>, item: dataProps) => {
     e.preventDefault();
+    let total = JSON.parse(localStorage.getItem('total')!);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count + 1,
+      price: total.price + item.price
+    }));
     setTotalPrice(totalPrice + item.price);
     basketProducts.push(item);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
@@ -45,6 +50,11 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
    const removeFromBasket = (e: React.MouseEvent<HTMLAnchorElement>, object: dataProps) => {
     e.preventDefault();
+    let total = JSON.parse(localStorage.getItem('total')!);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count - 1,
+      price: total.price - item.price
+    }));
     setTotalPrice(totalPrice - item.price);
     const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
     basketProducts.splice(indexOfObj, 1);
