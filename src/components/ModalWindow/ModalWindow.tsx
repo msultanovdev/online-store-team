@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 
 import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
-
-const ModalWindow = () => {
+type modalType = {
+  active: boolean;
+  setActive: (active: boolean) => void;
+};
+const ModalWindow = ({ active, setActive }: modalType) => {
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
   const [name, setName] = useState("");
@@ -189,8 +192,14 @@ const ModalWindow = () => {
     }
   };
   return (
-    <div className="modal__window">
-      <div className="modal__form">
+    <div
+      className={active ? "modal__window active" : "modal__window"}
+      onClick={() => setActive(false)}
+    >
+      <div
+        className={active ? "modal__form active" : "modal__form"}
+        onClick={(e) => e.stopPropagation()}
+      >
         <form>
           <div className="form__form-content">
             <div className="modal__window-title">Personal Details</div>

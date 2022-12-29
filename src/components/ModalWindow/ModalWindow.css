@@ -12,11 +12,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: scale(0);
+    pointer-events: none;
+    opacity: 0;
 }
 
 .modal__window.active {
-    transform: scale(1);
+    opacity: 1;
+    pointer-events: all;
 }
 
 input {
@@ -31,4 +33,10 @@ input {
     font-family: "Comic Sans MS", cursive, sans-serif;
     background-color: black;
     padding: 50px 50px 50px 50px;
+    transform: scale(0.5);
+    transition: 0.4s all;
+}
+
+.modal__form.active {
+    transform: scale(1);
 }
