@@ -10,7 +10,6 @@ const Summary = ({ amountProducts, total }: summaryType) => {
   const [modalActive, setModalActive] = useState(false);
   return (
     <div className="summary">
-      <ModalWindow active={modalActive} setActive={setModalActive} />
       <div className="summary-title">
         <h2>Summary</h2>
       </div>
@@ -33,6 +32,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         <button className="summary-btn" onClick={() => setModalActive(true)}>
           Buy Now
         </button>
+        <ModalWindow active={modalActive} setActive={setModalActive} />
       </div>
     </div>
   );

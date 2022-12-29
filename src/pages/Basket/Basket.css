@@ -10,9 +10,11 @@
     justify-content: space-between;
     padding: 2%;
 }
+
 .basket__products {
     width: 65%;
 }
+
 .basket__summary {
     width: 30%;
 }
@@ -28,9 +30,11 @@
     height: 20px;
     border: 3px solid white;
 }
+
 .page-input::-webkit-inner-spin-button {
     display: none;
 }
+
 .basket__products-pagination {
     padding: 10px;
     width: 100%;
@@ -39,6 +43,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .basket__products-pagination p {
     text-transform: uppercase;
     color: white;
@@ -46,6 +51,7 @@
     font-size: 20px;
     margin-right: 10px;
 }
+
 .basket__products-pagination-items {
     display: flex;
     align-items: center;
