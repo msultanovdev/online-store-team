@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Product.css";
 import { useParams } from "react-router-dom";
 import db from "../../assets/db.json";
+import { TotalContext } from "../../totalContext";
+
 
 type itemType = {
   id: number;
@@ -18,21 +20,33 @@ type itemType = {
 };
 
 const Product = () => {
+  const {totalPrice, setTotalPrice} = useContext(TotalContext);
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
 
   const addToCart = (object: itemType) => {
     isAdded(object);
+    let total = JSON.parse(localStorage.getItem('total')!);
+    setTotalPrice(total.price + object.price);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count + 1,
+      price: total.price + object.price
+    }));
+    setTotalPrice(totalPrice + object.price);
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
   const removeFromCart = (object: itemType) => {
-    let counts = JSON.parse(localStorage.getItem("counts")!);
-    const indexOfObj = basketProducts.findIndex(
-      (item: itemType) => item.id === object.id
-    );
+    let counts = JSON.parse(localStorage.getItem('counts')!);
+    let total = JSON.parse(localStorage.getItem('total')!);
+    setTotalPrice(total.price - object.price * counts[`${object.id}`]);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count - 1,
+      price: total.price - object.price * counts[`${object.id}`]
+    }));
+    const indexOfObj = basketProducts.findIndex((item: itemType) => item.id === object.id);
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };

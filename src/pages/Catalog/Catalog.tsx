@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
@@ -7,7 +7,7 @@ import Categories from "../../components/Category-filter/Category-filter";
 import Brand from "../../components/Brand-filter/Brand-filter";
 import { Link } from "react-router-dom";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
-
+import { TotalContext } from "../../totalContext";
 
 const Catalog = () => {
   type dataProps = {
@@ -23,10 +23,9 @@ const Catalog = () => {
     thumbnail: string;
     images: string[];
   };
- 
-  // useEffect(() => {
-  //     localStorage.setItem('basketProducts', `[]`);
-  // }, []);
+
+  const {totalPrice, setTotalPrice} = useContext(TotalContext);
+
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
@@ -39,16 +38,28 @@ const Catalog = () => {
   };
 
   const addToCart = (object: dataProps) => {
+    let total = JSON.parse(localStorage.getItem('total')!);
+    setTotalPrice(total.price + object.price);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count + 1,
+      price: total.price + object.price
+    }));
+    setTotalPrice(totalPrice + object.price);
     isAdded(object);
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
   const removeFromCart = (object: dataProps) => {
-    let counts = JSON.parse(localStorage.getItem("counts")!);
-    const indexOfObj = basketProducts.findIndex(
-      (item: dataProps) => item.id === object.id
-    );
+    setTotalPrice(totalPrice - object.price);
+    let counts = JSON.parse(localStorage.getItem('counts')!);
+    let total = JSON.parse(localStorage.getItem('total')!);
+    setTotalPrice(total.price - object.price * counts[`${object.id}`]);
+    localStorage.setItem('total', JSON.stringify({
+      count: total.count - 1,
+      price: total.price - object.price * counts[`${object.id}`]
+    }));
+    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
