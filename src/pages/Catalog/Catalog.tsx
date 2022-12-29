@@ -24,7 +24,7 @@ const Catalog = () => {
     images: string[];
   };
 
-  const {totalPrice, setTotalPrice} = useContext(TotalContext);
+  const { totalPrice, setTotalPrice } = useContext(TotalContext);
 
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
@@ -38,12 +38,15 @@ const Catalog = () => {
   };
 
   const addToCart = (object: dataProps) => {
-    let total = JSON.parse(localStorage.getItem('total')!);
+    let total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price + object.price);
-    localStorage.setItem('total', JSON.stringify({
-      count: total.count + 1,
-      price: total.price + object.price
-    }));
+    localStorage.setItem(
+      "total",
+      JSON.stringify({
+        count: total.count + 1,
+        price: total.price + object.price,
+      })
+    );
     setTotalPrice(totalPrice + object.price);
     isAdded(object);
     basketProducts.push(object);
@@ -52,14 +55,19 @@ const Catalog = () => {
 
   const removeFromCart = (object: dataProps) => {
     setTotalPrice(totalPrice - object.price);
-    let counts = JSON.parse(localStorage.getItem('counts')!);
-    let total = JSON.parse(localStorage.getItem('total')!);
+    let counts = JSON.parse(localStorage.getItem("counts")!);
+    let total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price - object.price * counts[`${object.id}`]);
-    localStorage.setItem('total', JSON.stringify({
-      count: total.count - 1,
-      price: total.price - object.price * counts[`${object.id}`]
-    }));
-    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
+    localStorage.setItem(
+      "total",
+      JSON.stringify({
+        count: total.count - 1,
+        price: total.price - object.price * counts[`${object.id}`],
+      })
+    );
+    const indexOfObj = basketProducts.findIndex(
+      (item: dataProps) => item.id === object.id
+    );
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };

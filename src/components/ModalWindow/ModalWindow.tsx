@@ -134,7 +134,7 @@ const ModalWindow = () => {
     setPhone(e.target.value);
     const phoneNum: string = e.target.value;
     let phoneRes = phoneNum.split("");
-    //let reg = /^[0-9]+$/;
+    let reg = /[\p{Alpha}\p{M}\p{Pc}]/gu;
     console.log(phoneRes);
     // if (phoneRes.length >= 9) {
     const phoneNumber: string[] = phoneRes;
@@ -142,6 +142,8 @@ const ModalWindow = () => {
       setPhoneError("Please start with +");
     } else if (phoneNumber.length < 9) {
       setPhoneError("You can use minimum 9 simbols");
+    } else if (phoneNumber.includes("/[p{Alpha}p{M}p{Pc}]/gu")) {
+      setPhoneError("Use only numbers");
     } else {
       setPhoneError("");
     }
