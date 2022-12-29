@@ -28,10 +28,11 @@ type basketCardTypes = {
     stock: number,
     price: number,
     item: dataProps,
-    counts: countType
+    counts: countType,
+    index: number
 }
 
-const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts}: basketCardTypes) => {
+const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts, index}: basketCardTypes) => {
    const basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
 
    const {totalPrice, setTotalPrice} = useContext(TotalContext);
@@ -63,6 +64,9 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
     return(
         <div className="basket-card">
+            <div className="basket-card-number">
+                <p>{index}</p>
+            </div>
             <div className="basket-card__thumbnail">
                 <img src={thumbnail} alt="item" />
             </div>
