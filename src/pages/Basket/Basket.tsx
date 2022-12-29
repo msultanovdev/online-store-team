@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import "./Basket.css";
 import BasketCard from "../../components/BasketCard/BasketCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
 import { TotalContext } from "../../totalContext";
@@ -21,11 +21,21 @@ type dataProps = {
 };
 
 const Basket = () => {
-  const basketProducts = localStorage.getItem("basketProducts");
-  const products: dataProps[] = basketProducts
-    ? JSON.parse(basketProducts)
-    : [];
-  const uniqueProductsTwo: dataProps[] = [];
+    const [searchParams] = useSearchParams();
+    let limit: string | null = searchParams.get('limit');
+    const navigate = useNavigate();
+    const basketProducts = localStorage.getItem('basketProducts');
+    const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
+    const uniqueProductsTwo: dataProps[] = [];
+
+    const changeInput = (e: React.FormEvent<HTMLInputElement>) => {
+      e.currentTarget.value !== '' ? setPerPageInput(e.currentTarget.value !== '' ? e.currentTarget.value : '1') : setPerPageInput('');
+      limit = 
+      e.currentTarget.value === '' ? '1' 
+      : Number(e.currentTarget.value) === 0 ? '1' 
+      : e.currentTarget.value;
+      navigate({pathname: '/basket', search: `?limit=${limit}`})
+    }
 
   const { totalPrice } = useContext(TotalContext);
 
@@ -61,34 +71,21 @@ const Basket = () => {
 
   // const [productsPerPage, setProductsPerPage] = useState(3);
 
-  const [perPageInput, setPerPageInput] = useState(3);
+    const [perPageInput, setPerPageInput] = useState('');
 
-  const lastProductIndex = currentPage * perPageInput;
-  const firstProductIndex = lastProductIndex - perPageInput;
-  const currentProducts = uniqueProductsTwo.length
-    ? uniqueProductsTwo.slice(firstProductIndex, lastProductIndex)
-    : [];
+    const lastProductIndex = currentPage * Number(limit);
+    const firstProductIndex = lastProductIndex - Number(limit);
+    const currentProducts = uniqueProductsTwo.length ? uniqueProductsTwo.slice(firstProductIndex, lastProductIndex) : [] ;
 
-  return (
-    <div className="basket">
-      <div className="basket__products">
-        <div className="basket__products-pagination">
-          <div className="basket__products-pagination-items">
-            <p>Items</p>
-            <input
-              className="page-input"
-              type="number"
-              min={1}
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setPerPageInput(
-                  Number(
-                    Number(e.currentTarget.value) >= 1
-                      ? e.currentTarget.value
-                      : perPageInput
-                  )
-                )
-              }
-            />
+    return (
+      <div className="basket">
+        <div className="basket__products">
+          <div className="basket__products-pagination">
+            <div className="basket__products-pagination-items">
+              <p>Items</p>
+              <input className="page-input" type="number" value={perPageInput} onChange={(e: React.FormEvent<HTMLInputElement>) => changeInput(e)} />
+            </div>
+            <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={Number(limit)} currentPage={currentPage} />
           </div>
           {products.length ? (
             currentProducts.map((item: dataProps, index: number) => (
