@@ -6,6 +6,7 @@ import Categories from "../../components/Category-filter/Category-filter";
 import Brand from "../../components/Brand-filter/Brand-filter";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
 import { TotalContext } from "../../totalContext";
+import { ICountType } from "../../types";
 
 const Catalog = () => {
   type dataProps = {
@@ -50,15 +51,16 @@ const Catalog = () => {
 
   const removeFromCart = (object: dataProps) => {
     setTotalPrice(totalPrice - object.price);
+    const isCounts = JSON.parse(localStorage.getItem('counts')!) !== null ? true : false;
     const counts = JSON.parse(localStorage.getItem('counts')!);
     const total = JSON.parse(localStorage.getItem('total')!);
-    setTotalPrice(total.price - object.price * counts[`${object.id}`]);
+    setTotalPrice(total.price - object.price * (isCounts ? counts[`${object.id}`] : 1));
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
-      price: total.price - object.price * counts[`${object.id}`]
+      price: total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
     }));
     const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
-    basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
+    basketProducts.sort().splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
