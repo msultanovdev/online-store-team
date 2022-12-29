@@ -1,11 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
-import { useEffect } from "react";
 import Categories from "../../components/Category-filter/Category-filter";
 import Brand from "../../components/Brand-filter/Brand-filter";
-import { Link } from "react-router-dom";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
 import { TotalContext } from "../../totalContext";
 
@@ -64,7 +62,7 @@ const Catalog = () => {
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
-  const [data, setData] = useState(db.products);
+  const data = db.products;
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>

@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useContext } from "react";
+import React, { useContext } from "react";
 import './BasketCard.css';
 import { TotalContext } from "../../totalContext";
 
@@ -36,7 +36,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
    const {totalPrice, setTotalPrice} = useContext(TotalContext);
 
-   const addToBasket = (e: React.MouseEvent<HTMLAnchorElement>, item: dataProps) => {
+   const addToBasket = (e: React.MouseEvent<HTMLButtonElement>, item: dataProps) => {
     e.preventDefault();
     let total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
@@ -48,7 +48,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
    }
 
-   const removeFromBasket = (e: React.MouseEvent<HTMLAnchorElement>, object: dataProps) => {
+   const removeFromBasket = (e: React.MouseEvent<HTMLButtonElement>, object: dataProps) => {
     e.preventDefault();
     let total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
@@ -64,7 +64,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
     return(
         <div className="basket-card">
             <div className="basket-card__thumbnail">
-                <img src={thumbnail} alt="item image" />
+                <img src={thumbnail} alt="item" />
             </div>
             <div className="basket-card__info">
                 <div className="basket-card__info-header">
@@ -87,9 +87,9 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
                     <p>Stock: {stock}</p>
                 </div>
                 <div className="basket-card__block-buttons">
-                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => addToBasket(e, item)} className="basket-btn">+</a>
+                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => addToBasket(e, item)} className="basket-btn">+</button>
                     <p className="basket-card__block-count">{counts[item.id]}</p>
-                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => removeFromBasket(e, item)} className="basket-btn">-</a>
+                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => removeFromBasket(e, item)} className="basket-btn">-</button>
                 </div>
                 <div className="basket-card__block-price">
                     <p>Price: {price}$</p>

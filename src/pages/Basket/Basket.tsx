@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
@@ -32,8 +32,8 @@ const Basket = () => {
 
     localStorage.setItem('uniqueProducts', JSON.stringify(uniqueProductsTwo));
     
-    const res = products.reduce((o, i) => {
-      if (!uniqueProductsTwo.find(v => v.id == i.id)) {
+    products.reduce((o, i) => {
+      if (!uniqueProductsTwo.find(v => v.id === i.id)) {
         uniqueProductsTwo.push(i);
       }
       return o;
@@ -53,13 +53,9 @@ const Basket = () => {
 
     let total = JSON.parse(localStorage.getItem('total')!);
 
-    useEffect(() => {
-      total = JSON.parse(localStorage.getItem('total')!);
-    }, [products]);
-
     const [currentPage, setCurrentPage] = useState(1);
     
-    const [productsPerPage, setProductsPerPage] = useState(3);
+    // const [productsPerPage, setProductsPerPage] = useState(3);
 
     const [perPageInput, setPerPageInput] = useState(3);
 
