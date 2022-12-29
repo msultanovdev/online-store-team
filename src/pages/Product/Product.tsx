@@ -27,7 +27,7 @@ const Product = () => {
 
   const addToCart = (object: itemType) => {
     isAdded(object);
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     setTotalPrice(total.price + object.price);
     localStorage.setItem('total', JSON.stringify({
       count: total.count + 1,
@@ -36,19 +36,22 @@ const Product = () => {
     setTotalPrice(totalPrice + object.price);
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    setButtonState(!buttonState);
   };
 
   const removeFromCart = (object: itemType) => {
-    let counts = JSON.parse(localStorage.getItem('counts')!);
-    let total = JSON.parse(localStorage.getItem('total')!);
-    setTotalPrice(total.price - object.price * counts[`${object.id}`]);
+    const counts = JSON.parse(localStorage.getItem('counts')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
+    const isCounts = JSON.parse(localStorage.getItem('counts')!) !== null ? true : false;
+    setTotalPrice(total.price - object.price * (isCounts ? counts[`${object.id}`] : 1));
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
-      price: total.price - object.price * counts[`${object.id}`]
+      price: total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
     }));
     const indexOfObj = basketProducts.findIndex((item: itemType) => item.id === object.id);
-    basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
+    basketProducts.sort().splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    setButtonState(!buttonState);
   };
 
   const isAdded = (item: itemType) => {
@@ -84,7 +87,7 @@ const Product = () => {
           <div className="product__content-thumbnail">
             <img
               src={image}
-              alt={data.title + "image"}
+              alt="item"
               className="product__content-thumbnail-img"
             />
           </div>
@@ -95,7 +98,7 @@ const Product = () => {
                 key={item}
                 onClick={() => changeMainImage(item)}
               >
-                <img src={item} alt="product-image" />
+                <img src={item} alt="item" />
               </div>
             ))}
           </div>
@@ -128,7 +131,6 @@ const Product = () => {
               <button
                 onClick={() => {
                   addToCart(data);
-                  setButtonState(!buttonState);
                 }}
                 className="btn"
               >
@@ -139,7 +141,6 @@ const Product = () => {
                 className="btn"
                 onClick={() => {
                   removeFromCart(data);
-                  setButtonState(!buttonState);
                 }}
               >
                 Remove From Cart

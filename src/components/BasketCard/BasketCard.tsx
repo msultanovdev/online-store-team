@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useContext } from "react";
+import React, { useContext } from "react";
 import './BasketCard.css';
 import { TotalContext } from "../../totalContext";
 
@@ -28,17 +28,18 @@ type basketCardTypes = {
     stock: number,
     price: number,
     item: dataProps,
-    counts: countType
+    counts: countType,
+    index: number
 }
 
-const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts}: basketCardTypes) => {
-   let basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
+const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts, index}: basketCardTypes) => {
+   const basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
 
    const {totalPrice, setTotalPrice} = useContext(TotalContext);
 
-   const addToBasket = (e: React.MouseEvent<HTMLAnchorElement>, item: dataProps) => {
+   const addToBasket = (e: React.MouseEvent<HTMLButtonElement>, item: dataProps) => {
     e.preventDefault();
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
       count: total.count + 1,
       price: total.price + item.price
@@ -48,9 +49,9 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
    }
 
-   const removeFromBasket = (e: React.MouseEvent<HTMLAnchorElement>, object: dataProps) => {
+   const removeFromBasket = (e: React.MouseEvent<HTMLButtonElement>, object: dataProps) => {
     e.preventDefault();
-    let total = JSON.parse(localStorage.getItem('total')!);
+    const total = JSON.parse(localStorage.getItem('total')!);
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
       price: total.price - item.price
@@ -63,8 +64,11 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
 
     return(
         <div className="basket-card">
+            <div className="basket-card-number">
+                <p>{index}</p>
+            </div>
             <div className="basket-card__thumbnail">
-                <img src={thumbnail} alt="item image" />
+                <img src={thumbnail} alt="item" />
             </div>
             <div className="basket-card__info">
                 <div className="basket-card__info-header">
@@ -87,9 +91,9 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
                     <p>Stock: {stock}</p>
                 </div>
                 <div className="basket-card__block-buttons">
-                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => addToBasket(e, item)} className="basket-btn">+</a>
+                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => addToBasket(e, item)} className="basket-btn">+</button>
                     <p className="basket-card__block-count">{counts[item.id]}</p>
-                    <a onClick={(e: React.MouseEvent<HTMLAnchorElement>) => removeFromBasket(e, item)} className="basket-btn">-</a>
+                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => removeFromBasket(e, item)} className="basket-btn">-</button>
                 </div>
                 <div className="basket-card__block-price">
                     <p>Price: {price}$</p>

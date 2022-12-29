@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./Basket.css";
+import React, { useContext, useState } from "react";
+import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
 import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
 import { TotalContext } from "../../totalContext";
-
-interface countType {
-  [key: string]: number;
-}
+import { ICountType } from "../../types";
 
 type dataProps = {
   id: number;
@@ -24,22 +21,20 @@ type dataProps = {
 };
 
 const Basket = () => {
-  const basketProducts = localStorage.getItem("basketProducts");
-  const products: dataProps[] = basketProducts
-    ? JSON.parse(basketProducts)
-    : [];
-  let uniqueProductsTwo: dataProps[] = [];
+    const basketProducts = localStorage.getItem('basketProducts');
+    const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
+    const uniqueProductsTwo: dataProps[] = [];
 
   const { totalPrice } = useContext(TotalContext);
 
-  localStorage.setItem("uniqueProducts", JSON.stringify(uniqueProductsTwo));
-
-  const res = products.reduce((o, i) => {
-    if (!uniqueProductsTwo.find((v) => v.id == i.id)) {
-      uniqueProductsTwo.push(i);
-    }
-    return o;
-  }, []);
+    localStorage.setItem('uniqueProducts', JSON.stringify(uniqueProductsTwo));
+    
+    products.reduce((o, i) => {
+      if (!uniqueProductsTwo.find(v => v.id === i.id)) {
+        uniqueProductsTwo.push(i);
+      }
+      return o;
+    }, []);
 
   localStorage.setItem(
     "total",
@@ -51,22 +46,18 @@ const Basket = () => {
     })
   );
 
-  let counts: countType = {};
-  products.forEach(function (a) {
-    counts[a.id] = counts[a.id] + 1 || 1;
-  });
+    const counts: ICountType = {}
+    products.forEach(function(a){
+      counts[a.id] = counts[a.id] + 1 || 1;
+    });
 
   localStorage.setItem("counts", JSON.stringify(counts));
 
-  let total = JSON.parse(localStorage.getItem("total")!);
+    const total = JSON.parse(localStorage.getItem('total')!);
 
-  useEffect(() => {
-    total = JSON.parse(localStorage.getItem("total")!);
-  }, [products]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [productsPerPage, setProductsPerPage] = useState(3);
+    const [currentPage, setCurrentPage] = useState(1);
+    
+    // const [productsPerPage, setProductsPerPage] = useState(3);
 
   const [perPageInput, setPerPageInput] = useState(3);
 
@@ -97,48 +88,30 @@ const Basket = () => {
               }
             />
           </div>
-          <BasketPagination
-            totalProducts={uniqueProductsTwo.length}
-            setCurrentPage={setCurrentPage}
-            productsPerPage={perPageInput}
-            currentPage={currentPage}
-          />
+          { products.length ?
+            currentProducts.map((item: dataProps, index: number)  => 
+              <Link to={'/catalog/' + item.id} key={item.id}>
+                <BasketCard
+                  index={index + 1}
+                  counts={counts}
+                  item={item}
+                  title={item.title} 
+                  thumbnail={item.thumbnail} 
+                  description={item.description} 
+                  price={item.price}
+                  rating={item.rating}
+                  discountPercentage={item.discountPercentage}
+                  stock={item.stock}
+                />
+              </Link>
+            ) : <h3 style={{fontSize: '32px', textAlign: 'center', color: 'white', fontWeight: 900, letterSpacing: '4'}}>Basket is empty</h3>
+          }
         </div>
-        {products.length ? (
-          currentProducts.map((item: dataProps) => (
-            <Link to={"/catalog/" + item.id} key={item.id}>
-              <BasketCard
-                counts={counts}
-                item={item}
-                title={item.title}
-                thumbnail={item.thumbnail}
-                description={item.description}
-                price={item.price}
-                rating={item.rating}
-                discountPercentage={item.discountPercentage}
-                stock={item.stock}
-              />
-            </Link>
-          ))
-        ) : (
-          <h3
-            style={{
-              fontSize: "32px",
-              textAlign: "center",
-              color: "white",
-              fontWeight: 900,
-              letterSpacing: "4",
-            }}
-          >
-            Basket is empty
-          </h3>
-        )}
+        <div className="basket__summary">
+          <Summary total={totalPrice} amountProducts={total.count} />
+        </div>
       </div>
-      <div className="basket__summary">
-        <Summary total={totalPrice} amountProducts={total.count} />
-      </div>
-    </div>
-  );
-};
+    );
+}
 
 export default Basket;

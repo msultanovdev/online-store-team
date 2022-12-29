@@ -28,7 +28,7 @@ function Categories() {
   return (
     <div className="category">
       {searchCategory.map((value, i) => (
-        <div className="category__checkbox">
+        <div key={i} className="category__checkbox">
           <input key={i} type="checkbox" />
           <label>{value}</label>
           <span>(5/5)</span>
