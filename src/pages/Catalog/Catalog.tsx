@@ -8,6 +8,7 @@ import Brand from "../../components/Brand-filter/Brand-filter";
 import { Link } from "react-router-dom";
 import SortOptions from "../../components/Sort-filters/Sort-filter";
 
+
 const Catalog = () => {
   type dataProps = {
     id: number;
@@ -22,7 +23,7 @@ const Catalog = () => {
     thumbnail: string;
     images: string[];
   };
-
+ 
   // useEffect(() => {
   //     localStorage.setItem('basketProducts', `[]`);
   // }, []);
@@ -31,10 +32,11 @@ const Catalog = () => {
   );
 
   const isAdded = (item: dataProps) => {
-    if(basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
+    if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
       return true;
-    } return false;
-  }
+    }
+    return false;
+  };
 
   const addToCart = (object: dataProps) => {
     isAdded(object);
@@ -43,11 +45,13 @@ const Catalog = () => {
   };
 
   const removeFromCart = (object: dataProps) => {
-    let counts = JSON.parse(localStorage.getItem('counts')!);
-    const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
+    let counts = JSON.parse(localStorage.getItem("counts")!);
+    const indexOfObj = basketProducts.findIndex(
+      (item: dataProps) => item.id === object.id
+    );
     basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-  }
+  };
 
   const [data, setData] = useState(db.products);
   const [searchValue, setSearchValue] = React.useState("");

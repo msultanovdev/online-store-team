@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
 
-const ModalWindow = ({active, setActive}) => {
+const ModalWindow = () => {
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
   const [name, setName] = useState("");
