@@ -71,9 +71,10 @@ const Basket = () => {
             <BasketPagination totalProducts={uniqueProductsTwo.length} setCurrentPage={setCurrentPage} productsPerPage={perPageInput} currentPage={currentPage} />
           </div>
           { products.length ?
-            currentProducts.map((item: dataProps)  => 
+            currentProducts.map((item: dataProps, index: number)  => 
               <Link to={'/catalog/' + item.id} key={item.id}>
                 <BasketCard
+                  index={index + 1}
                   counts={counts}
                   item={item}
                   title={item.title} 
