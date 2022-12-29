@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { TotalContext } from "../../totalContext";
 
 type dataProps = {
   id: number;
@@ -16,17 +17,7 @@ type dataProps = {
 }
 
 const Header = () => {
-  // let basketProducts = localStorage.getItem('basketProducts');
-  // let products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
-  // let total = JSON.parse(localStorage.getItem('total')!);
-
-  // useEffect(() => {
-  //   total = JSON.parse(localStorage.getItem('total')!);
-  //   setPrice(total.price);
-  // }, [products]);
-
-  // const [price, setPrice] = useState(total.price);
-  // const [amount, setAmount] = useState(total.count);
+  const {totalPrice} = useContext(TotalContext);
 
   return (
     <header className="header">
@@ -38,7 +29,7 @@ const Header = () => {
           {/* <Link to="/catalog">Catalog</Link> */}
         </div>
         <div className="header__price">
-          <p>Cart Total: 0$</p>
+          <p>Cart Total: {totalPrice}$</p>
         </div>
         <Link to="/basket" className="sidebar__links-basket">
           &#128722;
