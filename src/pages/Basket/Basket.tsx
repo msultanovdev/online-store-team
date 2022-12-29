@@ -5,10 +5,7 @@ import { Link } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
 import { TotalContext } from "../../totalContext";
-
-interface countType {
-  [key: string]: number
-}
+import { ICountType } from "../../types";
 
 type dataProps = {
   id: number;
@@ -44,7 +41,7 @@ const Basket = () => {
       price: products?.length && products.reduce((prev, curr) => prev + curr.price, 0)
     }));
 
-    let counts: countType = {}
+    let counts: ICountType = {}
     products.forEach(function(a){
       counts[a.id] = counts[a.id] + 1 || 1;
     });

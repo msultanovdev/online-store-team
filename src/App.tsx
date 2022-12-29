@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import { TotalContext } from "./totalContext";
+import { ICountType, totalType } from "./types";
 
 function App() {
 
-  let total = JSON.parse(localStorage.getItem('total')!);
+  useEffect(() => {
+    if(localStorage.length === 0) {
+      localStorage.setItem('total', JSON.stringify({
+        count: 0,
+        price: 0
+      }));
+      localStorage.setItem('basketProducts', JSON.stringify([]));
+    }
+  }, [])
+
+  let total: totalType = JSON.parse(localStorage.getItem('total')!) !== null ? JSON.parse(localStorage.getItem('total')!) : 0;
   const [totalPrice, setTotalPrice] = useState(total.price);
 
   return (
