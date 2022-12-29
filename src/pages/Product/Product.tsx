@@ -49,7 +49,7 @@ const Product = () => {
       price: total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
     }));
     const indexOfObj = basketProducts.findIndex((item: itemType) => item.id === object.id);
-    basketProducts.sort().splice(indexOfObj, counts[`${object.id}`]);
+    basketProducts.sort().splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
     setButtonState(!buttonState);
   };
