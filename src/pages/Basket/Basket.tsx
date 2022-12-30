@@ -7,6 +7,7 @@ import BasketPagination from "../../components/BasketPagination/BasketPagination
 import { TotalContext } from "../../totalContext";
 import { ICountType } from "../../types";
 
+
 type dataProps = {
   id: number;
   title: string;
