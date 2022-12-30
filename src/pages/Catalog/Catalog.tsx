@@ -75,6 +75,7 @@ const Catalog = () => {
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
+  //filters
   const data = db.products;
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
@@ -82,7 +83,6 @@ const Catalog = () => {
   ): void => {
     setSearchValue(event.target.value);
   };
-  //filters
   //filters category
   const searchCategory = [
     "smartphones",
