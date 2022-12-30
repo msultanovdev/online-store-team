@@ -84,8 +84,7 @@ const ModalWindow = ({ active, setActive }: modalType) => {
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    const re =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const re = /.+@.+\..+/i;
     if (!re.test(String(e.target.value).toLowerCase())) {
       setEmailError("Uncorrect email");
     } else {
@@ -136,8 +135,8 @@ const ModalWindow = ({ active, setActive }: modalType) => {
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
     const phoneNum: string = e.target.value;
-    let phoneRes = phoneNum.split("");
-    let reg = /[\p{Alpha}\p{M}\p{Pc}]/gu;
+    const phoneRes = phoneNum.split("");
+    //let reg = /[\p{Alpha}\p{M}\p{Pc}]/gu;
     console.log(phoneRes);
     // if (phoneRes.length >= 9) {
     const phoneNumber: string[] = phoneRes;
@@ -184,7 +183,7 @@ const ModalWindow = ({ active, setActive }: modalType) => {
   };
   const cardCvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardCvv(e.target.value);
-    let cvv: string = e.target.value;
+    const cvv: string = e.target.value;
     if (cvv.length != 3) {
       setCardCvvError("use 3 simbols");
     } else {
