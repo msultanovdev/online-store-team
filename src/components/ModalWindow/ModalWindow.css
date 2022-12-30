@@ -3,22 +3,20 @@
 }
 
 .modal__window {
-    width: 100%;
+    width: 100vh;
     height: 100vh;
-    background-color: rgba(207, 78, 78, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
-    opacity: 0;
+    transform: scale(0);
 }
 
 .modal__window.active {
-    opacity: 1;
-    pointer-events: all;
+    transform: scale(1);
 }
 
 input {
@@ -33,10 +31,4 @@ input {
     font-family: "Comic Sans MS", cursive, sans-serif;
     background-color: black;
     padding: 50px 50px 50px 50px;
-    transform: scale(0.5);
-    transition: 0.4s all;
-}
-
-.modal__form.active {
-    transform: scale(1);
 }
