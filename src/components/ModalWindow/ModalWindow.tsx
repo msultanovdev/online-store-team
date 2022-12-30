@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 
 import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
-
-const ModalWindow = () => {
+type modalType = {
+  active: boolean;
+  setActive: (active: boolean) => void;
+};
+const ModalWindow = ({ active, setActive }: modalType) => {
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
   const [name, setName] = useState("");
@@ -81,8 +84,7 @@ const ModalWindow = () => {
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    const re =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const re = /.+@.+\..+/i;
     if (!re.test(String(e.target.value).toLowerCase())) {
       setEmailError("Uncorrect email");
     } else {
@@ -133,8 +135,8 @@ const ModalWindow = () => {
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
     const phoneNum: string = e.target.value;
-    let phoneRes = phoneNum.split("");
-    //let reg = /^[0-9]+$/;
+    const phoneRes = phoneNum.split("");
+    //let reg = /[\p{Alpha}\p{M}\p{Pc}]/gu;
     console.log(phoneRes);
     // if (phoneRes.length >= 9) {
     const phoneNumber: string[] = phoneRes;
@@ -142,6 +144,8 @@ const ModalWindow = () => {
       setPhoneError("Please start with +");
     } else if (phoneNumber.length < 9) {
       setPhoneError("You can use minimum 9 simbols");
+    } else if (phoneNumber.includes("/[p{Alpha}p{M}p{Pc}]/gu")) {
+      setPhoneError("Use only numbers");
     } else {
       setPhoneError("");
     }
@@ -179,7 +183,7 @@ const ModalWindow = () => {
   };
   const cardCvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardCvv(e.target.value);
-    let cvv: string = e.target.value;
+    const cvv: string = e.target.value;
     if (cvv.length != 3) {
       setCardCvvError("use 3 simbols");
     } else {
@@ -187,8 +191,14 @@ const ModalWindow = () => {
     }
   };
   return (
-    <div className="modal__window">
-      <div className="modal__form">
+    <div
+      className={active ? "modal__window active" : "modal__window"}
+      onClick={() => setActive(false)}
+    >
+      <div
+        className={active ? "modal__form active" : "modal__form"}
+        onClick={(e) => e.stopPropagation()}
+      >
         <form>
           <div className="form__form-content">
             <div className="modal__window-title">Personal Details</div>
