@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
@@ -75,7 +75,6 @@ const Catalog = () => {
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
 
-  //filters
   const data = db.products;
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
@@ -83,7 +82,15 @@ const Catalog = () => {
   ): void => {
     setSearchValue(event.target.value);
   };
+  //filters
   //filters category
+  const [category, setCategory] = useState("");
+  const onChangecategory = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setCategory(event.target.value);
+    console.log(event.target.value);
+  };
   const searchCategory = [
     "smartphones",
     "laptops",
@@ -180,10 +187,11 @@ const Catalog = () => {
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
-                {searchCategory.map((value, i) => (
-                  <div key={i} className="category__checkbox">
-                    <input key={i} type="checkbox" />
-                    <label>{value}</label>
+                {searchCategory.map((value, index) => (
+                 
+                  <div className="category__checkbox">
+                    <input type="checkbox" onChange={() => onChangecategory} />
+                    <label key={index}>{value}</label>
                     <span>(5/5)</span>
                   </div>
                 ))}
@@ -264,7 +272,10 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        data.category
+                        (data.category,
+                        data.title,
+                        data.description,
+                        data.brand)
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
