@@ -42,3 +42,12 @@ input {
 .modal__form.active {
     transform: scale(1);
 }
+
+.credit__card {
+    background-color: brown;
+}
+
+.img__modal {
+    width: 55px;
+    height: 55px;
+}

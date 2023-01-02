@@ -1,8 +1,8 @@
 import { validateHeaderValue } from "http";
 import React, { useEffect, useState } from "react";
-
 import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
+
 type ModalType = {
   active: boolean;
   setActive: (active: boolean) => void;
@@ -32,6 +32,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   const [cartDateError, setCardDateError] = useState("");
   const [cardCvvError, setCardCvvError] = useState("");
   const [formValid, setFormvalid] = useState(false);
+
   useEffect(() => {
     if (
       emailError ||
@@ -136,7 +137,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
     setPhone(e.target.value);
     const phoneNum: string = e.target.value;
     const phoneRes = phoneNum.split("");
-    //let reg = /^[0-9]+$/;
+
     console.log(phoneRes);
     // if (phoneRes.length >= 9) {
     const phoneNumber: string[] = phoneRes;
@@ -188,6 +189,9 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
       setCardCvvError("");
     }
   };
+  const [image, setImage] = useState(
+    "../../src/assets/free-icon-credit-card-147258.png"
+  );
   return (
     <div
       className={active ? "modal__window active" : "modal__window"}
@@ -254,6 +258,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
               )}
               <div className="credit__card">
                 <div className="credit__card-title">Credit Card</div>
+                <img src={image} alt="" className="img__modal" />
                 <input
                   onChange={(e) => cardNumberHandler(e)}
                   onBlur={(e) => blurEffect(e)}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
@@ -84,13 +84,14 @@ const Catalog = () => {
   };
   //filters
   //filters category
+
   const [category, setCategory] = useState("");
   const onChangecategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setCategory(event.target.value);
-    console.log(event.target.value);
   };
+
   const searchCategory = [
     "smartphones",
     "laptops",
@@ -109,10 +110,10 @@ const Catalog = () => {
     "womens-jewelerry",
     "sunglasses",
     "automotive",
-    "automotive",
     "motorcycle",
     "lighting",
   ];
+
   //brand filters
   const brandCategory = [
     "Apple",
@@ -187,14 +188,18 @@ const Catalog = () => {
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
-                {searchCategory.map((value, index) => (
-                 
-                  <div className="category__checkbox">
-                    <input type="checkbox" onChange={() => onChangecategory} />
-                    <label key={index}>{value}</label>
-                    <span>(5/5)</span>
-                  </div>
-                ))}
+                <div className="category">
+                  {searchCategory.map((value, index) => (
+                    <div className="category__checkbox" onClick={() => onChangecategory}>
+                      <input
+                        type="checkbox"
+                        onChange={() => onChangecategory}
+                      />
+                      <label key={index}>{value}</label>
+                      <span>(5/5)</span>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="brands">
                 <div className="filters__block-title">Brand</div>
