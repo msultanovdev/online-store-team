@@ -28,6 +28,7 @@ input {
     width: 100%;
     margin: 10px 0;
     padding: 10px;
+    cursor: pointer;
 }
 
 .modal__form {
@@ -43,11 +44,26 @@ input {
     transform: scale(1);
 }
 
-.credit__card {
-    background-color: brown;
+.modal__window-title,
+.credit__card-title {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1.5em;
 }
 
 .img__modal {
-    width: 55px;
-    height: 55px;
+    width: 35px;
+    height: 35px;
+}
+
+.submit__button {
+    font-size: 1em;
+    width: 85px;
+    height: 35px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+.submit__button:hover {
+    background-color: crimson;
 }
