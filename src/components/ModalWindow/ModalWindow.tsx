@@ -158,6 +158,9 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
     } else {
       setCardError("");
     }
+    if (cardNum[0] === "5") {
+      setImage()
+    }
   };
 
   const cardDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,8 +193,9 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
     }
   };
   const [image, setImage] = useState(
-    "../../src/assets/free-icon-credit-card-147258.png"
+    "../../assets/free-icon-credit-card-147258.png"
   );
+
   return (
     <div
       className={active ? "modal__window active" : "modal__window"}
