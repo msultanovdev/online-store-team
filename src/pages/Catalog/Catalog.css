@@ -157,10 +157,11 @@
 .search__block {
   position: relative;
 }
-
+/*
 .search__block-delete_element {
   position: absolute;
   right: 5px;
   top: -1px;
   cursor: pointer;
 }
+*/

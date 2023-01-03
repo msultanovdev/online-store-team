@@ -190,7 +190,11 @@ const Catalog = () => {
               <div className="category">
                 <div className="category">
                   {searchCategory.map((value, index) => (
-                    <div className="category__checkbox" onClick={() => onChangecategory}>
+                    <div
+                      key={index}
+                      className="category__checkbox"
+                      onClick={() => onChangecategory}
+                    >
                       <input
                         type="checkbox"
                         onChange={() => onChangecategory}
@@ -258,9 +262,7 @@ const Catalog = () => {
                     <div
                       className="search__block-delete_element"
                       onClick={() => setSearchValue("")}
-                    >
-                      &#10006;
-                    </div>
+                    ></div>
                   )}
                 </div>
                 <div className="view__block">
