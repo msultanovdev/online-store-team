@@ -9,9 +9,22 @@
     opacity: 0.9;
     transition: all 0.3s;
 }
+
 .card:hover {
     cursor: pointer;
     opacity: 1;
+}
+
+.column__cards-content {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(85, 95, 95);
+    width: 220px;
+    height: 450px;
+    padding: 10px;
+    margin: 10px;
+    opacity: 0.9;
+    transition: all 0.3s;
 }
 
 .card__content-thumbnail {
@@ -43,15 +56,18 @@
     /* font-family: 'Raleway', sans-serif; */
     font-family: 1em;
 }
+
 .card__content-buttons {
     margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .card__content-info {
     color: white;
 }
+
 .card__content-info span {
     font-weight: 900;
 }
@@ -74,11 +90,13 @@
     border-color: rgb(98, 161, 3);
     background-color: rgb(98, 161, 3);
 }
+
 .card-btn-remove {
     border: 2px solid rgb(175, 3, 3);
     background-color: transparent;
     width: 70%;
 }
+
 .card-btn-remove:hover {
     border-color: rgb(175, 3, 3);
     background-color: rgb(175, 3, 3);
@@ -88,6 +106,7 @@
     border: 1px solid lightgray;
     background-color: transparent;
 }
+
 .card-btn-details:hover {
     border-color: rgb(190, 190, 190);
     background-color: rgb(190, 190, 190);

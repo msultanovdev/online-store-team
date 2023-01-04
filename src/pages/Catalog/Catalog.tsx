@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
@@ -74,7 +74,9 @@ const Catalog = () => {
       .splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
-
+  //фильтры смена расположения карт
+  const [isSmall, setIsSmall] = useState(false);
+  //фильтр поисковой строки
   const data = db.products;
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
@@ -84,6 +86,14 @@ const Catalog = () => {
   };
   //filters
   //filters category
+
+  const [category, setCategory] = useState("");
+  const onChangecategory = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setCategory(event.target.value);
+  };
+
   const searchCategory = [
     "smartphones",
     "laptops",
@@ -102,10 +112,10 @@ const Catalog = () => {
     "womens-jewelerry",
     "sunglasses",
     "automotive",
-    "automotive",
     "motorcycle",
     "lighting",
   ];
+
   //brand filters
   const brandCategory = [
     "Apple",
@@ -180,10 +190,10 @@ const Catalog = () => {
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
-                {searchCategory.map((value, i) => (
-                  <div key={i} className="category__checkbox">
-                    <input key={i} type="checkbox" />
-                    <label>{value}</label>
+                {searchCategory.map((value, index) => (
+                  <div className="category__checkbox" key={index}>
+                    <input type="checkbox" onChange={() => onChangecategory} />
+                    <label key={index}>{value}</label>
                     <span>(5/5)</span>
                   </div>
                 ))}
@@ -245,18 +255,20 @@ const Catalog = () => {
                     <div
                       className="search__block-delete_element"
                       onClick={() => setSearchValue("")}
-                    >
-                      &#10006;
-                    </div>
+                    ></div>
                   )}
                 </div>
                 <div className="view__block">
-                  {/* <div className="view__block-small">
-                            <img src="../assets/free-icon-grid-lines-7375665.png" alt="ico-sort" className="img-big" />
-                        </div>
-                        <div className="view__block-big">
-                            <img src="../assets/free-icon-grid-lines-8234032.png" alt="ico-sort" className="img-small" />
-                        </div> */}
+                  <div className="view__block-small">
+                    <button className="sort" onClick={() => setIsSmall(true)}>
+                      Small
+                    </button>
+                  </div>
+                  <div className="view__block-big">
+                    <button className="sort" onClick={() => setIsSmall(false)}>
+                      Big
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="cards__container">
@@ -264,12 +276,16 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        data.category
+                        (data.category,
+                        data.title,
+                        data.description,
+                        data.brand)
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
                       .map((item) => (
                         <Card
+                          isSmall={isSmall}
                           isAdded={() => isAdded(item)}
                           id={item.id}
                           key={item.id}
