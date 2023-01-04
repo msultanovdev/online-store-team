@@ -3,11 +3,17 @@
     margin: 0;
     padding: 0;
     font-family: "Comic Sans MS", cursive, sans-serif;
-    background-image: linear-gradient(to right, #1abc9c, #16a085, #2ecc71, #27ae60, #3498db, #2980b9, #9b59b6, #8e44ad, #f1c40f, #f39c12, #e67e22, #d35400);
+    background: url('../../assets/original-28878eb207db1040ea729e475e12e7d6.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 85vh;
+    /* background-image: linear-gradient(to right, #1abc9c, #16a085, #2ecc71, #27ae60, #3498db, #2980b9, #9b59b6, #8e44ad, #f1c40f, #f39c12, #e67e22, #d35400);
     background-size: 400%;
     animation: bganimation 20s infinite;
     min-height: 85vh;
-    width: 100%;
+    width: 100%;*/
 }
 
 .main-page__content {
@@ -32,12 +38,15 @@
     0% {
         color: #073148;
     }
+
     50% {
         color: #2ced66;
     }
+
     75% {
         color: red
     }
+
     100% {
         color: #073148;
     }
