@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
@@ -86,13 +86,14 @@ const Catalog = () => {
   };
   //filters
   //filters category
+
   const [category, setCategory] = useState("");
   const onChangecategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setCategory(event.target.value);
-    console.log(event.target.value);
   };
+
   const searchCategory = [
     "smartphones",
     "laptops",
@@ -111,10 +112,10 @@ const Catalog = () => {
     "womens-jewelerry",
     "sunglasses",
     "automotive",
-    "automotive",
     "motorcycle",
     "lighting",
   ];
+
   //brand filters
   const brandCategory = [
     "Apple",
@@ -254,9 +255,7 @@ const Catalog = () => {
                     <div
                       className="search__block-delete_element"
                       onClick={() => setSearchValue("")}
-                    >
-                      &#10006;
-                    </div>
+                    ></div>
                   )}
                 </div>
                 <div className="view__block">

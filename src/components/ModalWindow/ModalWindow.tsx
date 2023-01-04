@@ -1,8 +1,9 @@
 import { validateHeaderValue } from "http";
 import React, { useEffect, useState } from "react";
-
 import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
+
+//const [image, setImage] = useState("");
 type ModalType = {
   active: boolean;
   setActive: (active: boolean) => void;
@@ -32,6 +33,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   const [cartDateError, setCardDateError] = useState("");
   const [cardCvvError, setCardCvvError] = useState("");
   const [formValid, setFormvalid] = useState(false);
+
   useEffect(() => {
     if (
       emailError ||
@@ -135,17 +137,26 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
     const phoneNum: string = e.target.value;
+    /*  const phoneRes = [0 - 9];
+    if (!phoneNum.toString().match(phoneRes)) {
+      setPhoneError("");
+    } else {
+      setPhoneError("Uncorrect phone");
+    }
+  */
     const phoneRes = phoneNum.split("");
-    //let reg = /^[0-9]+$/;
     console.log(phoneRes);
     // if (phoneRes.length >= 9) {
+    const phoneError = ["0 - 9"];
     const phoneNumber: string[] = phoneRes;
     if (phoneNumber[0] != "+") {
       setPhoneError("Please start with +");
     } else if (phoneNumber.length < 9) {
       setPhoneError("You can use minimum 9 simbols");
-    } else {
+    } else if (phoneNumber === phoneError) {
       setPhoneError("");
+    } else {
+      setPhoneError("Use numbers");
     }
     // }
   };
@@ -157,12 +168,20 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
     } else {
       setCardError("");
     }
+    /*
+    if (cardNum[0] === "4") {
+      setImage("");
+    } else if (cardNum[0] === "5") {
+      setImage("");
+    } else if (cardNum[0] === "2") {
+      setImage("");
+    }*/
   };
 
   const cardDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardDate(e.target.value);
-    let card: string = e.target.value;
-    if (card[0] !== "1" && card[0] !== "0") {
+    const card: string = e.target.value;
+    /*if (card[0] !== "1" && card[0] !== "0") {
       card = "";
     }
     if (card.length === 2) {
@@ -176,7 +195,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
       } else {
         card = card[0];
       }
-    }
+    }*/
     // }
   };
   const cardCvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -188,6 +207,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
       setCardCvvError("");
     }
   };
+
   return (
     <div
       className={active ? "modal__window active" : "modal__window"}
@@ -223,7 +243,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 type="tel"
                 name="phone_number"
                 list="tel-list"
-                placeholder="+7 (900) 123-45-67"
+                placeholder="+99865985463"
               ></input>
               {emailDirty && emailError && (
                 <div className="error">{emailError}</div>
@@ -249,11 +269,12 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 className="delivery"
                 placeholder="Enter your adress...."
               />
-              {cardNumberDirty && cardError && (
-                <div className="error">{cardError}</div>
-              )}
               <div className="credit__card">
                 <div className="credit__card-title">Credit Card</div>
+                <img src="" alt="" className="img__modal" />
+                {cardNumberDirty && cardError && (
+                  <div className="error">{cardError}</div>
+                )}
                 <input
                   onChange={(e) => cardNumberHandler(e)}
                   onBlur={(e) => blurEffect(e)}
@@ -261,6 +282,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                   type="number"
                   name="card-number"
                   className="credir__card-number"
+                  placeholder="0000 0000 0000 0000"
                 />
                 {cardDateDirty && cartDateError && (
                   <div className="error">{cartDateError}</div>
@@ -285,6 +307,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                   type="number"
                   name="card-cvv"
                   className="credit__card-cvv"
+                  placeholder="000"
                 />
               </div>
               <button
