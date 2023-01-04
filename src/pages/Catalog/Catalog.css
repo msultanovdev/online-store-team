@@ -154,17 +154,27 @@
   flex-wrap: wrap;
 }
 
-.column__cards-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  flex-wrap: wrap
-}
+
 
 .search__block {
   position: relative;
 }
+
+.sort {
+  width: 55px;
+  height: 25px;
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sort:hover {
+  background-color: crimson;
+}
+
 /*
 .search__block-delete_element {
   position: absolute;

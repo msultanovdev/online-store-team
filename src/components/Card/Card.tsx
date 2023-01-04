@@ -17,6 +17,7 @@ type dataProps = {
   addToCart: () => void;
   removeFromCart: () => void;
   isAdded: () => boolean;
+  isSmall:boolean;
 };
 
 const Card = ({
@@ -32,11 +33,12 @@ const Card = ({
   addToCart,
   removeFromCart,
   isAdded,
+  isSmall,
 }: dataProps) => {
   const [buttonState, setButtonState] = useState(isAdded());
 
   return (
-    <div className="card">
+    <div className={`card ${isSmall ? "column__cards-content" : ""}`}>
       <h3 className="card-title">{title}</h3>
       <div className="card__content">
         <div className="card__content-thumbnail">

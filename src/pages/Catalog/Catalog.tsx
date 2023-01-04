@@ -261,23 +261,19 @@ const Catalog = () => {
                 <div className="view__block">
                   <div className="view__block-small">
                     <button className="sort" onClick={() => setIsSmall(true)}>
-                      Column
+                      Small
                     </button>
                   </div>
                   <div className="view__block-big">
                     <button className="sort" onClick={() => setIsSmall(false)}>
-                      Row
+                      Big
                     </button>
                   </div>
                 </div>
               </div>
               <div className="cards__container">
                 <div className="cards__container-card">
-                  <div
-                    className={`cards__content ${
-                      isSmall ? "column__cards-content" : ""
-                    }`}
-                  >
+                  <div className="cards__content">
                     {data
                       .filter((data) =>
                         (data.category,
@@ -289,6 +285,7 @@ const Catalog = () => {
                       )
                       .map((item) => (
                         <Card
+                          isSmall={isSmall}
                           isAdded={() => isAdded(item)}
                           id={item.id}
                           key={item.id}
