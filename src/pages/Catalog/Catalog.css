@@ -154,6 +154,14 @@
   flex-wrap: wrap;
 }
 
+.column__cards-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap
+}
+
 .search__block {
   position: relative;
 }

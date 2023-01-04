@@ -74,7 +74,9 @@ const Catalog = () => {
       .splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
   };
-
+  //фильтры смена расположения карт
+  const [isSmall, setIsSmall] = useState(false);
+  //фильтр поисковой строки
   const data = db.products;
   const [searchValue, setSearchValue] = React.useState("");
   const onChangeSearchInput = (
@@ -188,8 +190,7 @@ const Catalog = () => {
               <div className="filters__block-title">Category</div>
               <div className="category">
                 {searchCategory.map((value, index) => (
-                 
-                  <div className="category__checkbox">
+                  <div className="category__checkbox" key={index}>
                     <input type="checkbox" onChange={() => onChangecategory} />
                     <label key={index}>{value}</label>
                     <span>(5/5)</span>
@@ -259,17 +260,25 @@ const Catalog = () => {
                   )}
                 </div>
                 <div className="view__block">
-                  {/* <div className="view__block-small">
-                            <img src="../assets/free-icon-grid-lines-7375665.png" alt="ico-sort" className="img-big" />
-                        </div>
-                        <div className="view__block-big">
-                            <img src="../assets/free-icon-grid-lines-8234032.png" alt="ico-sort" className="img-small" />
-                        </div> */}
+                  <div className="view__block-small">
+                    <button className="sort" onClick={() => setIsSmall(true)}>
+                      Column
+                    </button>
+                  </div>
+                  <div className="view__block-big">
+                    <button className="sort" onClick={() => setIsSmall(false)}>
+                      Row
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="cards__container">
                 <div className="cards__container-card">
-                  <div className="cards__content">
+                  <div
+                    className={`cards__content ${
+                      isSmall ? "column__cards-content" : ""
+                    }`}
+                  >
                     {data
                       .filter((data) =>
                         (data.category,
