@@ -85,6 +85,15 @@ const Catalog = () => {
     setSearchValue(event.target.value);
   };
   //filters
+  const [isPrice, setIsPrice] = useState("");
+  const sortByPrice = () => {
+    /*const temp = JSON.parse(JSON.stringify(db));
+    temp.forEach((parametr) => {
+      parametr.price = +parametr.price;  
+    });*/
+    const temp = db.products;
+    temp.sort((a, b) => (a.price > b.price ? 1 : -1));
+  };
   //filters category
 
   const [category, setCategory] = useState("");
@@ -225,7 +234,12 @@ const Catalog = () => {
                   {searchValue ? `Search by: "${searchValue}"` : "All products"}
                 </div>
                 <div className="sort__bar">
-                  <select name="" id="" className="sort__bar-list">
+                  <select
+                    name=""
+                    id=""
+                    className="sort__bar-list"
+                    onChange={sortByPrice}
+                  >
                     <option
                       value="sort-title"
                       disabled
