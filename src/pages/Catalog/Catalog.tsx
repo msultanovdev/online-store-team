@@ -3,7 +3,7 @@ import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
-import {searchCategory, brandCategory} from "../../consts";
+import { searchCategory, brandCategory } from "../../consts";
 
 const Catalog = () => {
   type dataProps = {
@@ -91,26 +91,38 @@ const Catalog = () => {
   const sortByPrice = (): void => {
     const temp = data.sort((a, b) => (a.price > b.price ? 1 : -1));
     setData(temp);
-  }
+  };
 
   const sortByPriceDesc = (): void => {
     const temp = data.sort((a, b) => (a.price < b.price ? 1 : -1));
     setData(temp);
-  }
-
+  };
+  const sortByRaiting = (): void => {
+    const temp = data.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+    setData(temp);
+  };
   useEffect(() => {
-    localStorage.setItem('data', JSON.stringify(data));
+    localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
-  
+  const sortByRaitingDesc = (): void => {
+    const temp = data.sort((a, b) => (a.rating < b.rating ? 1 : -1));
+    setData(temp);
+  };
   const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.currentTarget.value);
-    if(e.currentTarget.value === 'price-ASC') {
+    if (e.currentTarget.value === "price-ASC") {
       sortByPrice();
-      console.log(data)
+      console.log(data);
     }
-    if(e.currentTarget.value === 'price-DESC') {
+    if (e.currentTarget.value === "price-DESC") {
       sortByPriceDesc();
-      console.log(data)
+      console.log(data);
+    }
+    if (e.currentTarget.value === "rating-ASC") {
+      sortByRaiting();
+    }
+    if (e.currentTarget.value === "rating-DESC") {
+      sortByRaitingDesc();
     }
   };
   //filters category
@@ -173,7 +185,9 @@ const Catalog = () => {
                     id="sort"
                     className="sort__bar-list"
                     value={sortOption}
-                    onChange={ (e: React.ChangeEvent<HTMLSelectElement>) => sortByChange(e) }
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      sortByChange(e)
+                    }
                   >
                     <option
                       value="sort-title"
@@ -187,8 +201,6 @@ const Catalog = () => {
                     <option value="price-DESC">Sort by price DESC</option>
                     <option value="rating-ASC">Sort by raiting ASC</option>
                     <option value="rating-DESC">Sort by raiting DESC</option>
-                    <option value="discount-ASC">Sort by discount ASC</option>
-                    <option value="discount-DESC">Sort by descount DESC</option>
                   </select>
                 </div>
                 <div className="found__title">Found:1</div>
@@ -225,7 +237,7 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        (data.title)
+                        data.title
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
