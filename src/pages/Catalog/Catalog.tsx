@@ -237,7 +237,7 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        data.title
+                        (data.title + data.brand + data.category + data.stock + data.description + data.discountPercentage + data.price + data.rating)
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
