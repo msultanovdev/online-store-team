@@ -3,7 +3,7 @@ import "./Catalog.css";
 import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
-import { ICountType } from "../../types";
+import {searchCategory, brandCategory} from "../../consts";
 
 const Catalog = () => {
   type dataProps = {
@@ -77,22 +77,41 @@ const Catalog = () => {
   //фильтры смена расположения карт
   const [isSmall, setIsSmall] = useState(false);
   //фильтр поисковой строки
-  const data = db.products;
-  const [searchValue, setSearchValue] = React.useState("");
+  const [sortOption, setSortOption] = useState("");
+  const [data, setData] = useState(db.products);
+  const [searchValue, setSearchValue] = useState("");
+
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setSearchValue(event.target.value);
   };
   //filters
-  const [isPrice, setIsPrice] = useState("");
-  const sortByPrice = () => {
-    /*const temp = JSON.parse(JSON.stringify(db));
-    temp.forEach((parametr) => {
-      parametr.price = +parametr.price;  
-    });*/
-    const temp = db.products;
-    temp.sort((a, b) => (a.price > b.price ? 1 : -1));
+
+  const sortByPrice = (): void => {
+    const temp = data.sort((a, b) => (a.price > b.price ? 1 : -1));
+    setData(temp);
+  }
+
+  const sortByPriceDesc = (): void => {
+    const temp = data.sort((a, b) => (a.price < b.price ? 1 : -1));
+    setData(temp);
+  }
+
+  useEffect(() => {
+    localStorage.setItem('data', JSON.stringify(data));
+  }, [data]);
+  
+  const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.currentTarget.value);
+    if(e.currentTarget.value === 'price-ASC') {
+      sortByPrice();
+      console.log(data)
+    }
+    if(e.currentTarget.value === 'price-DESC') {
+      sortByPriceDesc();
+      console.log(data)
+    }
   };
   //filters category
 
@@ -103,91 +122,6 @@ const Catalog = () => {
     setCategory(event.target.value);
   };
 
-  const searchCategory = [
-    "smartphones",
-    "laptops",
-    "fragrances",
-    "skincare",
-    "groceries",
-    "home-decoration",
-    "furniture",
-    "tops",
-    "womens-dresses",
-    "womens-shoes",
-    "mens-shirts",
-    "mens-shoes",
-    "mens-watches",
-    "mens-bags",
-    "womens-jewelerry",
-    "sunglasses",
-    "automotive",
-    "motorcycle",
-    "lighting",
-  ];
-
-  //brand filters
-  const brandCategory = [
-    "Apple",
-    "Samsung",
-    "OPPO",
-    "Huawei",
-    "Microsoft Surface",
-    "Infinix",
-    "HP Pavilion",
-    "Impression of Acqua Di Gio",
-    "Royal_Mirage",
-    "Fog Scent Xpressio",
-    "Al Munakh",
-    "Lord - Al-Rehab",
-    "L'Oreal Paris",
-    "Hemani Tea",
-    "Dermive",
-    "ROREC White Rice",
-    "Fair & Clear",
-    "Saaf & Khaas",
-    "Bake Parlor Big",
-    "Baking Food Items",
-    "fauji",
-    "Dry Rose",
-    "Boho Decor",
-    "Flying Wooden",
-    "LED Lights",
-    "luxury palace",
-    "Golden",
-    "Furniture Bed Set",
-    "Ratttan Outdoor",
-    "Kitchen Shelf",
-    "Multi Purpose",
-    "AmnaMart",
-    "Professional Wear",
-    "Soft Cotton",
-    "Top Sweater",
-    "RED MICKY MOUSE..",
-    "Digital Printed",
-    "Ghazi Fabric",
-    "IELGY",
-    "IELGY fashion",
-    "Synthetic Leather",
-    "Sandals Flip Flops",
-    "Maasai Sandals",
-    "Arrivals Genuine",
-    "Vintage Apparel",
-    "FREE FIRE",
-    "The Warehouse",
-    "Sneakers",
-    "Rubber",
-    "Naviforce",
-    "SKMEI 9117",
-    "Strap Skeleton",
-    "Stainless",
-    "Eastern Watches",
-    "Luxury Digital",
-    "Watch Pearls",
-    "Bracelet",
-    "LouisWill",
-    "Copenhagen Luxe",
-    "Steal Frame",
-  ];
   return (
     <div className="catalog">
       <div className="catalog-container align-center">
@@ -235,10 +169,11 @@ const Catalog = () => {
                 </div>
                 <div className="sort__bar">
                   <select
-                    name=""
-                    id=""
+                    name="sort"
+                    id="sort"
                     className="sort__bar-list"
-                    onChange={sortByPrice}
+                    value={sortOption}
+                    onChange={ (e: React.ChangeEvent<HTMLSelectElement>) => sortByChange(e) }
                   >
                     <option
                       value="sort-title"
@@ -290,10 +225,7 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        (data.category,
-                        data.title,
-                        data.description,
-                        data.brand)
+                        (data.title)
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
