@@ -22,10 +22,15 @@ const Catalog = () => {
   };
 
   const { totalPrice, setTotalPrice } = useContext(TotalContext);
+  const [checked, setChecked] = useState<string[]>([]);
 
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
+
+  useEffect(() => {
+    categoryFilter();
+  }, [checked])
 
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
@@ -134,34 +139,49 @@ const Catalog = () => {
     "categoryFilterData",
     JSON.stringify(categoryFilterData)
   );
-  const [checked, setChecked] = useState<string[]>([]);
+  const toppings: boolean[] = [];
+  toppings.length = 19;
+  const [checkedState, setCheckedState] = useState(
+    new Array(toppings.length).fill(false)
+  );
+
+  const handleOnChange = (position: number) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  }
 
   const onChangeCategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    const currentIndex = checked.indexOf(event.currentTarget.value);
-    const newChecked = [...checked];
+      const currentIndex = checked.indexOf(event.currentTarget.value);
+      const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(event.currentTarget.value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
+      if (currentIndex === -1) {
+        newChecked.push(event.currentTarget.value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
     setChecked(newChecked);
-    for (let i = 0; i < checked.length; i++) {
-      console.log(checked[i]);
+  };
+  
+  const categoryFilter = () => {
+    for (let i = 0; i <= checked.length; i++) {
       const temp = db.products.filter((item) => item.category === checked[i]);
       categoryFilterData.push(...temp);
-      console.log(categoryFilterData);
     }
     checked.length ? setData(categoryFilterData) : setData(db.products);
-  };
+  }
+
+
+
   // filters dual slider
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(500);
   const [minStock, setMinStock] = useState(0);
   const [maxStock, setMaxStock] = useState(500);
+
   return (
     <div className="catalog">
       <div className="catalog-container align-center">
@@ -177,13 +197,19 @@ const Catalog = () => {
                 {searchCategory.map((value, index) => (
                   <div className="category__checkbox" key={index}>
                     <input
+                      checked={toppings[index]}
                       type="checkbox"
+                      name={value}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        onChangeCategory(e)
+                        {
+                          onChangeCategory(e);
+                          handleOnChange(index);
+                        }
                       }
+                      id={value}
                       value={value}
                     />
-                    <label key={index}>{value}</label>
+                    <label htmlFor={value} key={index}>{value}</label>
                     <span>(5/5)</span>
                   </div>
                 ))}
