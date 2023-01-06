@@ -4,6 +4,7 @@ import db from "../../assets/db.json";
 import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
 import { searchCategory, brandCategory } from "../../consts";
+import ReactSlider from "react-slider";
 
 const Catalog = () => {
   type dataProps = {
@@ -129,7 +130,10 @@ const Catalog = () => {
   //filters category
 
   const categoryFilterData: dataProps[] = [];
-  localStorage.setItem('categoryFilterData', JSON.stringify(categoryFilterData));
+  localStorage.setItem(
+    "categoryFilterData",
+    JSON.stringify(categoryFilterData)
+  );
   const [checked, setChecked] = useState<string[]>([]);
 
   const onChangeCategory = (
@@ -138,22 +142,26 @@ const Catalog = () => {
     const currentIndex = checked.indexOf(event.currentTarget.value);
     const newChecked = [...checked];
 
-    if(currentIndex === -1) {
+    if (currentIndex === -1) {
       newChecked.push(event.currentTarget.value);
     } else {
       newChecked.splice(currentIndex, 1);
     }
 
     setChecked(newChecked);
-    for(let i = 0; i < checked.length; i++) {
-      console.log(checked[i])
-      const temp = db.products.filter(item => item.category === checked[i]);
+    for (let i = 0; i < checked.length; i++) {
+      console.log(checked[i]);
+      const temp = db.products.filter((item) => item.category === checked[i]);
       categoryFilterData.push(...temp);
-      console.log(categoryFilterData)
+      console.log(categoryFilterData);
     }
     checked.length ? setData(categoryFilterData) : setData(db.products);
   };
-
+  // filters dual slider
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(500);
+  const [minStock, setMinStock] = useState(0);
+  const [maxStock, setMaxStock] = useState(500);
   return (
     <div className="catalog">
       <div className="catalog-container align-center">
@@ -162,35 +170,88 @@ const Catalog = () => {
             <div className="filters__block">
               <div className="reset__block">
                 <button className="reset__block-button">Reset Filters</button>
+                <button className="reset__block-button">Copy Filters</button>
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
                 {searchCategory.map((value, index) => (
                   <div className="category__checkbox" key={index}>
-                    <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeCategory(e)} value={value} />
+                    <input
+                      type="checkbox"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChangeCategory(e)
+                      }
+                      value={value}
+                    />
                     <label key={index}>{value}</label>
                     <span>(5/5)</span>
                   </div>
                 ))}
               </div>
+              <div className="filters__block-title">Brand</div>
               <div className="brands">
-                <div className="filters__block-title">Brand</div>
-                <div className="brands__list">
-                  <div className="brands__list-item">
-                    {brandCategory.map((value, i) => (
-                      <div key={i}>
-                        <input type="checkbox" />
-                        <label>{value}</label>
-                        <span>(0/1)</span>
-                      </div>
-                    ))}
+                {brandCategory.map((value, i) => (
+                  <div key={i} className="brand__checkbox">
+                    <input type="checkbox" />
+                    <label>{value}</label>
+                    <span>(0/1)</span>
                   </div>
+                ))}
+              </div>
+              <div className="price__block">
+                <div className="filters__block-title">Price</div>
+                <ReactSlider
+                  defaultValue={[min, max]}
+                  className="slider"
+                  trackClassName="tracker"
+                  min={0}
+                  max={500}
+                  minDistance={50}
+                  step={50}
+                  withTracks={true}
+                  pearling={true}
+                  renderThumb={(props) => {
+                    return <div {...props} className="thumb"></div>;
+                  }}
+                  renderTrack={(props) => {
+                    return <div {...props} className="track"></div>;
+                  }}
+                  onChange={([min, max]) => {
+                    setMin(min);
+                    setMax(max);
+                  }}
+                />
+                <div className="values-wrapper">
+                  <span>{min}</span>
+                  <span>{max}</span>
                 </div>
-                <div className="price__block">
-                  <div className="filters__block-title">Price</div>
-                </div>
-                <div className="stock__block">
-                  <div className="filters__block-title">Stock</div>
+              </div>
+              <div className="stock__block">
+                <div className="filters__block-title">Stock</div>
+                <ReactSlider
+                  defaultValue={[minStock, maxStock]}
+                  className="slider"
+                  trackClassName="tracker"
+                  min={0}
+                  max={500}
+                  minDistance={50}
+                  step={50}
+                  withTracks={true}
+                  pearling={true}
+                  renderThumb={(props) => {
+                    return <div {...props} className="thumb"></div>;
+                  }}
+                  renderTrack={(props) => {
+                    return <div {...props} className="track"></div>;
+                  }}
+                  onChange={([minStock, maxStock]) => {
+                    setMinStock(minStock);
+                    setMaxStock(maxStock);
+                  }}
+                />
+                <div className="values-wrapper">
+                  <span>{minStock}</span>
+                  <span>{maxStock}</span>
                 </div>
               </div>
             </div>
@@ -257,7 +318,16 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        (data.title + data.brand + data.category + data.stock + data.description + data.discountPercentage + data.price + data.rating)
+                        (
+                          data.title +
+                          data.brand +
+                          data.category +
+                          data.stock +
+                          data.description +
+                          data.discountPercentage +
+                          data.price +
+                          data.rating
+                        )
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )
