@@ -101,22 +101,23 @@ const Catalog = () => {
     const temp = data.sort((a, b) => (a.rating > b.rating ? 1 : -1));
     setData(temp);
   };
+
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
+
   const sortByRaitingDesc = (): void => {
     const temp = data.sort((a, b) => (a.rating < b.rating ? 1 : -1));
     setData(temp);
   };
+
   const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.currentTarget.value);
     if (e.currentTarget.value === "price-ASC") {
       sortByPrice();
-      console.log(data);
     }
     if (e.currentTarget.value === "price-DESC") {
       sortByPriceDesc();
-      console.log(data);
     }
     if (e.currentTarget.value === "rating-ASC") {
       sortByRaiting();
@@ -127,11 +128,30 @@ const Catalog = () => {
   };
   //filters category
 
-  const [category, setCategory] = useState("");
-  const onChangecategory = (
+  const categoryFilterData: dataProps[] = [];
+  localStorage.setItem('categoryFilterData', JSON.stringify(categoryFilterData));
+  const [checked, setChecked] = useState<string[]>([]);
+
+  const onChangeCategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setCategory(event.target.value);
+    const currentIndex = checked.indexOf(event.currentTarget.value);
+    const newChecked = [...checked];
+
+    if(currentIndex === -1) {
+      newChecked.push(event.currentTarget.value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+    for(let i = 0; i < checked.length; i++) {
+      console.log(checked[i])
+      const temp = db.products.filter(item => item.category === checked[i]);
+      categoryFilterData.push(...temp);
+      console.log(categoryFilterData)
+    }
+    checked.length ? setData(categoryFilterData) : setData(db.products);
   };
   // filters dual slider
   const [minPriceSlaider, setMinPriceSlaider] = useState(0);
@@ -150,7 +170,7 @@ const Catalog = () => {
               <div className="category">
                 {searchCategory.map((value, index) => (
                   <div className="category__checkbox" key={index}>
-                    <input type="checkbox" onChange={() => onChangecategory} />
+                    <input type="checkbox" onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeCategory(e)} value={value} />
                     <label key={index}>{value}</label>
                     <span>(5/5)</span>
                   </div>
@@ -240,7 +260,7 @@ const Catalog = () => {
                   <div className="cards__content">
                     {data
                       .filter((data) =>
-                        data.title
+                        (data.title + data.brand + data.category + data.stock + data.description + data.discountPercentage + data.price + data.rating)
                           .toLowerCase()
                           .includes(searchValue.toLowerCase())
                       )

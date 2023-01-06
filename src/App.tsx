@@ -12,7 +12,8 @@ function App() {
   const [totalPrice, setTotalPrice] = useState(total.price);
 
   useEffect(() => {
-    if(localStorage.length === 0) {
+    if(localStorage.length <= 1) {
+      console.log('useEffect')
       setTotalPrice(0);
       localStorage.setItem('total', JSON.stringify({
         count: 0,
