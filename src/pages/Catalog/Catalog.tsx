@@ -128,14 +128,12 @@ const Catalog = () => {
     }
   };
   //filters category
-
   const categoryFilterData: dataProps[] = [];
   localStorage.setItem(
     "categoryFilterData",
     JSON.stringify(categoryFilterData)
   );
   const [checked, setChecked] = useState<string[]>([]);
-
   const onChangeCategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
