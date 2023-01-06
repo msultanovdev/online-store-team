@@ -230,7 +230,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 value={name}
                 type="text"
                 name="name"
-                className="modal__window-name"
+                className="modal__window-name modal__window-input"
                 placeholder="Enter your first/last name...."
               />
               {phoneDirty && phoneError && (
@@ -244,6 +244,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 name="phone_number"
                 list="tel-list"
                 placeholder="+99865985463"
+                className="modal__window-input"
               ></input>
               {emailDirty && emailError && (
                 <div className="error">{emailError}</div>
@@ -254,7 +255,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 value={email}
                 name="email"
                 type="text"
-                className="email"
+                className="email modal__window-input"
                 placeholder="Enter your email...."
               />
               {deliveryDirty && deliveryError && (
@@ -266,7 +267,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 value={delivery}
                 name="delivery"
                 type="text"
-                className="delivery"
+                className="delivery modal__window-input"
                 placeholder="Enter your adress...."
               />
               <div className="credit__card">
@@ -281,7 +282,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                   value={cardNumber}
                   type="number"
                   name="card-number"
-                  className="credir__card-number"
+                  className="credir__card-number modal__window-input"
                   placeholder="0000 0000 0000 0000"
                 />
                 {cardDateDirty && cartDateError && (
@@ -293,7 +294,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                   value={cardDate}
                   type="string"
                   name="card-date"
-                  className="credit__card-date"
+                  className="credit__card-date modal__window-input"
                   placeholder="MM/YY"
                   maxLength={5}
                 />
@@ -306,7 +307,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                   onBlur={(e) => blurEffect(e)}
                   type="number"
                   name="card-cvv"
-                  className="credit__card-cvv"
+                  className="credit__card-cvv modal__window-input"
                   placeholder="000"
                 />
               </div>
