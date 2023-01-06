@@ -133,6 +133,9 @@ const Catalog = () => {
   ): void => {
     setCategory(event.target.value);
   };
+  // filters dual slider
+  const [minPriceSlaider, setMinPriceSlaider] = useState(0);
+  const [maxPriceSlaider, setMaxPriceSlaider] = useState(1000);
 
   return (
     <div className="catalog">
