@@ -180,6 +180,16 @@ const Catalog = () => {
     setChecked(newChecked);
   };
 
+  const onPriceChange = () => {
+    const priceFilterData = priceFilter();
+    setData(priceFilterData);
+  }
+  
+  const onStockChange = () => {
+    const stockFilterData = stockFilter();
+    setData(stockFilterData);
+  }
+
   const categoryFilter = () => {
     for (let i = 0; i <= checked.length; i++) {
       const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
@@ -195,6 +205,27 @@ const Catalog = () => {
     }
     return brandFilterData;
   }
+
+  const priceFilter = () => {
+    return db.products.filter(item => {
+      if(item.price >= min && item.price <= max) {
+        return item;
+      }
+    })
+  }
+
+  const stockFilter = () => {
+    return db.products.filter(item => {
+      if(item.stock >= minStock && item.stock <= maxStock) {
+        return item;
+      }
+    })
+  }
+
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(1749);
+  const [minStock, setMinStock] = useState(2);
+  const [maxStock, setMaxStock] = useState(150);
 
   useEffect(() => {
     if(checked.length && checkedBrand.length) {
@@ -230,14 +261,12 @@ const Catalog = () => {
     } else {
       setData(db.products);
     }
+
+    // setData()
     
-  }, [checked, checkedBrand])
+  }, [checked, checkedBrand]);
 
   // filters dual slider
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(500);
-  const [minStock, setMinStock] = useState(0);
-  const [maxStock, setMaxStock] = useState(500);
 
   return (
     <div className="catalog">
@@ -294,9 +323,9 @@ const Catalog = () => {
                   className="slider"
                   trackClassName="tracker"
                   min={0}
-                  max={500}
-                  minDistance={50}
-                  step={50}
+                  max={1749}
+                  minDistance={1}
+                  step={1}
                   withTracks={true}
                   pearling={true}
                   renderThumb={(props) => {
@@ -308,6 +337,7 @@ const Catalog = () => {
                   onChange={([min, max]) => {
                     setMin(min);
                     setMax(max);
+                    onPriceChange();
                   }}
                 />
                 <div className="values-wrapper">
@@ -321,10 +351,10 @@ const Catalog = () => {
                   defaultValue={[minStock, maxStock]}
                   className="slider"
                   trackClassName="tracker"
-                  min={0}
-                  max={500}
-                  minDistance={50}
-                  step={50}
+                  min={2}
+                  max={150}
+                  minDistance={1}
+                  step={1}
                   withTracks={true}
                   pearling={true}
                   renderThumb={(props) => {
@@ -336,6 +366,7 @@ const Catalog = () => {
                   onChange={([minStock, maxStock]) => {
                     setMinStock(minStock);
                     setMaxStock(maxStock);
+                    onStockChange();
                   }}
                 />
                 <div className="values-wrapper">
