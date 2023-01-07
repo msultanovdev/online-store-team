@@ -5,6 +5,7 @@ import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
 import { searchCategory, brandCategory } from "../../consts";
 import ReactSlider from "react-slider";
+import { useNavigate } from "react-router-dom";
 
 const Catalog = () => {
   type dataProps = {
@@ -130,7 +131,6 @@ const Catalog = () => {
     }
   };
   //filters category
-
   const categoryFilterData: dataProps[] = [];
   const brandFilterData: dataProps[] = [];
 
@@ -169,17 +169,17 @@ const Catalog = () => {
   const onChangeCategory = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-      const currentIndex = checked.indexOf(event.currentTarget.value);
-      const newChecked = [...checked];
+    const currentIndex = checked.indexOf(event.currentTarget.value);
+    const newChecked = [...checked];
 
-      if (currentIndex === -1) {
-        newChecked.push(event.currentTarget.value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
+    if (currentIndex === -1) {
+      newChecked.push(event.currentTarget.value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
     setChecked(newChecked);
   };
-  
+
   const categoryFilter = () => {
     for (let i = 0; i <= checked.length; i++) {
       const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
@@ -257,16 +257,16 @@ const Catalog = () => {
                       checked={toppings[index]}
                       type="checkbox"
                       name={value}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        {
-                          onChangeCategory(e);
-                          handleOnChange(index);
-                        }
-                      }
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChangeCategory(e);
+                        handleOnChange(index);
+                      }}
                       id={value}
                       value={value}
                     />
-                    <label htmlFor={value} key={index}>{value}</label>
+                    <label htmlFor={value} key={index}>
+                      {value}
+                    </label>
                     <span>(5/5)</span>
                   </div>
                 ))}
