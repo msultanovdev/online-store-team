@@ -29,27 +29,6 @@ const Catalog = () => {
     localStorage.getItem("basketProducts") || `[]`
   );
 
-  useEffect(() => {
-    if(checked.length && checkedBrand.length) {
-      // const categoryAndBrandData = categoryAndBrandFilter();
-      // setData(categoryAndBrandData);
-      brandFilter();
-      categoryFilter();
-      // categoryAndBrandFilter();
-    } else if(checked.length && !checkedBrand.length) {
-      // const categoryData = categoryFilter();
-      // setData(categoryData);
-      categoryFilter();
-    } else if(checkedBrand.length && !checked.length) {
-      // const brandData = brandFilter();
-      // setData(brandData);
-      brandFilter();
-    } else {
-      setData(db.products);
-    }
-    
-  }, [checked, checkedBrand])
-
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
       return true;
@@ -206,8 +185,7 @@ const Catalog = () => {
       const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
       categoryFilterData.push(...temp);
     }
-    // return categoryFilterData;
-    setData(categoryFilterData);
+    return categoryFilterData;
   }
 
   const brandFilter = () => {
@@ -215,28 +193,48 @@ const Catalog = () => {
       const temp = db.products.filter((item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase());
       brandFilterData.push(...temp);
     }
-    // return brandFilterData;
-    setData(brandFilterData);
+    return brandFilterData;
   }
 
-  // const categoryAndBrandFilter = () => {
-  // //   const categoryData = categoryFilter();
-  // //   const brandData = brandFilter();
-  // //   const res = [...categoryData, ...brandData];
-  // //   const uniqueArray = Array.from(new Set(res));
-  // //   return uniqueArray;
-  // // const res = [];
-
-  // // for (let i = 0; i <= checked.length; i++) {
-  // //     const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
-  // //     res.push(...temp);
-  // //   }
-  // // for (let i = 0; i <= checkedBrand.length; i++) {
-  // //     const temp = db.products.filter((item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase());
-  // //     res.push(...temp);
-  // //   }
-  // //   setData(res);
-  // }
+  useEffect(() => {
+    if(checked.length && checkedBrand.length) {
+      const categoryData = categoryFilter();
+      const brandData = brandFilter();
+      const res = [];
+      if(categoryData.length >= brandData.length) {
+        for(let i = 0; i < categoryData.length; i++) {
+          for(let j = 0; j < brandData.length; j++) {
+            if(categoryData[i].title?.toLowerCase() === brandData[j].title?.toLowerCase()) {
+              res.push(brandData[j]);
+            }
+          }
+        }
+      } 
+      else {
+        for(let i = 0; i < brandData.length; i++) {
+          for(let j = 0; j < categoryData.length; j++) {
+            if(brandData[i].title?.toLowerCase() === categoryData[j].title?.toLowerCase()) {
+              res.push(categoryData[j]);
+            }
+          }
+        }
+      }
+      console.log('category', categoryData);
+      console.log('brand', brandData);
+      console.log('res', res)
+      setData(res);
+      
+    } else if(checked.length && !checkedBrand.length) {
+      const categoryData = categoryFilter();
+      setData(categoryData);
+    } else if(checkedBrand.length && !checked.length) {
+      const brandData = brandFilter();
+      setData(brandData);
+    } else {
+      setData(db.products);
+    }
+    
+  }, [checked, checkedBrand])
 
   // filters dual slider
   const [min, setMin] = useState(0);
