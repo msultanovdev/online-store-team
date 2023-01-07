@@ -1,7 +1,13 @@
-import { validateHeaderValue } from "http";
 import React, { useEffect, useState } from "react";
-import { stripVTControlCharacters } from "util";
 import "./ModalWindow.css";
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/es/styles-compiled.css';
+
+
+import visa from '../../assets/visa.png';
+import masterCard from '../../assets/mastercard.png';
+import mirCard from '../../assets/mir-credit.png';
+import creditCard from '../../assets/credit-card.png';
 
 //const [image, setImage] = useState("");
 type ModalType = {
@@ -13,9 +19,13 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   const [delivery, setDelivery] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+
   const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
   const [cardDate, setCardDate] = useState("");
   const [cardCvv, setCardCvv] = useState("");
+  const [focus, setFocus] = useState("");
+
   const [emailDirty, setEmailDirty] = useState(false);
   const [deliveryDirty, setDeliveryDirty] = useState(false);
   const [nameDirty, setNameDirty] = useState(false);
@@ -33,6 +43,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   const [cartDateError, setCardDateError] = useState("");
   const [cardCvvError, setCardCvvError] = useState("");
   const [formValid, setFormvalid] = useState(false);
+  const [cardImage, setCardImage] = useState('');
 
   useEffect(() => {
     if (
@@ -135,77 +146,16 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
   };
 
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-    const phoneNum: string = e.target.value;
-    /*  const phoneRes = [0 - 9];
-    if (!phoneNum.toString().match(phoneRes)) {
-      setPhoneError("");
+    const res: string = e.currentTarget.value.replace(/\D/g, '');
+    setPhone('+' + res);
+    
+    const phoneNum: string = e.currentTarget.value;
+    if(phoneNum.length <= 9) {
+      setPhoneError('Phone number must have at least 9 symbols');
     } else {
-      setPhoneError("Uncorrect phone");
+      setPhoneError('');
     }
-  */
-    const phoneRes = phoneNum.split("");
-    console.log(phoneRes);
-    // if (phoneRes.length >= 9) {
-    const phoneError = ["0 - 9"];
-    const phoneNumber: string[] = phoneRes;
-    if (phoneNumber[0] != "+") {
-      setPhoneError("Please start with +");
-    } else if (phoneNumber.length < 9) {
-      setPhoneError("You can use minimum 9 simbols");
-    } else if (phoneNumber === phoneError) {
-      setPhoneError("");
-    } else {
-      setPhoneError("Use numbers");
-    }
-    // }
-  };
-  const cardNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardNumber(e.target.value);
-    const cardNum: string = e.target.value;
-    if (cardNum.length != 16) {
-      setCardError("write only 16 simbols");
-    } else {
-      setCardError("");
-    }
-    /*
-    if (cardNum[0] === "4") {
-      setImage("");
-    } else if (cardNum[0] === "5") {
-      setImage("");
-    } else if (cardNum[0] === "2") {
-      setImage("");
-    }*/
-  };
-
-  const cardDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardDate(e.target.value);
-    const card: string = e.target.value;
-    /*if (card[0] !== "1" && card[0] !== "0") {
-      card = "";
-    }
-    if (card.length === 2) {
-      if (
-        parseInt(card.substring(0, 2)) > 12 ||
-        parseInt(card.substring(0, 2)) == 0
-      ) {
-        card = card[0];
-      } else if (card.length === 2) {
-        card += "/";
-      } else {
-        card = card[0];
-      }
-    }*/
-    // }
-  };
-  const cardCvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardCvv(e.target.value);
-    const cvv: string = e.target.value;
-    if (cvv.length != 3) {
-      setCardCvvError("use 3 simbols");
-    } else {
-      setCardCvvError("");
-    }
+    
   };
 
   return (
@@ -240,7 +190,7 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
                 value={phone}
                 onChange={(e) => phoneHandler(e)}
                 onBlur={(e) => blurEffect(e)}
-                type="tel"
+                type="text"
                 name="phone_number"
                 list="tel-list"
                 placeholder="+99865985463"
@@ -272,44 +222,47 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
               />
               <div className="credit__card">
                 <div className="credit__card-title">Credit Card</div>
-                <img src="" alt="" className="img__modal" />
-                {cardNumberDirty && cardError && (
-                  <div className="error">{cardError}</div>
-                )}
-                <input
-                  onChange={(e) => cardNumberHandler(e)}
-                  onBlur={(e) => blurEffect(e)}
-                  value={cardNumber}
-                  type="number"
-                  name="card-number"
-                  className="credir__card-number modal__window-input"
-                  placeholder="0000 0000 0000 0000"
+                <Cards 
+                  number={cardNumber}
+                  name={cardName}
+                  expiry={cardDate}
+                  cvc={cardCvv}
+                  focused={focus}
                 />
-                {cardDateDirty && cartDateError && (
-                  <div className="error">{cartDateError}</div>
-                )}
-                <input
-                  onChange={(e) => cardDateHandler(e)}
-                  onBlur={(e) => blurEffect(e)}
-                  value={cardDate}
-                  type="string"
-                  name="card-date"
-                  className="credit__card-date modal__window-input"
-                  placeholder="MM/YY"
-                  maxLength={5}
-                />
-                {cardCvvDirty && cardCvvError && (
-                  <div className="error">{cardCvvError}</div>
-                )}
-                <input
-                  onChange={(e) => cardCvvHandler(e)}
-                  value={cardCvv}
-                  onBlur={(e) => blurEffect(e)}
-                  type="number"
-                  name="card-cvv"
-                  className="credit__card-cvv modal__window-input"
-                  placeholder="000"
-                />
+                <form className="card-form">
+                  <input 
+                    type="tel" 
+                    name="cardNumber" 
+                    placeholder="Card Number"
+                    value={cardNumber} 
+                    onChange={e => setCardNumber(e.currentTarget.value)} 
+                    onFocus={e => setFocus(e.target.name)}
+                  />
+                  <input 
+                    type="text" 
+                    name="cardName" 
+                    placeholder="Name"
+                    value={cardName} 
+                    onChange={e => setCardName(e.currentTarget.value)} 
+                    onFocus={e => setFocus(e.target.name)}
+                  /> 
+                  <input 
+                    type="text" 
+                    name="cardDate" 
+                    placeholder="MM/YY Expiry"
+                    value={cardDate} 
+                    onChange={e => setCardDate(e.currentTarget.value)} 
+                    onFocus={e => setFocus(e.target.name)}
+                  /> 
+                  <input 
+                    type="tel" 
+                    name="cardCvv" 
+                    placeholder="CVV"
+                    value={cardCvv} 
+                    onChange={e => setCardCvv(e.currentTarget.value)} 
+                    onFocus={e => setFocus(e.target.name)}
+                  /> 
+                </form>
               </div>
               <button
                 disabled={!formValid}
