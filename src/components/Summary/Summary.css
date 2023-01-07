@@ -61,3 +61,20 @@
     font-size: 18px;
     color: white;
 }
+
+.promo__cod {
+    margin-top: 10px;
+    color: red;
+}
+
+.promo__contentRs,
+.promo__contentEpm {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.promo__contentRs.active,
+.promo__contentEpm.active {
+    opacity: 1;
+    pointer-events: all;
+}
