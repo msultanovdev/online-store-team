@@ -63,6 +63,8 @@
 
 .category,
 .brands {
+  border: 1px solid white;
+  border-radius: 16px;
   width: 220px;
   height: 150px;
   overflow: auto;
@@ -209,6 +211,7 @@
 .sort__bar-name {
   font-family: 'Gloria Hallelujah', cursive;
   font-size: 1.5em;
+  text-align: center;
 }
 
 .cards__content {

@@ -341,8 +341,8 @@ const Catalog = () => {
                   }}
                 />
                 <div className="values-wrapper">
-                  <span>{min}</span>
-                  <span>{max}</span>
+                  <span>{min}$</span>
+                  <span>{max}$</span>
                 </div>
               </div>
               <div className="stock__block">
