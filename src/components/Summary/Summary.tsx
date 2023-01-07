@@ -11,11 +11,21 @@ const Summary = ({ amountProducts, total }: summaryType) => {
   const [modalWindow, setModalWindow] = useState(false);
   const [promoRsActive, setPromoRsActive] = useState(false);
   const [promoEpmActive, setPromoEpmActive] = useState(false);
-  const [newSum, setNewSum] = useState("");
+  const [newSumActive, setNewSumActive] = useState(false);
   const [promo, setPromo] = useState("");
   const [promoButtonActive, setPromoButtonActive] = useState(false);
+  const [promoOld, setPromoOld] = useState(false);
+  const reducedPrice = total - total * 0.1;
   const handleClick = () => {
     setPromoButtonActive(!promoButtonActive);
+    if (!promoButtonActive) {
+      console.log(reducedPrice);
+      setNewSumActive(true);
+      setPromoOld(true);
+    } else if (promoButtonActive) {
+      setNewSumActive(false);
+      setPromoOld(false);
+    }
   };
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromo(e.target.value);
@@ -42,10 +52,23 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         <p className="summary-content-products">
           Products: <span>{amountProducts}</span>
         </p>
-        <p className="summary__content-total">
+        <p
+          className={
+            promoOld
+              ? "summary__content-promo active"
+              : "summary__content-promo"
+          }
+        >
           Total: <span>{total}$</span>
         </p>
-        <p className="summary__content-promo"></p>
+        <div
+          className={newSumActive ? "reduced__price active" : "reduced__price"}
+        >
+          <p>
+            Total: <span>{reducedPrice}$</span>
+          </p>
+        </div>
+
         <div
           className={
             promoRsActive ? "promo__contentRs active" : "promo__contentRs"
@@ -64,7 +87,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
           }
         >
           <div className="promo__block">
-            <div className="promo__text">EPAM Systems - 20%</div>
+            <div className="promo__text">EPAM Systems - 10%</div>
             <button className="promo__button" onClick={handleClick}>
               {promoButtonActive ? "Drop" : "Add"}
             </button>
