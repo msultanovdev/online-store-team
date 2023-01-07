@@ -407,8 +407,8 @@ const Catalog = () => {
               </div>
               <div className="cards__container">
                 <div className="cards__container-card">
-                  <div className="cards__content">
-                    {data
+                  <div className={data.length ? "cards__content" : "not-found"}>
+                    {data.length ? data
                       .filter((data) =>
                         (
                           data.title +
@@ -441,7 +441,7 @@ const Catalog = () => {
                           stock={item.stock}
                           description={""}
                         />
-                      ))}
+                      )) : 'No products found!'}
                   </div>
                 </div>
               </div>
