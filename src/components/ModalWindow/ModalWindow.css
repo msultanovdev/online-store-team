@@ -32,6 +32,7 @@
 }
 
 .modal__form {
+    width: 600px;
     border-radius: 12px;
     font-family: "Comic Sans MS", cursive, sans-serif;
     background-color: black;
@@ -88,4 +89,13 @@
 
 .submit__button:hover:before {
     left: 100%;
+}
+.card-form {
+    display: flex;
+    flex-direction: column;
+}
+.card-form input {
+    padding: 6px;
+    margin: 2px;
+    border: transparent;
 }

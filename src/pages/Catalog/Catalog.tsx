@@ -219,9 +219,6 @@ const Catalog = () => {
           }
         }
       }
-      console.log('category', categoryData);
-      console.log('brand', brandData);
-      console.log('res', res)
       setData(res);
       
     } else if(checked.length && !checkedBrand.length) {
