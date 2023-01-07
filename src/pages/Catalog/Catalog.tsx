@@ -24,14 +24,11 @@ const Catalog = () => {
 
   const { totalPrice, setTotalPrice } = useContext(TotalContext);
   const [checked, setChecked] = useState<string[]>([]);
+  const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
 
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
-
-  useEffect(() => {
-    categoryFilter();
-  }, [checked]);
 
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
@@ -135,10 +132,13 @@ const Catalog = () => {
   };
   //filters category
   const categoryFilterData: dataProps[] = [];
+  const brandFilterData: dataProps[] = [];
+
   localStorage.setItem(
     "categoryFilterData",
     JSON.stringify(categoryFilterData)
   );
+
   const toppings: boolean[] = [];
   toppings.length = 19;
   const [checkedState, setCheckedState] = useState(
@@ -150,6 +150,20 @@ const Catalog = () => {
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
+  }
+
+  const onChangeBrand = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+      const currentIndex = checkedBrand.indexOf(event.currentTarget.value);
+      const newChecked = [...checkedBrand];
+
+      if (currentIndex === -1) {
+        newChecked.push(event.currentTarget.value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+    setCheckedBrand(newChecked);
   };
 
   const onChangeCategory = (
@@ -168,11 +182,59 @@ const Catalog = () => {
 
   const categoryFilter = () => {
     for (let i = 0; i <= checked.length; i++) {
-      const temp = db.products.filter((item) => item.category === checked[i]);
+      const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
       categoryFilterData.push(...temp);
     }
-    checked.length ? setData(categoryFilterData) : setData(db.products);
-  };
+    return categoryFilterData;
+  }
+
+  const brandFilter = () => {
+    for (let i = 0; i <= checkedBrand.length; i++) {
+      const temp = db.products.filter((item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase());
+      brandFilterData.push(...temp);
+    }
+    return brandFilterData;
+  }
+
+  useEffect(() => {
+    if(checked.length && checkedBrand.length) {
+      const categoryData = categoryFilter();
+      const brandData = brandFilter();
+      const res = [];
+      if(categoryData.length >= brandData.length) {
+        for(let i = 0; i < categoryData.length; i++) {
+          for(let j = 0; j < brandData.length; j++) {
+            if(categoryData[i].title?.toLowerCase() === brandData[j].title?.toLowerCase()) {
+              res.push(brandData[j]);
+            }
+          }
+        }
+      } 
+      else {
+        for(let i = 0; i < brandData.length; i++) {
+          for(let j = 0; j < categoryData.length; j++) {
+            if(brandData[i].title?.toLowerCase() === categoryData[j].title?.toLowerCase()) {
+              res.push(categoryData[j]);
+            }
+          }
+        }
+      }
+      console.log('category', categoryData);
+      console.log('brand', brandData);
+      console.log('res', res)
+      setData(res);
+      
+    } else if(checked.length && !checkedBrand.length) {
+      const categoryData = categoryFilter();
+      setData(categoryData);
+    } else if(checkedBrand.length && !checked.length) {
+      const brandData = brandFilter();
+      setData(brandData);
+    } else {
+      setData(db.products);
+    }
+    
+  }, [checked, checkedBrand])
 
   // filters dual slider
   const [min, setMin] = useState(0);
@@ -214,10 +276,16 @@ const Catalog = () => {
               </div>
               <div className="filters__block-title">Brand</div>
               <div className="brands">
-                {brandCategory.map((value, index) => (
-                  <div className="brand__checkbox" key={index}>
-                    <input id={value} value={value} type="checkbox" />
-                    <label>{value}</label>
+                {brandCategory.map((value, i) => (
+                  <div key={i} className="brand__checkbox">
+                    <input id={value} type="checkbox" value={value}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        {
+                          onChangeBrand(e);
+                        }
+                      }
+                    />
+                    <label htmlFor={value}>{value}</label>
                     <span>(0/1)</span>
                   </div>
                 ))}
