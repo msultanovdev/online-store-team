@@ -3,6 +3,7 @@ import "./Product.css";
 import { useParams } from "react-router-dom";
 import db from "../../assets/db.json";
 import { TotalContext } from "../../totalContext";
+import { ICountType } from "../../types";
 
 
 type itemType = {
@@ -21,11 +22,16 @@ type itemType = {
 
 const Product = () => {
   const {totalPrice, setTotalPrice, amount, setAmount} = useContext(TotalContext);
-  const basketProducts = JSON.parse(
+  let basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
 
   const addToCart = (object: itemType) => {
+    basketProducts.push(object);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    basketProducts = JSON.parse(
+      localStorage.getItem("basketProducts") || `[]`
+    );
     isAdded(object);
     const total = JSON.parse(localStorage.getItem('total')!);
     setTotalPrice(total.price + object.price);
@@ -34,9 +40,12 @@ const Product = () => {
       count: total.count + 1,
       price: total.price + object.price
     }));
+    const counts: ICountType = {}
+    basketProducts.forEach(function(a: itemType){
+      counts[a.id] = counts[a.id] + 1 || 1;
+    });
+    localStorage.setItem('counts', JSON.stringify(counts));
     setTotalPrice(totalPrice + object.price);
-    basketProducts.push(object);
-    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
     setButtonState(!buttonState);
   };
 
@@ -47,13 +56,15 @@ const Product = () => {
     setTotalPrice(total.price - object.price * (isCounts ? counts[`${object.id}`] : 1));
     setAmount(total.count - (isCounts ? counts[`${object.id}`] : 1));
     localStorage.setItem('total', JSON.stringify({
-      count: total.count - 1,
+      count: total.count - (isCounts ? counts[`${object.id}`] : 1),
       price: total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
     }));
     const indexOfObj = basketProducts.findIndex((item: itemType) => item.id === object.id);
     basketProducts.sort().splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
     setButtonState(!buttonState);
+    delete counts[`${object.id}`]
+    localStorage.setItem('counts', JSON.stringify(counts))   
   };
 
   const isAdded = (item: itemType) => {
