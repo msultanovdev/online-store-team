@@ -82,14 +82,16 @@
 
 .promo__contentRs,
 .promo__contentEpm,
-.reduced__price {
+.reduced__price,
+.reduced__priceALL {
     opacity: 0;
     pointer-events: none;
 }
 
 .promo__contentRs.active,
 .promo__contentEpm.active,
-.reduced__price.active {
+.reduced__price.active,
+.reduced__priceALL.active {
     opacity: 1;
     pointer-events: all;
 }
