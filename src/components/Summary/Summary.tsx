@@ -9,8 +9,8 @@ type summaryType = {
 };
 
 const Summary = ({ amountProducts, total }: summaryType) => {
-  const {isModalActive, setIsModalActive} = useContext(TotalContext);
-  
+  const { isModalActive, setIsModalActive } = useContext(TotalContext);
+
   const [promoRsActive, setPromoRsActive] = useState(false);
   const [promoEpmActive, setPromoEpmActive] = useState(false);
   const [newSumActive, setNewSumActive] = useState(false);
@@ -50,8 +50,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
   };
 
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {isModalActive, setIsModalActive} = useContext(TotalContext);
-
+    // const { isModalActive, setIsModalActive } = useContext(TotalContext);
     setPromo(e.target.value);
     const point = e.target.value;
     console.log(point);
