@@ -239,12 +239,12 @@
 }
 
 .track {
-  background-color: rebeccapurple;
+  background-color: rgb(69, 38, 38);
   height: 5px;
 }
 
 .track:nth-child(2) {
-  background-color: red;
+  background-color: rgb(255, 255, 255);
 }
 
 .thumb {

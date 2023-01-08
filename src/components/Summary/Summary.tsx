@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Summary.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
+import { TotalContext } from "../../totalContext";
 
 type summaryType = {
   amountProducts: number;
@@ -8,7 +9,8 @@ type summaryType = {
 };
 
 const Summary = ({ amountProducts, total }: summaryType) => {
-  const [modalWindow, setModalWindow] = useState(false);
+  const {isModalActive, setIsModalActive} = useContext(TotalContext);
+  
   const [promoRsActive, setPromoRsActive] = useState(false);
   const [promoEpmActive, setPromoEpmActive] = useState(false);
   const [newSumActive, setNewSumActive] = useState(false);
@@ -28,6 +30,8 @@ const Summary = ({ amountProducts, total }: summaryType) => {
     }
   };
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {isModalActive, setIsModalActive} = useContext(TotalContext);
+
     setPromo(e.target.value);
     const point = e.target.value;
     console.log(point);
@@ -104,11 +108,11 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         <div className="promo__cod">Promo for test: RS, EPM</div>
       </div>
       <div className="summary-button">
-        <button className="summary-btn" onClick={() => setModalWindow(true)}>
+        <button className="summary-btn" onClick={() => setIsModalActive(true)}>
           Buy Now
         </button>
       </div>
-      <ModalWindow active={modalWindow} setActive={setModalWindow} />
+      <ModalWindow />
     </div>
   );
 };
