@@ -23,7 +23,7 @@ type dataProps = {
 
 const Basket = () => {
     const [searchParams] = useSearchParams();
-    let limit: string | null = searchParams.get('limit');
+    let limit: string | null = (searchParams.get('limit') ? searchParams.get('limit') : '3');
     const navigate = useNavigate();
     const basketProducts = localStorage.getItem('basketProducts');
     const products: dataProps[] = basketProducts ? JSON.parse(basketProducts) : [];
