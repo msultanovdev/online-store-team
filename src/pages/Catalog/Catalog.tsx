@@ -6,6 +6,7 @@ import { TotalContext } from "../../totalContext";
 import { searchCategory, brandCategory } from "../../consts";
 import ReactSlider from "react-slider";
 import { useNavigate } from "react-router-dom";
+import { ICountType } from "../../types";
 
 const Catalog = () => {
   type dataProps = {
@@ -26,7 +27,7 @@ const Catalog = () => {
   const [checked, setChecked] = useState<string[]>([]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
 
-  const basketProducts = JSON.parse(
+  let basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
 
@@ -38,6 +39,11 @@ const Catalog = () => {
   };
 
   const addToCart = (object: dataProps) => {
+    basketProducts.push(object);
+    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    basketProducts = JSON.parse(
+      localStorage.getItem("basketProducts") || `[]`
+    );
     const total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price + object.price);
     setAmount(amount + 1);
@@ -48,26 +54,33 @@ const Catalog = () => {
         price: total.price + object.price,
       })
     );
+    console.log(basketProducts);
+    const counts: ICountType = {}
+    basketProducts.forEach(function(a: dataProps){
+      counts[a.id] = counts[a.id] + 1 || 1;
+      console.log(a.id);
+    });
+    localStorage.setItem('counts', JSON.stringify(counts));
+    console.log(counts)
     setTotalPrice(totalPrice + object.price);
     isAdded(object);
-    basketProducts.push(object);
-    localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    
   };
 
   const removeFromCart = (object: dataProps) => {
-    setTotalPrice(totalPrice - object.price);
-    setAmount(amount - 1);
     const isCounts =
       JSON.parse(localStorage.getItem("counts")!) !== null ? true : false;
     const counts = JSON.parse(localStorage.getItem("counts")!);
     const total = JSON.parse(localStorage.getItem("total")!);
+    setTotalPrice(totalPrice - object.price * (isCounts ? counts[`${object.id}`] : 1));
+    setAmount(amount - (isCounts ? counts[`${object.id}`] : 1));
     setTotalPrice(
       total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
     );
     localStorage.setItem(
       "total",
       JSON.stringify({
-        count: total.count - 1,
+        count: total.count - (isCounts ? counts[`${object.id}`] : 1),
         price:
           total.price - object.price * (isCounts ? counts[`${object.id}`] : 1),
       })
@@ -79,6 +92,8 @@ const Catalog = () => {
       .sort()
       .splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
+    delete counts[`${object.id}`]
+    localStorage.setItem('counts', JSON.stringify(counts)) 
   };
   //фильтры смена расположения карт
   const [isSmall, setIsSmall] = useState(false);
