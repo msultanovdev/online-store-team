@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./BasketPagination.css";
 
@@ -15,10 +15,14 @@ const BasketPagination = ({
     setCurrentPage,
     currentPage
 }: basketType) => {
-    const pages = [];
+    const pages: number[] = [];
 
     for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
         pages.push(i);
+    }
+
+    const handlePage = (page: number) => {
+        localStorage.setItem('currentPage', JSON.stringify(page));
     }
 
     return (
@@ -27,7 +31,7 @@ const BasketPagination = ({
                 return (
                     <button
                         key={index}
-                        onClick={() => setCurrentPage(page)}
+                        onClick={() => {setCurrentPage(page); handlePage(page)}}
                         className={page == currentPage ? "active" : ""}>
                         {page}
                     </button>
