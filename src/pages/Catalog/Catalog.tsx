@@ -22,7 +22,7 @@ const Catalog = () => {
     images: string[];
   };
 
-  const { totalPrice, setTotalPrice } = useContext(TotalContext);
+  const { totalPrice, setTotalPrice, amount, setAmount } = useContext(TotalContext);
   const [checked, setChecked] = useState<string[]>([]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
 
@@ -40,6 +40,7 @@ const Catalog = () => {
   const addToCart = (object: dataProps) => {
     const total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price + object.price);
+    setAmount(amount + 1);
     localStorage.setItem(
       "total",
       JSON.stringify({
@@ -55,6 +56,7 @@ const Catalog = () => {
 
   const removeFromCart = (object: dataProps) => {
     setTotalPrice(totalPrice - object.price);
+    setAmount(amount - 1);
     const isCounts =
       JSON.parse(localStorage.getItem("counts")!) !== null ? true : false;
     const counts = JSON.parse(localStorage.getItem("counts")!);

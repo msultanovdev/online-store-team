@@ -20,7 +20,7 @@ type itemType = {
 };
 
 const Product = () => {
-  const {totalPrice, setTotalPrice} = useContext(TotalContext);
+  const {totalPrice, setTotalPrice, amount, setAmount} = useContext(TotalContext);
   const basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
@@ -29,6 +29,7 @@ const Product = () => {
     isAdded(object);
     const total = JSON.parse(localStorage.getItem('total')!);
     setTotalPrice(total.price + object.price);
+    setAmount(total.count + 1);
     localStorage.setItem('total', JSON.stringify({
       count: total.count + 1,
       price: total.price + object.price
@@ -44,6 +45,7 @@ const Product = () => {
     const total = JSON.parse(localStorage.getItem('total')!);
     const isCounts = JSON.parse(localStorage.getItem('counts')!) !== null ? true : false;
     setTotalPrice(total.price - object.price * (isCounts ? counts[`${object.id}`] : 1));
+    setAmount(total.count - (isCounts ? counts[`${object.id}`] : 1));
     localStorage.setItem('total', JSON.stringify({
       count: total.count - 1,
       price: total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)

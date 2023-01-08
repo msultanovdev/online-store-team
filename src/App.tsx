@@ -11,9 +11,12 @@ function App() {
   const total: totalType = JSON.parse(localStorage.getItem('total')!) !== null ? JSON.parse(localStorage.getItem('total')!) : 0;
   const [totalPrice, setTotalPrice] = useState(total.price);
 
+  const [amount, setAmount] = useState(total.count);
+
   useEffect(() => {
       if(localStorage.length <= 2) {
         setTotalPrice(0);
+        setAmount(0);
       localStorage.setItem('total', JSON.stringify({
         count: 0,
         price: 0
@@ -23,7 +26,7 @@ function App() {
   }, [])
 
   return (
-    <TotalContext.Provider value={{totalPrice, setTotalPrice }}>
+    <TotalContext.Provider value={{totalPrice, setTotalPrice, amount, setAmount }}>
       <div className="App">
         <BrowserRouter>
           <Header />
