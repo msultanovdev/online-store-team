@@ -38,3 +38,27 @@
 .header__price {
   color: white;
 }
+.header__basket {
+  position: relative;
+}
+.basket-icon {
+  width: 60px;
+  filter: invert(1);
+}
+.header__basket-amount {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  position: absolute;
+  top: 14px;
+  left: 35px;
+  width: 25px;
+  height: 25px;
+  background-color: #181a1c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  border: 1px solid rgb(243, 243, 243);
+  font-size: 14px;
+  border-radius: 50%;
+  font-weight: 900;
+}

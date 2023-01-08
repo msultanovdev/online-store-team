@@ -35,7 +35,7 @@ type basketCardTypes = {
 const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts, index}: basketCardTypes) => {
    const basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
 
-   const {totalPrice, setTotalPrice} = useContext(TotalContext);
+   const {totalPrice, setTotalPrice, amount, setAmount} = useContext(TotalContext);
 
    const addToBasket = (e: React.MouseEvent<HTMLButtonElement>, item: dataProps) => {
     e.preventDefault();
@@ -45,6 +45,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
       price: total.price + item.price
     }));
     setTotalPrice(totalPrice + item.price);
+    setAmount(amount + 1);
     basketProducts.push(item);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
    }
@@ -57,6 +58,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
       price: total.price - item.price
     }));
     setTotalPrice(totalPrice - item.price);
+    setAmount(amount - 1);
     const indexOfObj = basketProducts.findIndex((item: dataProps) => item.id === object.id);
     basketProducts.splice(indexOfObj, 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));

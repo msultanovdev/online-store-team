@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { TotalContext } from "../../totalContext";
+import basketIcon from '../../assets/basket-icon.png';
 
 const Header = () => {
-  const {totalPrice} = useContext(TotalContext);
+  const {totalPrice, amount} = useContext(TotalContext);
 
   return (
     <header className="header">
@@ -19,7 +20,10 @@ const Header = () => {
           <p>Cart Total: {totalPrice}$</p>
         </div>
         <Link to="/basket?limit=3" className="sidebar__links-basket">
-          &#128722;
+          <div className="header__basket">
+            <img className="basket-icon" src={basketIcon} alt="basket" />
+            <p className="header__basket-amount">{amount}</p>
+          </div>
         </Link>
       </nav>
     </header>
