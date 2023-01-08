@@ -12,6 +12,7 @@ function App() {
   const [totalPrice, setTotalPrice] = useState(total.price);
 
   const [amount, setAmount] = useState(total.count);
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
       if(localStorage.length <= 2) {
@@ -26,7 +27,7 @@ function App() {
   }, [])
 
   return (
-    <TotalContext.Provider value={{totalPrice, setTotalPrice, amount, setAmount }}>
+    <TotalContext.Provider value={{totalPrice, setTotalPrice, amount, setAmount, isModalActive, setIsModalActive}}>
       <div className="App">
         <BrowserRouter>
           <Header />

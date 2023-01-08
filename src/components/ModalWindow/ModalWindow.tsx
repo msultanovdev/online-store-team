@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./ModalWindow.css";
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/es/styles-compiled.css';
@@ -8,13 +8,16 @@ import visa from '../../assets/visa.png';
 import masterCard from '../../assets/mastercard.png';
 import mirCard from '../../assets/mir-credit.png';
 import creditCard from '../../assets/credit-card.png';
+import { TotalContext } from "../../totalContext";
 
 //const [image, setImage] = useState("");
 type ModalType = {
   active: boolean;
   setActive: (active: boolean) => void;
 };
-const ModalWindow = ({ active, setActive }: ModalType) => {
+const ModalWindow = () => {
+  const {isModalActive, setIsModalActive} = useContext(TotalContext);
+
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
   const [name, setName] = useState("");
@@ -160,11 +163,11 @@ const ModalWindow = ({ active, setActive }: ModalType) => {
 
   return (
     <div
-      className={active ? "modal__window active" : "modal__window"}
-      onClick={() => setActive(false)}
+      className={isModalActive ? "modal__window active" : "modal__window"}
+      onClick={() => setIsModalActive(false)}
     >
       <div
-        className={active ? "modal__form active" : "modal__form"}
+        className={isModalActive ? "modal__form active" : "modal__form"}
         onClick={(e) => e.stopPropagation()}
       >
         <form>
