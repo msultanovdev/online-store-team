@@ -72,7 +72,7 @@ const Basket = () => {
     // const [productsPerPage, setProductsPerPage] = useState(3);
 
     const [perPageInput, setPerPageInput] = useState('');
-    let localCurrentPage = JSON.parse(localStorage.getItem('currentPage')!);
+    let localCurrentPage = (JSON.parse(localStorage.getItem('currentPage')!) ? JSON.parse(localStorage.getItem('currentPage')!) : '3');
     const [currentPage, setCurrentPage] = useState(Number(localCurrentPage));
 
     const lastProductIndex = Number(localCurrentPage) * Number(limit);
