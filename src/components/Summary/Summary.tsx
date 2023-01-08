@@ -9,41 +9,58 @@ type summaryType = {
 };
 
 const Summary = ({ amountProducts, total }: summaryType) => {
-  const {isModalActive, setIsModalActive} = useContext(TotalContext);
-  
+  const { isModalActive, setIsModalActive } = useContext(TotalContext);
+
   const [promoRsActive, setPromoRsActive] = useState(false);
   const [promoEpmActive, setPromoEpmActive] = useState(false);
   const [newSumActive, setNewSumActive] = useState(false);
+  const [newSumALLActive, setNewSumALLActive] = useState(false);
   const [promo, setPromo] = useState("");
-  const [promoButtonActive, setPromoButtonActive] = useState(false);
+  const [promoButtonRSActive, setPromoButtonRSActive] = useState(false);
+  const [promoButtonEPMActive, setPromoButtonEPMActive] = useState(false);
   const [promoOld, setPromoOld] = useState(false);
   const reducedPrice = total - total * 0.1;
-  const handleClick = () => {
-    setPromoButtonActive(!promoButtonActive);
-    if (!promoButtonActive) {
+  const allReducedPrice = total - total * 0.2;
+
+  const handleClickRS = () => {
+    setPromoButtonRSActive(!promoButtonRSActive);
+    if (!promoButtonRSActive) {
       console.log(reducedPrice);
       setNewSumActive(true);
       setPromoOld(true);
-    } else if (promoButtonActive) {
+    } else if (promoButtonRSActive) {
       setNewSumActive(false);
       setPromoOld(false);
+      setPromoRsActive(false);
+      //setPromoEpmActive(false);
     }
   };
-  const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {isModalActive, setIsModalActive} = useContext(TotalContext);
+  const handleClickEPM = () => {
+    setPromoButtonEPMActive(!promoButtonEPMActive);
+    if (!promoButtonEPMActive) {
+      console.log(reducedPrice);
+      setNewSumActive(true);
+      setPromoOld(true);
+    } else if (promoButtonEPMActive) {
+      setNewSumActive(false);
+      setPromoOld(false);
+      //setPromoRsActive(false);
+      setPromoEpmActive(false);
+    }
+  };
 
+  const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // const { isModalActive, setIsModalActive } = useContext(TotalContext);
     setPromo(e.target.value);
     const point = e.target.value;
     console.log(point);
     if (point === "RS") {
       setPromoRsActive(true);
-    } else {
-      setPromoRsActive(false);
-    }
-    if (point === "EPM") {
+    } else if (point === "EPM") {
       setPromoEpmActive(true);
     } else {
-      setPromoEpmActive(false);
+      //setPromoRsActive(false);
+      // setPromoEpmActive(false);
     }
   };
 
@@ -72,7 +89,15 @@ const Summary = ({ amountProducts, total }: summaryType) => {
             Total: <span>{reducedPrice}$</span>
           </p>
         </div>
-
+        <div
+          className={
+            newSumALLActive ? "reduced__priceALL active" : "reduced__priceALL"
+          }
+        >
+          <p>
+            Total: <span>{allReducedPrice}$</span>
+          </p>
+        </div>
         <div
           className={
             promoRsActive ? "promo__contentRs active" : "promo__contentRs"
@@ -80,8 +105,8 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         >
           <div className="promo__block">
             <div className="promo__text">Rolling Scopes School - 10%</div>
-            <button className="promo__button" onClick={handleClick}>
-              {promoButtonActive ? "Drop" : "Add"}
+            <button className="promo__button" onClick={handleClickRS}>
+              {promoButtonRSActive ? "Drop" : "Add"}
             </button>
           </div>
         </div>
@@ -92,8 +117,8 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         >
           <div className="promo__block">
             <div className="promo__text">EPAM Systems - 10%</div>
-            <button className="promo__button" onClick={handleClick}>
-              {promoButtonActive ? "Drop" : "Add"}
+            <button className="promo__button" onClick={handleClickEPM}>
+              {promoButtonEPMActive ? "Drop" : "Add"}
             </button>
           </div>
         </div>
