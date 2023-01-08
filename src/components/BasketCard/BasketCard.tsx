@@ -20,6 +20,7 @@ interface countType {
 }
 
 type basketCardTypes = {
+    id: number,
     title: string,
     thumbnail: string,
     description: string,
@@ -32,7 +33,7 @@ type basketCardTypes = {
     index: number
 }
 
-const BasketCard = ({title, thumbnail, description, rating, discountPercentage, stock, price, item, counts, index}: basketCardTypes) => {
+const BasketCard = ({id, title, thumbnail, description, rating, discountPercentage, stock, price, item, counts, index}: basketCardTypes) => {
    const basketProducts = JSON.parse(localStorage.getItem('basketProducts')!);
 
    const {totalPrice, setTotalPrice, amount, setAmount} = useContext(TotalContext);
@@ -93,7 +94,7 @@ const BasketCard = ({title, thumbnail, description, rating, discountPercentage, 
                     <p>Stock: {stock}</p>
                 </div>
                 <div className="basket-card__block-buttons">
-                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => addToBasket(e, item)} className="basket-btn">+</button>
+                    <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => addToBasket(e, item)} disabled={stock > counts[`${id}`] ? false : true} className="basket-btn">+</button>
                     <p className="basket-card__block-count">{counts[item.id]}</p>
                     <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => removeFromBasket(e, item)} className="basket-btn">-</button>
                 </div>

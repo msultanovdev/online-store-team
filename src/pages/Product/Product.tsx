@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import "./Product.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import db from "../../assets/db.json";
 import { TotalContext } from "../../totalContext";
 import { ICountType } from "../../types";
@@ -21,6 +21,8 @@ type itemType = {
 };
 
 const Product = () => {
+  const {setIsModalActive} = useContext(TotalContext);
+
   const {totalPrice, setTotalPrice, amount, setAmount} = useContext(TotalContext);
   let basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
@@ -159,7 +161,7 @@ const Product = () => {
                 Remove From Cart
               </button>
             )}
-            <button className="btn">Buy Now</button>
+            <Link to="/basket?limit=3" className="btn" onClick={() => setIsModalActive(true)}>Buy Now</Link>
             
           </div>
         </div>
