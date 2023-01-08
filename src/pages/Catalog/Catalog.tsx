@@ -54,14 +54,11 @@ const Catalog = () => {
         price: total.price + object.price,
       })
     );
-    console.log(basketProducts);
     const counts: ICountType = {}
     basketProducts.forEach(function(a: dataProps){
       counts[a.id] = counts[a.id] + 1 || 1;
-      console.log(a.id);
     });
     localStorage.setItem('counts', JSON.stringify(counts));
-    console.log(counts)
     setTotalPrice(totalPrice + object.price);
     isAdded(object);
     
