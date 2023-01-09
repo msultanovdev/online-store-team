@@ -92,13 +92,18 @@
     left: 100%;
 }
 
+
 .card-form {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column;*/
+    margin-top: 10px;
 }
 
 .card-form input {
     padding: 6px;
+    width: 250px;
+    background: transparent;
+    color: white;
     margin: 2px;
     border: transparent;
 }
