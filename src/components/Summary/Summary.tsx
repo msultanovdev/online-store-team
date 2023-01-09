@@ -35,6 +35,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       //setPromoEpmActive(false);
     }
   };
+
   const handleClickEPM = () => {
     setPromoButtonEPMActive(!promoButtonEPMActive);
     if (!promoButtonEPMActive) {
@@ -48,9 +49,13 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setPromoEpmActive(false);
     }
   };
-
+  /*
+  if ((promoButtonEPMActive && promoButtonRSActive) === true) {
+    setNewSumActive(false);
+    console.log("55");
+  }*/
+  /*
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const { isModalActive, setIsModalActive } = useContext(TotalContext);
     setPromo(e.target.value);
     const point = e.target.value;
     console.log(point);
@@ -61,6 +66,17 @@ const Summary = ({ amountProducts, total }: summaryType) => {
     } else {
       //setPromoRsActive(false);
       // setPromoEpmActive(false);
+    }
+  };
+*/
+  const promoHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    switch (e.target.value) {
+      case "RS":
+        setPromoRsActive(true);
+        break;
+      case "EPM":
+        setPromoEpmActive(true);
+        break;
     }
   };
 
