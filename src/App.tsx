@@ -13,6 +13,7 @@ function App() {
 
   const [amount, setAmount] = useState(total.count);
   const [isModalActive, setIsModalActive] = useState(false);
+  console.log('refresh master')
 
   useEffect(() => {
       if(localStorage.length <= 2) {
