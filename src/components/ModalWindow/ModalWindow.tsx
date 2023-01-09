@@ -16,7 +16,8 @@ type ModalType = {
   setActive: (active: boolean) => void;
 };
 const ModalWindow = () => {
-  const { isModalActive, setIsModalActive, setAmount, setTotalPrice } = useContext(TotalContext);
+  const { isModalActive, setIsModalActive, setAmount, setTotalPrice } =
+    useContext(TotalContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -48,7 +49,8 @@ const ModalWindow = () => {
   const [cardCvvError, setCardCvvError] = useState("");
   const [formValid, setFormvalid] = useState(false);
   const [cardImage, setCardImage] = useState("");
-
+  const [order, setOrder] = useState(false);
+  const [newOrderActive, setNewOrderActive] = useState(false);
   useEffect(() => {
     if (
       emailError ||
@@ -175,15 +177,19 @@ const ModalWindow = () => {
     }
   };
 
-    const onConfirm = () => {
-      navigate('/catalog');
-      localStorage.setItem('basketProducts', JSON.stringify([]));
-      localStorage.setItem('counts', JSON.stringify({}));
-      localStorage.setItem('total', JSON.stringify({price: 0, count: 0}));
+  const onConfirm = () => {
+    setOrder(!order);
+    setNewOrderActive(true)
+    setTimeout(() => {
+      navigate("/catalog");
+      localStorage.setItem("basketProducts", JSON.stringify([]));
+      localStorage.setItem("counts", JSON.stringify({}));
+      localStorage.setItem("total", JSON.stringify({ price: 0, count: 0 }));
       setAmount(0);
       setTotalPrice(0);
       setIsModalActive(false);
-    }
+    }, 3000);
+  };
 
   return (
     <div
@@ -291,13 +297,14 @@ const ModalWindow = () => {
                   />
                 </form>
               </div>
+              <div className="order">{order}</div>
               <button
                 disabled={!formValid}
                 type="submit"
-                className="submit__button"
+                className={newOrderActive ? "submit__button active" : "submit__button"}
                 onClick={() => onConfirm()}
               >
-                Confirm
+                {order ? "Complete" : "Confirm"}
               </button>
             </div>
           </div>
