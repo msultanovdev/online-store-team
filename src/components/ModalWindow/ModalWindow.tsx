@@ -8,6 +8,7 @@ import masterCard from "../../assets/mastercard.png";
 import mirCard from "../../assets/mir-credit.png";
 import creditCard from "../../assets/credit-card.png";
 import { TotalContext } from "../../totalContext";
+import { useNavigate } from "react-router-dom";
 
 //const [image, setImage] = useState("");
 type ModalType = {
@@ -15,7 +16,8 @@ type ModalType = {
   setActive: (active: boolean) => void;
 };
 const ModalWindow = () => {
-  const { isModalActive, setIsModalActive } = useContext(TotalContext);
+  const { isModalActive, setIsModalActive, setAmount, setTotalPrice } = useContext(TotalContext);
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
@@ -173,6 +175,16 @@ const ModalWindow = () => {
     }
   };
 
+    const onConfirm = () => {
+      navigate('/catalog');
+      localStorage.setItem('basketProducts', JSON.stringify([]));
+      localStorage.setItem('counts', JSON.stringify({}));
+      localStorage.setItem('total', JSON.stringify({price: 0, count: 0}));
+      setAmount(0);
+      setTotalPrice(0);
+      setIsModalActive(false);
+    }
+
   return (
     <div
       className={isModalActive ? "modal__window active" : "modal__window"}
@@ -283,6 +295,7 @@ const ModalWindow = () => {
                 disabled={!formValid}
                 type="submit"
                 className="submit__button"
+                onClick={() => onConfirm()}
               >
                 Confirm
               </button>
