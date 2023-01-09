@@ -24,8 +24,8 @@ const Summary = ({ amountProducts, total }: summaryType) => {
 
   const handleClickRS = () => {
     setPromoButtonRSActive(!promoButtonRSActive);
-    
-    if(!promoButtonRSActive) {
+
+    if (!promoButtonRSActive) {
       setPromoOld(true);
       setNewSumActive(true);
     } else {
@@ -33,7 +33,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setNewSumActive(false);
     }
 
-    if(promoButtonEPMActive && promoButtonRSActive) {
+    if (promoButtonEPMActive && promoButtonRSActive) {
       setPromoOld(true);
       setNewSumActive(false);
       setNewSumALLActive(true);
@@ -43,17 +43,16 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setNewSumALLActive(false);
     }
 
-    if(!promoButtonEPMActive && !promoButtonRSActive) {
+    if (!promoButtonEPMActive && !promoButtonRSActive) {
       setPromoOld(false);
       setNewSumActive(false);
     }
-    
   };
 
   const handleClickEPM = () => {
     setPromoButtonEPMActive(!promoButtonEPMActive);
-    
-    if(!promoButtonEPMActive) {
+
+    if (!promoButtonEPMActive) {
       setPromoOld(true);
       setNewSumActive(true);
     } else {
@@ -61,7 +60,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setNewSumActive(false);
     }
 
-    if(promoButtonEPMActive && promoButtonRSActive) {
+    if (promoButtonEPMActive && promoButtonRSActive) {
       setPromoOld(true);
       setNewSumActive(false);
       setNewSumALLActive(true);
@@ -71,11 +70,10 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setNewSumALLActive(false);
     }
 
-    if(!promoButtonEPMActive && !promoButtonRSActive) {
+    if (!promoButtonEPMActive && !promoButtonRSActive) {
       setPromoOld(false);
       setNewSumActive(false);
     }
-    
   };
 
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
