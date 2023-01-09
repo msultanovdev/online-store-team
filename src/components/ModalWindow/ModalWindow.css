@@ -69,6 +69,11 @@
     margin-top: 15px;
 }
 
+.submit__button.active {
+    color: red;
+}
+
+/*
 .submit__button:hover {
     box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
     color: blue;
@@ -91,7 +96,7 @@
 .submit__button:hover:before {
     left: 100%;
 }
-
+*/
 
 .card-form {
     /* display: flex;
