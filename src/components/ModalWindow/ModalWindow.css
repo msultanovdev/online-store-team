@@ -66,6 +66,7 @@
     background-color: transparent;
     color: white;
     font-family: 'Gloria Hallelujah', cursive;
+    margin-top: 15px;
 }
 
 .submit__button:hover {
@@ -90,10 +91,12 @@
 .submit__button:hover:before {
     left: 100%;
 }
+
 .card-form {
     display: flex;
     flex-direction: column;
 }
+
 .card-form input {
     padding: 6px;
     margin: 2px;

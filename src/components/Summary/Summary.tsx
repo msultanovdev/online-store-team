@@ -24,7 +24,6 @@ const Summary = ({ amountProducts, total }: summaryType) => {
 
   const handleClickRS = () => {
     setPromoButtonRSActive(!promoButtonRSActive);
-    setPromoButtonEPMActive(!promoButtonEPMActive);
     if (!promoButtonRSActive) {
       console.log(reducedPrice);
       setNewSumActive(true);
@@ -49,7 +48,6 @@ const Summary = ({ amountProducts, total }: summaryType) => {
     }
   };
 
-  /*
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromo(e.target.value);
     const point = e.target.value;
@@ -63,7 +61,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       // setPromoEpmActive(false);
     }
   };
-*/
+  /*
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     switch (e.target.value) {
       case "RS":
@@ -74,7 +72,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
         break;
     }
   };
-
+*/
   return (
     <div className="summary">
       <div className="summary-title">

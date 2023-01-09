@@ -148,13 +148,13 @@ const ModalWindow = () => {
   };
   const cardHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const res: string = e.currentTarget.value.replace(/^[0-9]{17}$/, "");
+
     setCardNumber(res);
   };
   const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res: string = e.currentTarget.value.replace(
-      /^([0][1-9]|[1][0-2])\/[0-9]{4}$/,
-      ""
-    );
+    const res: string = e.currentTarget.value;
+    console.log(res);
+
     setCardDate(res);
   };
   const cvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -262,7 +262,7 @@ const ModalWindow = () => {
                     onFocus={(e) => setFocus(e.target.name)}
                   />
                   <input
-                    type="number"
+                    type="tel"
                     name="cardDate"
                     placeholder="MM/YY Expiry"
                     value={cardDate}
