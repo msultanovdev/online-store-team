@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./ModalWindow.css";
-import Cards from 'react-credit-cards-2';
-import 'react-credit-cards-2/es/styles-compiled.css';
+import Cards from "react-credit-cards-2";
+import "react-credit-cards-2/es/styles-compiled.css";
 
-
-import visa from '../../assets/visa.png';
-import masterCard from '../../assets/mastercard.png';
-import mirCard from '../../assets/mir-credit.png';
-import creditCard from '../../assets/credit-card.png';
+import visa from "../../assets/visa.png";
+import masterCard from "../../assets/mastercard.png";
+import mirCard from "../../assets/mir-credit.png";
+import creditCard from "../../assets/credit-card.png";
 import { TotalContext } from "../../totalContext";
 
 //const [image, setImage] = useState("");
@@ -16,7 +15,7 @@ type ModalType = {
   setActive: (active: boolean) => void;
 };
 const ModalWindow = () => {
-  const {isModalActive, setIsModalActive} = useContext(TotalContext);
+  const { isModalActive, setIsModalActive } = useContext(TotalContext);
 
   const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState("");
@@ -46,7 +45,7 @@ const ModalWindow = () => {
   const [cartDateError, setCardDateError] = useState("");
   const [cardCvvError, setCardCvvError] = useState("");
   const [formValid, setFormvalid] = useState(false);
-  const [cardImage, setCardImage] = useState('');
+  const [cardImage, setCardImage] = useState("");
 
   useEffect(() => {
     if (
@@ -147,18 +146,31 @@ const ModalWindow = () => {
       setNameError("At least 2 words!");
     }
   };
+  const cardHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const res: string = e.currentTarget.value.replace(/^[0-9]{17}$/, "");
 
+    setCardNumber(res);
+  };
+  const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const res: string = e.currentTarget.value;
+    console.log(res);
+
+    setCardDate(res);
+  };
+  const cvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const res: string = e.currentTarget.value.replace(/^[0-9]{4}$/, "");
+    setCardCvv(res);
+  };
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res: string = e.currentTarget.value.replace(/\D/g, '');
-    setPhone('+' + res);
-    
+    const res: string = e.currentTarget.value.replace(/\D/g, "");
+    setPhone("+" + res);
+
     const phoneNum: string = e.currentTarget.value;
-    if(phoneNum.length <= 9) {
-      setPhoneError('Phone number must have at least 9 symbols');
+    if (phoneNum.length <= 9) {
+      setPhoneError("Phone number must have at least 9 symbols");
     } else {
-      setPhoneError('');
+      setPhoneError("");
     }
-    
   };
 
   return (
@@ -225,7 +237,7 @@ const ModalWindow = () => {
               />
               <div className="credit__card">
                 <div className="credit__card-title">Credit Card</div>
-                <Cards 
+                <Cards
                   number={cardNumber}
                   name={cardName}
                   expiry={cardDate}
@@ -233,38 +245,38 @@ const ModalWindow = () => {
                   focused={focus}
                 />
                 <form className="card-form">
-                  <input 
-                    type="tel" 
-                    name="cardNumber" 
+                  <input
+                    type="tel"
+                    name="cardNumber"
                     placeholder="Card Number"
-                    value={cardNumber} 
-                    onChange={e => setCardNumber(e.currentTarget.value)} 
-                    onFocus={e => setFocus(e.target.name)}
+                    value={cardNumber}
+                    onChange={(e) => cardHandler(e)}
+                    onFocus={(e) => setFocus(e.target.name)}
                   />
-                  <input 
-                    type="text" 
-                    name="cardName" 
+                  <input
+                    type="text"
+                    name="cardName"
                     placeholder="Name"
-                    value={cardName} 
-                    onChange={e => setCardName(e.currentTarget.value)} 
-                    onFocus={e => setFocus(e.target.name)}
-                  /> 
-                  <input 
-                    type="text" 
-                    name="cardDate" 
+                    value={cardName}
+                    onChange={(e) => setCardName(e.currentTarget.value)}
+                    onFocus={(e) => setFocus(e.target.name)}
+                  />
+                  <input
+                    type="tel"
+                    name="cardDate"
                     placeholder="MM/YY Expiry"
-                    value={cardDate} 
-                    onChange={e => setCardDate(e.currentTarget.value)} 
-                    onFocus={e => setFocus(e.target.name)}
-                  /> 
-                  <input 
-                    type="tel" 
-                    name="cardCvv" 
+                    value={cardDate}
+                    onChange={(e) => dateHandler(e)}
+                    onFocus={(e) => setFocus(e.target.name)}
+                  />
+                  <input
+                    type="number"
+                    name="cardCvv"
                     placeholder="CVV"
-                    value={cardCvv} 
-                    onChange={e => setCardCvv(e.currentTarget.value)} 
-                    onFocus={e => setFocus(e.target.name)}
-                  /> 
+                    value={cardCvv}
+                    onChange={(e) => cvvHandler(e)}
+                    onFocus={(e) => setFocus(e.target.name)}
+                  />
                 </form>
               </div>
               <button
