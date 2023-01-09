@@ -115,7 +115,6 @@ const ModalWindow = () => {
     setDelivery(e.target.value);
     const delivery: string = e.target.value;
     const resultDelivery = delivery.split(" ");
-    console.log(resultDelivery);
     if (resultDelivery.length >= 3) {
       const [firstWord, secondWord, thirdWord]: string[] = resultDelivery;
       if (firstWord.length < 3) {
@@ -131,13 +130,11 @@ const ModalWindow = () => {
       setDeliveryError("At least 3 words!");
     }
   };
-  //console.log(LastDeliveryName);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     const name: string = e.target.value;
     const nameResult = name.split(" ");
-    console.log(nameResult);
     if (nameResult.length >= 2) {
       const [firstName, lastName]: string[] = nameResult;
       if (firstName.length < 3) {

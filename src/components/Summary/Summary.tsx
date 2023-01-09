@@ -79,7 +79,6 @@ const Summary = ({ amountProducts, total }: summaryType) => {
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromo(e.target.value);
     const point = e.target.value;
-    console.log(point);
     if (point === "RS") {
       setPromoRsActive(true);
     } else if (point === "EPM") {
