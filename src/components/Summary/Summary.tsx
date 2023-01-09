@@ -9,7 +9,7 @@ type summaryType = {
 };
 
 const Summary = ({ amountProducts, total }: summaryType) => {
-  const { isModalActive, setIsModalActive } = useContext(TotalContext);
+  const { setIsModalActive } = useContext(TotalContext);
 
   const [promoRsActive, setPromoRsActive] = useState(false);
   const [promoEpmActive, setPromoEpmActive] = useState(false);
@@ -24,29 +24,58 @@ const Summary = ({ amountProducts, total }: summaryType) => {
 
   const handleClickRS = () => {
     setPromoButtonRSActive(!promoButtonRSActive);
-    if (!promoButtonRSActive) {
-      console.log(reducedPrice);
-      setNewSumActive(true);
+    
+    if(!promoButtonRSActive) {
       setPromoOld(true);
-    } else if (promoButtonRSActive) {
-      setNewSumActive(false);
+      setNewSumActive(true);
+    } else {
       setPromoOld(false);
-      setPromoRsActive(false);
-      //setPromoEpmActive(false);
+      setNewSumActive(false);
     }
+
+    if(promoButtonEPMActive && promoButtonRSActive) {
+      setPromoOld(true);
+      setNewSumActive(false);
+      setNewSumALLActive(true);
+    } else {
+      setPromoOld(true);
+      setNewSumActive(true);
+      setNewSumALLActive(false);
+    }
+
+    if(!promoButtonEPMActive && !promoButtonRSActive) {
+      setPromoOld(false);
+      setNewSumActive(false);
+    }
+    
   };
+
   const handleClickEPM = () => {
     setPromoButtonEPMActive(!promoButtonEPMActive);
-    if (!promoButtonEPMActive) {
-      console.log(reducedPrice);
-      setNewSumActive(true);
+    
+    if(!promoButtonEPMActive) {
       setPromoOld(true);
-    } else if (promoButtonEPMActive) {
-      setNewSumActive(false);
+      setNewSumActive(true);
+    } else {
       setPromoOld(false);
-      //setPromoRsActive(false);
-      setPromoEpmActive(false);
+      setNewSumActive(false);
     }
+
+    if(promoButtonEPMActive && promoButtonRSActive) {
+      setPromoOld(true);
+      setNewSumActive(false);
+      setNewSumALLActive(true);
+    } else {
+      setPromoOld(true);
+      setNewSumActive(true);
+      setNewSumALLActive(false);
+    }
+
+    if(!promoButtonEPMActive && !promoButtonRSActive) {
+      setPromoOld(false);
+      setNewSumActive(false);
+    }
+    
   };
 
   const promoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +147,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
           <div className="promo__block">
             <div className="promo__text">EPAM Systems - 10%</div>
             <button className="promo__button" onClick={handleClickEPM}>
-              {promoButtonEPMActive ? "Drop" : "Add"}
+              {promoButtonEPMActive ? "Add" : "Drop"}
             </button>
           </div>
         </div>
