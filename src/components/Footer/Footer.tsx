@@ -8,7 +8,9 @@ const Footer = () => {
         className="footer__name-student"
         data-content="KriStiNa Kasyanovskaya"
       >
-        KriStiNa Kasyanovskaya
+        <a href="https://github.com/KasyanovskayaKristina">
+          KriStiNa Kasyanovskaya
+        </a>
       </div>
       <a href="https://rs.school/" className="footer__rs-logo">
         <img
@@ -17,8 +19,9 @@ const Footer = () => {
           className="rs-logo__img"
         ></img>
       </a>
+      <div className="year">2023</div>
       <div className="footer__name-student" data-content="Mukhammadamin">
-        Mukhammadamin
+        <a href="https://github.com/msultanovdev"> Mukhammadamin</a>
       </div>
     </footer>
   );
