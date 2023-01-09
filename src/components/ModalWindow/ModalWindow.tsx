@@ -280,7 +280,7 @@ const ModalWindow = () => {
                 </form>
               </div>
               <button
-                disabled={formValid}
+                disabled={!formValid}
                 type="submit"
                 className="submit__button"
                 onClick={() => onConfirm()}
