@@ -112,3 +112,20 @@
     margin: 2px;
     border: transparent;
 }
+.complet-confirm {
+    padding: 150px;
+    background-color: rgba(0, 0, 0, 0.769);
+    border-radius: 16px;
+    border: 5px solid green;
+    text-align: center;
+    color: rgb(1, 165, 1);
+    letter-spacing: 1.2rem;
+    font-size: 34px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.complet-confirm span {
+    color: white;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: normal;
+}
