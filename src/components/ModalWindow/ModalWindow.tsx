@@ -51,6 +51,7 @@ const ModalWindow = () => {
   const [cardImage, setCardImage] = useState("");
   const [order, setOrder] = useState(false);
   const [newOrderActive, setNewOrderActive] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   useEffect(() => {
     if (
       emailError ||
@@ -151,19 +152,26 @@ const ModalWindow = () => {
     }
   };
   const cardHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res: string = e.currentTarget.value.replace(/^[0-9]{17}$/, "");
-
-    setCardNumber(res);
+    const result: string = e.currentTarget.value.replace(/\D/g, '');
+    
+    setCardNumber(result);
   };
-  const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res: string = e.currentTarget.value;
-    console.log(res);
 
-    setCardDate(res);
+  const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result: string = e.currentTarget.value.replace(/\D/g, '');
+    const mm = result.slice(0,2);
+
+    if(Number(mm) > 12) {
+      setCardDate('');
+    } else {
+      setCardDate(result);
+    }
+
   };
   const cvvHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res: string = e.currentTarget.value.replace(/^[0-9]{4}$/, "");
-    setCardCvv(res);
+    const result: string = e.currentTarget.value.replace(/\D/g, '');
+
+    setCardCvv(result);
   };
   const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const res: string = e.currentTarget.value.replace(/\D/g, "");
@@ -178,8 +186,7 @@ const ModalWindow = () => {
   };
 
   const onConfirm = () => {
-    setOrder(!order);
-    setNewOrderActive(true)
+    setIsConfirm(true);
     setTimeout(() => {
       navigate("/catalog");
       localStorage.setItem("basketProducts", JSON.stringify([]));
@@ -196,120 +203,126 @@ const ModalWindow = () => {
       className={isModalActive ? "modal__window active" : "modal__window"}
       onClick={() => setIsModalActive(false)}
     >
+      {!isConfirm ? 
       <div
-        className={isModalActive ? "modal__form active" : "modal__form"}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <form>
-          <div className="form__form-content">
-            <div className="modal__window-title">Personal Details</div>
-            <div className="modal__window-input">
-              {nameDirty && nameError && (
-                <div className="error">{nameError}</div>
-              )}
-              <input
-                onChange={(e) => nameHandler(e)}
-                onBlur={(e) => blurEffect(e)}
-                value={name}
-                type="text"
-                name="name"
-                className="modal__window-name modal__window-input"
-                placeholder="Enter your first/last name...."
+      className={isModalActive ? "modal__form active" : "modal__form"}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <form>
+        <div className="form__form-content">
+          <div className="modal__window-title">Personal Details</div>
+          <div className="modal__window-input">
+            {nameDirty && nameError && (
+              <div className="error">{nameError}</div>
+            )}
+            <input
+              onChange={(e) => nameHandler(e)}
+              onBlur={(e) => blurEffect(e)}
+              value={name}
+              type="text"
+              name="name"
+              className="modal__window-name modal__window-input"
+              placeholder="Enter your first/last name...."
+            />
+            {phoneDirty && phoneError && (
+              <div className="error">{phoneError}</div>
+            )}
+            <input
+              value={phone}
+              onChange={(e) => phoneHandler(e)}
+              onBlur={(e) => blurEffect(e)}
+              type="text"
+              name="phone_number"
+              list="tel-list"
+              placeholder="+99865985463"
+              className="modal__window-input"
+            ></input>
+            {emailDirty && emailError && (
+              <div className="error">{emailError}</div>
+            )}
+            <input
+              onChange={(e) => emailHandler(e)}
+              onBlur={(e) => blurEffect(e)}
+              value={email}
+              name="email"
+              type="text"
+              className="email modal__window-input"
+              placeholder="Enter your email...."
+            />
+            {deliveryDirty && deliveryError && (
+              <div className="error">{deliveryError}</div>
+            )}
+            <input
+              onChange={(e) => deliveryHandler(e)}
+              onBlur={(e) => blurEffect(e)}
+              value={delivery}
+              name="delivery"
+              type="text"
+              className="delivery modal__window-input"
+              placeholder="Enter your adress...."
+            />
+            <div className="credit__card">
+              <div className="credit__card-title">Credit Card</div>
+              <Cards
+                number={cardNumber}
+                name={cardName}
+                expiry={cardDate}
+                cvc={cardCvv}
+                focused={focus}
               />
-              {phoneDirty && phoneError && (
-                <div className="error">{phoneError}</div>
-              )}
-              <input
-                value={phone}
-                onChange={(e) => phoneHandler(e)}
-                onBlur={(e) => blurEffect(e)}
-                type="text"
-                name="phone_number"
-                list="tel-list"
-                placeholder="+99865985463"
-                className="modal__window-input"
-              ></input>
-              {emailDirty && emailError && (
-                <div className="error">{emailError}</div>
-              )}
-              <input
-                onChange={(e) => emailHandler(e)}
-                onBlur={(e) => blurEffect(e)}
-                value={email}
-                name="email"
-                type="text"
-                className="email modal__window-input"
-                placeholder="Enter your email...."
-              />
-              {deliveryDirty && deliveryError && (
-                <div className="error">{deliveryError}</div>
-              )}
-              <input
-                onChange={(e) => deliveryHandler(e)}
-                onBlur={(e) => blurEffect(e)}
-                value={delivery}
-                name="delivery"
-                type="text"
-                className="delivery modal__window-input"
-                placeholder="Enter your adress...."
-              />
-              <div className="credit__card">
-                <div className="credit__card-title">Credit Card</div>
-                <Cards
-                  number={cardNumber}
-                  name={cardName}
-                  expiry={cardDate}
-                  cvc={cardCvv}
-                  focused={focus}
+              <form className="card-form">
+                <input
+                  type="tel"
+                  name="cardNumber"
+                  placeholder="Card Number"
+                  maxLength={16}
+                  value={cardNumber}
+                  onChange={(e) => cardHandler(e)}
+                  onFocus={(e) => setFocus(e.target.name)}
                 />
-                <form className="card-form">
-                  <input
-                    type="tel"
-                    name="cardNumber"
-                    placeholder="Card Number"
-                    value={cardNumber}
-                    onChange={(e) => cardHandler(e)}
-                    onFocus={(e) => setFocus(e.target.name)}
-                  />
-                  <input
-                    type="text"
-                    name="cardName"
-                    placeholder="Name"
-                    value={cardName}
-                    onChange={(e) => setCardName(e.currentTarget.value)}
-                    onFocus={(e) => setFocus(e.target.name)}
-                  />
-                  <input
-                    type="tel"
-                    name="cardDate"
-                    placeholder="MM/YY Expiry"
-                    value={cardDate}
-                    onChange={(e) => dateHandler(e)}
-                    onFocus={(e) => setFocus(e.target.name)}
-                  />
-                  <input
-                    type="number"
-                    name="cardCvv"
-                    placeholder="CVV"
-                    value={cardCvv}
-                    onChange={(e) => cvvHandler(e)}
-                    onFocus={(e) => setFocus(e.target.name)}
-                  />
-                </form>
-              </div>
-              <div className="order">{order}</div>
-              <button
-                disabled={!formValid}
-                type="submit"
-                className={newOrderActive ? "submit__button active" : "submit__button"}
-                onClick={() => onConfirm()}
-              >
-                {order ? "Complete" : "Confirm"}
-              </button>
+                <input
+                  type="text"
+                  name="cardName"
+                  placeholder="Name"
+                  maxLength={12}
+                  value={cardName}
+                  onChange={(e) => setCardName(e.currentTarget.value)}
+                  onFocus={(e) => setFocus(e.target.name)}
+                />
+                <input
+                  type="tel"
+                  name="cardDate"
+                  maxLength={4}
+                  placeholder="MM/YY Expiry"
+                  value={cardDate}
+                  onChange={(e) => dateHandler(e)}
+                  onFocus={(e) => setFocus(e.target.name)}
+                />
+                <input
+                  type="tel"
+                  name="cardCvv"
+                  maxLength={3}
+                  placeholder="CVV"
+                  value={cardCvv}
+                  onChange={(e) => cvvHandler(e)}
+                  onFocus={(e) => setFocus(e.target.name)}
+                />
+              </form>
             </div>
+            <div className="order">{order}</div>
+            <button
+              disabled={!formValid}
+              type="submit"
+              className={newOrderActive ? "submit__button active" : "submit__button"}
+              onClick={() => onConfirm()}
+            >
+              Confirim
+            </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
+    </div> : <div className="complet-confirm">Complete<br/><span>thanks for your buying!</span></div>  
+    }
     </div>
   );
 };
