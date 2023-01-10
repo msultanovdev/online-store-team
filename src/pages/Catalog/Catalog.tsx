@@ -35,6 +35,9 @@ const Catalog = () => {
     localStorage.getItem("basketProducts") || `[]`
   );
 
+  const sort = searchParams.get('sort');
+  const search = searchParams.get('search');
+
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
       return true;
@@ -44,8 +47,9 @@ const Catalog = () => {
 
   useEffect(() => {
     setSortOption(searchParams.get('sort') || '');
+    setSearchValue(searchParams.get('search') || '');
     sortByParams();
-  }, [])
+  }, [search, sort])
   
   const addToCart = (object: dataProps) => {
     basketProducts.push(object);
@@ -110,7 +114,8 @@ const Catalog = () => {
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setSearchValue(event.target.value);
+    setSearchParams({search: event.target.value, sort: searchParams.get('sort') || ''});
+    setSearchValue(event.target.value)
   };
   //filters
 
@@ -139,8 +144,7 @@ const Catalog = () => {
 
   const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
-    setSearchParams({sort: e.currentTarget.value});
-    
+    setSearchParams({sort: e?.currentTarget.value, search: searchParams.get('search') || ''})
     sortByParams()
   };
 
@@ -450,7 +454,7 @@ const Catalog = () => {
                     placeholder="Search form"
                     className="search__block-form"
                     onChange={onChangeSearchInput}
-                    value={searchValue}
+                    value={searchParams.get('search') || ''}
                   />
                   {searchValue && (
                     <div
