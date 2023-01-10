@@ -45,13 +45,12 @@ const Summary = ({ amountProducts, total }: summaryType) => {
 
     if (!promoButtonEPMActive && !promoButtonRSActive) {
       setPromoOld(false);
-      setNewSumActive(false);
+      setNewSumActive(true);
     }
   };
 
   const handleClickEPM = () => {
     setPromoButtonEPMActive(!promoButtonEPMActive);
-
     if (!promoButtonEPMActive) {
       setPromoOld(true);
       setNewSumActive(true);
@@ -66,7 +65,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
       setNewSumALLActive(true);
     } else {
       setPromoOld(true);
-      setNewSumActive(true);
+      //setNewSumActive(true);
       setNewSumALLActive(false);
     }
 
@@ -143,7 +142,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
           <div className="promo__block">
             <div className="promo__text">Rolling Scopes School - 10%</div>
             <button className="promo__button" onClick={handleClickRS}>
-              {promoButtonRSActive ? "Drop" : "Add"}
+              {promoButtonRSActive ? "DROP" : "ADD"}
             </button>
           </div>
         </div>
@@ -155,7 +154,7 @@ const Summary = ({ amountProducts, total }: summaryType) => {
           <div className="promo__block">
             <div className="promo__text">EPAM Systems - 10%</div>
             <button className="promo__button" onClick={handleClickEPM}>
-              {promoButtonEPMActive ? "Add" : "Drop"}
+              {promoButtonEPMActive ? "DROP" : "ADD"}
             </button>
           </div>
         </div>

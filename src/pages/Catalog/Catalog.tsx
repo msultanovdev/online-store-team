@@ -23,7 +23,8 @@ const Catalog = () => {
     images: string[];
   };
 
-  const { totalPrice, setTotalPrice, amount, setAmount } = useContext(TotalContext);
+  const { totalPrice, setTotalPrice, amount, setAmount } =
+    useContext(TotalContext);
   const [checked, setChecked] = useState<string[]>([]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
 
@@ -41,9 +42,7 @@ const Catalog = () => {
   const addToCart = (object: dataProps) => {
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-    basketProducts = JSON.parse(
-      localStorage.getItem("basketProducts") || `[]`
-    );
+    basketProducts = JSON.parse(localStorage.getItem("basketProducts") || `[]`);
     const total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price + object.price);
     setAmount(amount + 1);
@@ -54,14 +53,13 @@ const Catalog = () => {
         price: total.price + object.price,
       })
     );
-    const counts: ICountType = {}
-    basketProducts.forEach(function(a: dataProps){
+    const counts: ICountType = {};
+    basketProducts.forEach(function (a: dataProps) {
       counts[a.id] = counts[a.id] + 1 || 1;
     });
-    localStorage.setItem('counts', JSON.stringify(counts));
+    localStorage.setItem("counts", JSON.stringify(counts));
     setTotalPrice(totalPrice + object.price);
     isAdded(object);
-    
   };
 
   const removeFromCart = (object: dataProps) => {
@@ -69,7 +67,9 @@ const Catalog = () => {
       JSON.parse(localStorage.getItem("counts")!) !== null ? true : false;
     const counts = JSON.parse(localStorage.getItem("counts")!);
     const total = JSON.parse(localStorage.getItem("total")!);
-    setTotalPrice(totalPrice - object.price * (isCounts ? counts[`${object.id}`] : 1));
+    setTotalPrice(
+      totalPrice - object.price * (isCounts ? counts[`${object.id}`] : 1)
+    );
     setAmount(amount - (isCounts ? counts[`${object.id}`] : 1));
     setTotalPrice(
       total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
@@ -89,8 +89,8 @@ const Catalog = () => {
       .sort()
       .splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-    delete counts[`${object.id}`]
-    localStorage.setItem('counts', JSON.stringify(counts)) 
+    delete counts[`${object.id}`];
+    localStorage.setItem("counts", JSON.stringify(counts));
   };
   //фильтры смена расположения карт
   const [isSmall, setIsSmall] = useState(false);
@@ -164,19 +164,17 @@ const Catalog = () => {
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
-  }
+  };
 
-  const onChangeBrand = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-      const currentIndex = checkedBrand.indexOf(event.currentTarget.value);
-      const newChecked = [...checkedBrand];
+  const onChangeBrand = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const currentIndex = checkedBrand.indexOf(event.currentTarget.value);
+    const newChecked = [...checkedBrand];
 
-      if (currentIndex === -1) {
-        newChecked.push(event.currentTarget.value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
+    if (currentIndex === -1) {
+      newChecked.push(event.currentTarget.value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
     setCheckedBrand(newChecked);
   };
 
@@ -197,44 +195,48 @@ const Catalog = () => {
   const onPriceChange = () => {
     const priceFilterData = priceFilter();
     setData(priceFilterData);
-  }
-  
+  };
+
   const onStockChange = () => {
     const stockFilterData = stockFilter();
     setData(stockFilterData);
-  }
+  };
 
   const categoryFilter = () => {
     for (let i = 0; i <= checked.length; i++) {
-      const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
+      const temp = db.products.filter(
+        (item) => item.category?.toLowerCase() === checked[i]?.toLowerCase()
+      );
       categoryFilterData.push(...temp);
     }
     return categoryFilterData;
-  }
+  };
 
   const brandFilter = () => {
     for (let i = 0; i <= checkedBrand.length; i++) {
-      const temp = db.products.filter((item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase());
+      const temp = db.products.filter(
+        (item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase()
+      );
       brandFilterData.push(...temp);
     }
     return brandFilterData;
-  }
+  };
 
   const priceFilter = () => {
-    return db.products.filter(item => {
-      if(item.price >= min && item.price <= max) {
+    return db.products.filter((item) => {
+      if (item.price >= min && item.price <= max) {
         return item;
       }
-    })
-  }
+    });
+  };
 
   const stockFilter = () => {
-    return db.products.filter(item => {
-      if(item.stock >= minStock && item.stock <= maxStock) {
+    return db.products.filter((item) => {
+      if (item.stock >= minStock && item.stock <= maxStock) {
         return item;
       }
-    })
-  }
+    });
+  };
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1749);
@@ -242,34 +244,38 @@ const Catalog = () => {
   const [maxStock, setMaxStock] = useState(150);
 
   useEffect(() => {
-    if(checked.length && checkedBrand.length) {
+    if (checked.length && checkedBrand.length) {
       const categoryData = categoryFilter();
       const brandData = brandFilter();
       const res = [];
-      if(categoryData.length >= brandData.length) {
-        for(let i = 0; i < categoryData.length; i++) {
-          for(let j = 0; j < brandData.length; j++) {
-            if(categoryData[i].title?.toLowerCase() === brandData[j].title?.toLowerCase()) {
+      if (categoryData.length >= brandData.length) {
+        for (let i = 0; i < categoryData.length; i++) {
+          for (let j = 0; j < brandData.length; j++) {
+            if (
+              categoryData[i].title?.toLowerCase() ===
+              brandData[j].title?.toLowerCase()
+            ) {
               res.push(brandData[j]);
             }
           }
         }
-      } 
-      else {
-        for(let i = 0; i < brandData.length; i++) {
-          for(let j = 0; j < categoryData.length; j++) {
-            if(brandData[i].title?.toLowerCase() === categoryData[j].title?.toLowerCase()) {
+      } else {
+        for (let i = 0; i < brandData.length; i++) {
+          for (let j = 0; j < categoryData.length; j++) {
+            if (
+              brandData[i].title?.toLowerCase() ===
+              categoryData[j].title?.toLowerCase()
+            ) {
               res.push(categoryData[j]);
             }
           }
         }
       }
       setData(res);
-      
-    } else if(checked.length && !checkedBrand.length) {
+    } else if (checked.length && !checkedBrand.length) {
       const categoryData = categoryFilter();
       setData(categoryData);
-    } else if(checkedBrand.length && !checked.length) {
+    } else if (checkedBrand.length && !checked.length) {
       const brandData = brandFilter();
       setData(brandData);
     } else {
@@ -277,11 +283,13 @@ const Catalog = () => {
     }
 
     // setData()
-    
   }, [checked, checkedBrand]);
 
   // filters dual slider
-
+  const [found, setFound] = useState(data.length);
+  useEffect(() => {
+    setFound(data.length);
+  }, [data]);
   return (
     <div className="catalog">
       <div className="catalog-container align-center">
@@ -318,12 +326,13 @@ const Catalog = () => {
               <div className="brands">
                 {brandCategory.map((value, i) => (
                   <div key={i} className="brand__checkbox">
-                    <input id={value} type="checkbox" value={value}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        {
-                          onChangeBrand(e);
-                        }
-                      }
+                    <input
+                      id={value}
+                      type="checkbox"
+                      value={value}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChangeBrand(e);
+                      }}
                     />
                     <label htmlFor={value}>{value}</label>
                     <span>(0/1)</span>
@@ -418,7 +427,7 @@ const Catalog = () => {
                     <option value="rating-DESC">Sort by raiting DESC</option>
                   </select>
                 </div>
-                <div className="found__title">Found:1</div>
+                <div className="found__title">Found:{found}</div>
                 <div className="search__block">
                   <input
                     type="search"
@@ -450,40 +459,42 @@ const Catalog = () => {
               <div className="cards__container">
                 <div className="cards__container-card">
                   <div className={data.length ? "cards__content" : "not-found"}>
-                    {data.length ? data
-                      .filter((data) =>
-                        (
-                          data.title +
-                          data.brand +
-                          data.category +
-                          data.stock +
-                          data.description +
-                          data.discountPercentage +
-                          data.price +
-                          data.rating
-                        )
-                          .toLowerCase()
-                          .includes(searchValue.toLowerCase())
-                      )
-                      .map((item) => (
-                        <Card
-                          isSmall={isSmall}
-                          isAdded={() => isAdded(item)}
-                          id={item.id}
-                          key={item.id}
-                          addToCart={() => addToCart(item)}
-                          removeFromCart={() => removeFromCart(item)}
-                          title={item.title}
-                          thumbnail={item.thumbnail}
-                          category={item.category}
-                          brand={item.brand}
-                          price={item.price}
-                          discountPercentage={item.discountPercentage}
-                          rating={item.rating}
-                          stock={item.stock}
-                          description={""}
-                        />
-                      )) : 'No products found!'}
+                    {data.length
+                      ? data
+                          .filter((data) =>
+                            (
+                              data.title +
+                              data.brand +
+                              data.category +
+                              data.stock +
+                              data.description +
+                              data.discountPercentage +
+                              data.price +
+                              data.rating
+                            )
+                              .toLowerCase()
+                              .includes(searchValue.toLowerCase())
+                          )
+                          .map((item) => (
+                            <Card
+                              isSmall={isSmall}
+                              isAdded={() => isAdded(item)}
+                              id={item.id}
+                              key={item.id}
+                              addToCart={() => addToCart(item)}
+                              removeFromCart={() => removeFromCart(item)}
+                              title={item.title}
+                              thumbnail={item.thumbnail}
+                              category={item.category}
+                              brand={item.brand}
+                              price={item.price}
+                              discountPercentage={item.discountPercentage}
+                              rating={item.rating}
+                              stock={item.stock}
+                              description={""}
+                            />
+                          ))
+                      : "No products found!"}
                   </div>
                 </div>
               </div>
