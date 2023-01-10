@@ -93,6 +93,7 @@
 }
 */
 .cards__block {
+  margin-left: 30px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -217,7 +218,7 @@
 .cards__content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: row;
   flex-wrap: wrap;
 }
