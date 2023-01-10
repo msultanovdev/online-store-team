@@ -5,23 +5,26 @@ import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
 import { searchCategory, brandCategory } from "../../consts";
 import ReactSlider from "react-slider";
-import { useNavigate } from "react-router-dom";
 import { ICountType } from "../../types";
+import { useSearchParams } from "react-router-dom";
+
+type dataProps = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+};
+
 
 const Catalog = () => {
-  type dataProps = {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: string[];
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { totalPrice, setTotalPrice, amount, setAmount } =
     useContext(TotalContext);
@@ -39,6 +42,11 @@ const Catalog = () => {
     return false;
   };
 
+  useEffect(() => {
+    setSortOption(searchParams.get('sort') || '');
+    sortByParams();
+  }, [])
+  
   const addToCart = (object: dataProps) => {
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
@@ -130,20 +138,26 @@ const Catalog = () => {
   };
 
   const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.currentTarget.value);
-    if (e.currentTarget.value === "price-ASC") {
+    e.preventDefault();
+    setSearchParams({sort: e.currentTarget.value});
+    
+    sortByParams()
+  };
+
+  const sortByParams = () => {
+    if (searchParams.get('sort') === "price-ASC") {
       sortByPrice();
     }
-    if (e.currentTarget.value === "price-DESC") {
+    if (searchParams.get('sort') === "price-DESC") {
       sortByPriceDesc();
     }
-    if (e.currentTarget.value === "rating-ASC") {
+    if (searchParams.get('sort') === "rating-ASC") {
       sortByRaiting();
     }
-    if (e.currentTarget.value === "rating-DESC") {
+    if (searchParams.get('sort') === "rating-DESC") {
       sortByRaitingDesc();
     }
-  };
+  }
   //filters category
   const categoryFilterData: dataProps[] = [];
   const brandFilterData: dataProps[] = [];
@@ -285,6 +299,8 @@ const Catalog = () => {
     // setData()
   }, [checked, checkedBrand]);
 
+  console.log(searchParams.get('sort')?.toString())
+
   // filters dual slider
   const [found, setFound] = useState(data.length);
   useEffect(() => {
@@ -408,7 +424,7 @@ const Catalog = () => {
                     name="sort"
                     id="sort"
                     className="sort__bar-list"
-                    value={sortOption}
+                    value={searchParams.get('sort') || ''}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                       sortByChange(e)
                     }
