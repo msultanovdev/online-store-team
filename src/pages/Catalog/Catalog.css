@@ -297,3 +297,9 @@ p span {
   box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
   color: blue;
 }
+.copied {
+  background-color: green;
+  border: 1px solid rgb(255, 255, 255);
+  color: white;
+  font-weight: 900;
+}
