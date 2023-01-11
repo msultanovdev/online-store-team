@@ -37,6 +37,7 @@ const Catalog = () => {
 
   const sort = searchParams.get('sort');
   const search = searchParams.get('search');
+  const pattern = searchParams.get('pattern');
 
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
@@ -49,7 +50,9 @@ const Catalog = () => {
     setSortOption(searchParams.get('sort') || '');
     setSearchValue(searchParams.get('search') || '');
     sortByParams();
-  }, [search, sort])
+    const isBoolSmall = Boolean(searchParams.get('pattern') === 'false' ? false : true) || false;
+    setIsSmall(isBoolSmall);
+  }, [search, sort, pattern]);
   
   const addToCart = (object: dataProps) => {
     basketProducts.push(object);
@@ -105,7 +108,7 @@ const Catalog = () => {
     localStorage.setItem("counts", JSON.stringify(counts));
   };
   //фильтры смена расположения карт
-  const [isSmall, setIsSmall] = useState(false);
+  const [isSmall, setIsSmall] = useState(Boolean(searchParams.get('pattern')) || false);
   //фильтр поисковой строки
   const [sortOption, setSortOption] = useState("");
   const [data, setData] = useState(db.products);
@@ -303,7 +306,23 @@ const Catalog = () => {
     // setData()
   }, [checked, checkedBrand]);
 
-  console.log(searchParams.get('sort')?.toString())
+  const smallControl = () => {
+    setIsSmall(true);
+    setSearchParams({
+      sort: searchParams.get('sort') || '',
+      search: searchParams.get('search') || '',
+      pattern: `true`
+    })
+  }
+
+  const bigControl = () => {
+    setIsSmall(false);
+    setSearchParams({
+      sort: searchParams.get('sort') || '',
+      search: searchParams.get('search') || '',
+      pattern: `false`
+    })
+  }
 
   // filters dual slider
   const [found, setFound] = useState(data.length);
@@ -465,12 +484,12 @@ const Catalog = () => {
                 </div>
                 <div className="view__block">
                   <div className="view__block-small">
-                    <button className="sort" onClick={() => setIsSmall(true)}>
+                    <button className={`sort ${isSmall ? 'btn-active' : ''}`} onClick={() => smallControl()}>
                       Small
                     </button>
                   </div>
                   <div className="view__block-big">
-                    <button className="sort" onClick={() => setIsSmall(false)}>
+                    <button className={`sort ${!isSmall ? 'btn-active' : ''}`} onClick={() => bigControl()}>
                       Big
                     </button>
                   </div>
