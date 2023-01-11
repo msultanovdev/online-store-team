@@ -30,6 +30,7 @@ const Catalog = () => {
     useContext(TotalContext);
   const [checked, setChecked] = useState<string[]>([]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
+  const [isCopied, setIsCopied] = useState(false);
 
   let basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
@@ -324,6 +325,14 @@ const Catalog = () => {
     })
   }
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 3000);
+  }
+
   // filters dual slider
   const [found, setFound] = useState(data.length);
   useEffect(() => {
@@ -337,7 +346,7 @@ const Catalog = () => {
             <div className="filters__block">
               <div className="reset__block">
                 <button className="reset__block-button">Reset Filters</button>
-                <button className="reset__block-button">Copy Filters</button>
+                <button className={`reset__block-button ${isCopied ? 'copied' : ''}`} onClick={() => copyLink()}>{!isCopied ? 'Copy Filters' : 'Copied!'}</button>
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
