@@ -26,7 +26,7 @@ const BasketPagination = ({
     }
 
     return (
-        <div className='pagination'>
+        <div data-testId="pagination-block" className='pagination'>
             {pages.map((page, index) => {
                 return (
                     <button

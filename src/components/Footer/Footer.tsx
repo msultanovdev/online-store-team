@@ -14,6 +14,7 @@ const Footer = () => {
       </div>
       <a href="https://rs.school/" className="footer__rs-logo">
         <img
+          data-testId="rs-logo"
           src="https://rs.school/images/rs_school_js.svg"
           alt="rs-logo"
           className="rs-logo__img"
