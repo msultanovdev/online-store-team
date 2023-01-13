@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import './Basket.css';
 import BasketCard from "../../components/BasketCard/BasketCard";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Summary from "../../components/Summary/Summary";
 import BasketPagination from "../../components/BasketPagination/BasketPagination";
 import { TotalContext } from "../../totalContext";

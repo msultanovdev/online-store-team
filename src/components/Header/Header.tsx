@@ -11,7 +11,7 @@ const Header = () => {
     <header className="header">
       <nav id="main-nav" className="sidebar">
         <div className="sidebar__links">
-          <Link to="/catalog" className="sidebar__links-logo">
+          <Link data-testId="title" to="/catalog" className="sidebar__links-logo">
             Online Store
           </Link>
           {/* <Link to="/catalog">Catalog</Link> */}
