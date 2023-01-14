@@ -10,7 +10,7 @@ const Main = () => {
         <div className="main-page__content">
           <h1>Welcome to ONLINE-STORE</h1>
           <p>
-            Please, show our{" "}
+            Please, open our{" "}
             <span>
               <Link to="/catalog">catalog</Link>
             </span>

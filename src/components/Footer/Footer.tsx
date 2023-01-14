@@ -8,7 +8,7 @@ const Footer = () => {
         className="footer__name-student"
         data-content="KriStiNa Kasyanovskaya"
       >
-        <a href="https://github.com/KasyanovskayaKristina">
+        <a data-testId="kristina" href="https://github.com/KasyanovskayaKristina">
           KriStiNa Kasyanovskaya
         </a>
       </div>
@@ -22,7 +22,7 @@ const Footer = () => {
       </a>
       <div className="year">2023</div>
       <div className="footer__name-student" data-content="Mukhammadamin">
-        <a href="https://github.com/msultanovdev"> Mukhammadamin</a>
+        <a data-testId="msultanov" href="https://github.com/msultanovdev"> Mukhammadamin</a>
       </div>
     </footer>
   );
