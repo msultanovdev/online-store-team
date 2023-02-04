@@ -5,31 +5,40 @@ import Card from "../../components/Card/Card";
 import { TotalContext } from "../../totalContext";
 import { searchCategory, brandCategory } from "../../consts";
 import ReactSlider from "react-slider";
-import { useNavigate } from "react-router-dom";
 import { ICountType } from "../../types";
+import { useSearchParams } from "react-router-dom";
+
+type dataProps = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+};
+
 
 const Catalog = () => {
-  type dataProps = {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: string[];
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { totalPrice, setTotalPrice, amount, setAmount } = useContext(TotalContext);
+  const { totalPrice, setTotalPrice, amount, setAmount } =
+    useContext(TotalContext);
   const [checked, setChecked] = useState<string[]>([]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
+  const [isCopied, setIsCopied] = useState(false);
 
   let basketProducts = JSON.parse(
     localStorage.getItem("basketProducts") || `[]`
   );
+
+  const sort = searchParams.get('sort');
+  const search = searchParams.get('search');
+  const pattern = searchParams.get('pattern');
 
   const isAdded = (item: dataProps) => {
     if (basketProducts.filter((obj: dataProps) => obj.id === item.id).length) {
@@ -38,12 +47,18 @@ const Catalog = () => {
     return false;
   };
 
+  useEffect(() => {
+    setSortOption(searchParams.get('sort') || '');
+    setSearchValue(searchParams.get('search') || '');
+    sortByParams();
+    const isBoolSmall = Boolean(searchParams.get('pattern') === 'false' ? false : true) || false;
+    setIsSmall(isBoolSmall);
+  }, [search, sort, pattern]);
+  
   const addToCart = (object: dataProps) => {
     basketProducts.push(object);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-    basketProducts = JSON.parse(
-      localStorage.getItem("basketProducts") || `[]`
-    );
+    basketProducts = JSON.parse(localStorage.getItem("basketProducts") || `[]`);
     const total = JSON.parse(localStorage.getItem("total")!);
     setTotalPrice(total.price + object.price);
     setAmount(amount + 1);
@@ -54,14 +69,13 @@ const Catalog = () => {
         price: total.price + object.price,
       })
     );
-    const counts: ICountType = {}
-    basketProducts.forEach(function(a: dataProps){
+    const counts: ICountType = {};
+    basketProducts.forEach(function (a: dataProps) {
       counts[a.id] = counts[a.id] + 1 || 1;
     });
-    localStorage.setItem('counts', JSON.stringify(counts));
+    localStorage.setItem("counts", JSON.stringify(counts));
     setTotalPrice(totalPrice + object.price);
     isAdded(object);
-    
   };
 
   const removeFromCart = (object: dataProps) => {
@@ -69,7 +83,9 @@ const Catalog = () => {
       JSON.parse(localStorage.getItem("counts")!) !== null ? true : false;
     const counts = JSON.parse(localStorage.getItem("counts")!);
     const total = JSON.parse(localStorage.getItem("total")!);
-    setTotalPrice(totalPrice - object.price * (isCounts ? counts[`${object.id}`] : 1));
+    setTotalPrice(
+      totalPrice - object.price * (isCounts ? counts[`${object.id}`] : 1)
+    );
     setAmount(amount - (isCounts ? counts[`${object.id}`] : 1));
     setTotalPrice(
       total.price - object.price * (isCounts ? counts[`${object.id}`] : 1)
@@ -89,11 +105,11 @@ const Catalog = () => {
       .sort()
       .splice(indexOfObj, isCounts ? counts[`${object.id}`] : 1);
     localStorage.setItem("basketProducts", JSON.stringify(basketProducts));
-    delete counts[`${object.id}`]
-    localStorage.setItem('counts', JSON.stringify(counts)) 
+    delete counts[`${object.id}`];
+    localStorage.setItem("counts", JSON.stringify(counts));
   };
   //фильтры смена расположения карт
-  const [isSmall, setIsSmall] = useState(false);
+  const [isSmall, setIsSmall] = useState(Boolean(searchParams.get('pattern')) || false);
   //фильтр поисковой строки
   const [sortOption, setSortOption] = useState("");
   const [data, setData] = useState(db.products);
@@ -102,7 +118,8 @@ const Catalog = () => {
   const onChangeSearchInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setSearchValue(event.target.value);
+    setSearchParams({search: event.target.value, sort: searchParams.get('sort') || ''});
+    setSearchValue(event.target.value)
   };
   //filters
 
@@ -130,20 +147,25 @@ const Catalog = () => {
   };
 
   const sortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.currentTarget.value);
-    if (e.currentTarget.value === "price-ASC") {
+    e.preventDefault();
+    setSearchParams({sort: e?.currentTarget.value, search: searchParams.get('search') || ''})
+    sortByParams()
+  };
+
+  const sortByParams = () => {
+    if (searchParams.get('sort') === "price-ASC") {
       sortByPrice();
     }
-    if (e.currentTarget.value === "price-DESC") {
+    if (searchParams.get('sort') === "price-DESC") {
       sortByPriceDesc();
     }
-    if (e.currentTarget.value === "rating-ASC") {
+    if (searchParams.get('sort') === "rating-ASC") {
       sortByRaiting();
     }
-    if (e.currentTarget.value === "rating-DESC") {
+    if (searchParams.get('sort') === "rating-DESC") {
       sortByRaitingDesc();
     }
-  };
+  }
   //filters category
   const categoryFilterData: dataProps[] = [];
   const brandFilterData: dataProps[] = [];
@@ -164,19 +186,17 @@ const Catalog = () => {
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
-  }
+  };
 
-  const onChangeBrand = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-      const currentIndex = checkedBrand.indexOf(event.currentTarget.value);
-      const newChecked = [...checkedBrand];
+  const onChangeBrand = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const currentIndex = checkedBrand.indexOf(event.currentTarget.value);
+    const newChecked = [...checkedBrand];
 
-      if (currentIndex === -1) {
-        newChecked.push(event.currentTarget.value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
+    if (currentIndex === -1) {
+      newChecked.push(event.currentTarget.value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
     setCheckedBrand(newChecked);
   };
 
@@ -197,44 +217,48 @@ const Catalog = () => {
   const onPriceChange = () => {
     const priceFilterData = priceFilter();
     setData(priceFilterData);
-  }
-  
+  };
+
   const onStockChange = () => {
     const stockFilterData = stockFilter();
     setData(stockFilterData);
-  }
+  };
 
   const categoryFilter = () => {
     for (let i = 0; i <= checked.length; i++) {
-      const temp = db.products.filter((item) => item.category?.toLowerCase() === checked[i]?.toLowerCase());
+      const temp = db.products.filter(
+        (item) => item.category?.toLowerCase() === checked[i]?.toLowerCase()
+      );
       categoryFilterData.push(...temp);
     }
     return categoryFilterData;
-  }
+  };
 
   const brandFilter = () => {
     for (let i = 0; i <= checkedBrand.length; i++) {
-      const temp = db.products.filter((item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase());
+      const temp = db.products.filter(
+        (item) => item.brand?.toLowerCase() === checkedBrand[i]?.toLowerCase()
+      );
       brandFilterData.push(...temp);
     }
     return brandFilterData;
-  }
+  };
 
   const priceFilter = () => {
-    return db.products.filter(item => {
-      if(item.price >= min && item.price <= max) {
+    return db.products.filter((item) => {
+      if (item.price >= min && item.price <= max) {
         return item;
       }
-    })
-  }
+    });
+  };
 
   const stockFilter = () => {
-    return db.products.filter(item => {
-      if(item.stock >= minStock && item.stock <= maxStock) {
+    return db.products.filter((item) => {
+      if (item.stock >= minStock && item.stock <= maxStock) {
         return item;
       }
-    })
-  }
+    });
+  };
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1749);
@@ -242,34 +266,38 @@ const Catalog = () => {
   const [maxStock, setMaxStock] = useState(150);
 
   useEffect(() => {
-    if(checked.length && checkedBrand.length) {
+    if (checked.length && checkedBrand.length) {
       const categoryData = categoryFilter();
       const brandData = brandFilter();
       const res = [];
-      if(categoryData.length >= brandData.length) {
-        for(let i = 0; i < categoryData.length; i++) {
-          for(let j = 0; j < brandData.length; j++) {
-            if(categoryData[i].title?.toLowerCase() === brandData[j].title?.toLowerCase()) {
+      if (categoryData.length >= brandData.length) {
+        for (let i = 0; i < categoryData.length; i++) {
+          for (let j = 0; j < brandData.length; j++) {
+            if (
+              categoryData[i].title?.toLowerCase() ===
+              brandData[j].title?.toLowerCase()
+            ) {
               res.push(brandData[j]);
             }
           }
         }
-      } 
-      else {
-        for(let i = 0; i < brandData.length; i++) {
-          for(let j = 0; j < categoryData.length; j++) {
-            if(brandData[i].title?.toLowerCase() === categoryData[j].title?.toLowerCase()) {
+      } else {
+        for (let i = 0; i < brandData.length; i++) {
+          for (let j = 0; j < categoryData.length; j++) {
+            if (
+              brandData[i].title?.toLowerCase() ===
+              categoryData[j].title?.toLowerCase()
+            ) {
               res.push(categoryData[j]);
             }
           }
         }
       }
       setData(res);
-      
-    } else if(checked.length && !checkedBrand.length) {
+    } else if (checked.length && !checkedBrand.length) {
       const categoryData = categoryFilter();
       setData(categoryData);
-    } else if(checkedBrand.length && !checked.length) {
+    } else if (checkedBrand.length && !checked.length) {
       const brandData = brandFilter();
       setData(brandData);
     } else {
@@ -277,11 +305,39 @@ const Catalog = () => {
     }
 
     // setData()
-    
   }, [checked, checkedBrand]);
 
-  // filters dual slider
+  const smallControl = () => {
+    setIsSmall(true);
+    setSearchParams({
+      sort: searchParams.get('sort') || '',
+      search: searchParams.get('search') || '',
+      pattern: `true`
+    })
+  }
 
+  const bigControl = () => {
+    setIsSmall(false);
+    setSearchParams({
+      sort: searchParams.get('sort') || '',
+      search: searchParams.get('search') || '',
+      pattern: `false`
+    })
+  }
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 3000);
+  }
+
+  // filters dual slider
+  const [found, setFound] = useState(data.length);
+  useEffect(() => {
+    setFound(data.length);
+  }, [data]);
   return (
     <div className="catalog">
       <div className="catalog-container align-center">
@@ -290,7 +346,7 @@ const Catalog = () => {
             <div className="filters__block">
               <div className="reset__block">
                 <button className="reset__block-button">Reset Filters</button>
-                <button className="reset__block-button">Copy Filters</button>
+                <button className={`reset__block-button ${isCopied ? 'copied' : ''}`} onClick={() => copyLink()}>{!isCopied ? 'Copy Filters' : 'Copied!'}</button>
               </div>
               <div className="filters__block-title">Category</div>
               <div className="category">
@@ -318,12 +374,13 @@ const Catalog = () => {
               <div className="brands">
                 {brandCategory.map((value, i) => (
                   <div key={i} className="brand__checkbox">
-                    <input id={value} type="checkbox" value={value}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        {
-                          onChangeBrand(e);
-                        }
-                      }
+                    <input
+                      id={value}
+                      type="checkbox"
+                      value={value}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        onChangeBrand(e);
+                      }}
                     />
                     <label htmlFor={value}>{value}</label>
                     <span>(0/1)</span>
@@ -399,7 +456,7 @@ const Catalog = () => {
                     name="sort"
                     id="sort"
                     className="sort__bar-list"
-                    value={sortOption}
+                    value={searchParams.get('sort') || ''}
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                       sortByChange(e)
                     }
@@ -418,14 +475,14 @@ const Catalog = () => {
                     <option value="rating-DESC">Sort by raiting DESC</option>
                   </select>
                 </div>
-                <div className="found__title">Found:1</div>
+                <div className="found__title">Found:{found}</div>
                 <div className="search__block">
                   <input
                     type="search"
                     placeholder="Search form"
                     className="search__block-form"
                     onChange={onChangeSearchInput}
-                    value={searchValue}
+                    value={searchParams.get('search') || ''}
                   />
                   {searchValue && (
                     <div
@@ -436,12 +493,12 @@ const Catalog = () => {
                 </div>
                 <div className="view__block">
                   <div className="view__block-small">
-                    <button className="sort" onClick={() => setIsSmall(true)}>
+                    <button className={`sort ${isSmall ? 'btn-active' : ''}`} onClick={() => smallControl()}>
                       Small
                     </button>
                   </div>
                   <div className="view__block-big">
-                    <button className="sort" onClick={() => setIsSmall(false)}>
+                    <button className={`sort ${!isSmall ? 'btn-active' : ''}`} onClick={() => bigControl()}>
                       Big
                     </button>
                   </div>
@@ -450,40 +507,42 @@ const Catalog = () => {
               <div className="cards__container">
                 <div className="cards__container-card">
                   <div className={data.length ? "cards__content" : "not-found"}>
-                    {data.length ? data
-                      .filter((data) =>
-                        (
-                          data.title +
-                          data.brand +
-                          data.category +
-                          data.stock +
-                          data.description +
-                          data.discountPercentage +
-                          data.price +
-                          data.rating
-                        )
-                          .toLowerCase()
-                          .includes(searchValue.toLowerCase())
-                      )
-                      .map((item) => (
-                        <Card
-                          isSmall={isSmall}
-                          isAdded={() => isAdded(item)}
-                          id={item.id}
-                          key={item.id}
-                          addToCart={() => addToCart(item)}
-                          removeFromCart={() => removeFromCart(item)}
-                          title={item.title}
-                          thumbnail={item.thumbnail}
-                          category={item.category}
-                          brand={item.brand}
-                          price={item.price}
-                          discountPercentage={item.discountPercentage}
-                          rating={item.rating}
-                          stock={item.stock}
-                          description={""}
-                        />
-                      )) : 'No products found!'}
+                    {data.length
+                      ? data
+                          .filter((data) =>
+                            (
+                              data.title +
+                              data.brand +
+                              data.category +
+                              data.stock +
+                              data.description +
+                              data.discountPercentage +
+                              data.price +
+                              data.rating
+                            )
+                              .toLowerCase()
+                              .includes(searchValue.toLowerCase())
+                          )
+                          .map((item) => (
+                            <Card
+                              isSmall={isSmall}
+                              isAdded={() => isAdded(item)}
+                              id={item.id}
+                              key={item.id}
+                              addToCart={() => addToCart(item)}
+                              removeFromCart={() => removeFromCart(item)}
+                              title={item.title}
+                              thumbnail={item.thumbnail}
+                              category={item.category}
+                              brand={item.brand}
+                              price={item.price}
+                              discountPercentage={item.discountPercentage}
+                              rating={item.rating}
+                              stock={item.stock}
+                              description={""}
+                            />
+                          ))
+                      : "No products found!"}
                   </div>
                 </div>
               </div>
